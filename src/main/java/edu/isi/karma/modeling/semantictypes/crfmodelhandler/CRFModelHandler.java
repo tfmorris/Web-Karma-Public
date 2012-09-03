@@ -856,7 +856,7 @@ public class CRFModelHandler {
 	/**
 	 * @param array The array of doubles
 	 * @return A list containing the same doubles in the same order
-	 * A utility method to get a new list having the same values as an array
+	 * A utility method to get a new ArrayList having the same values as an array
 	 */
 	private ArrayList<Double> newListFromDoubleArray(double[] array) {
 		ArrayList<Double> newList ;

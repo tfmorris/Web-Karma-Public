@@ -2,7 +2,8 @@
 
   // We want the generated parser class to be in this package.
   package edu.isi.karma.cleaning.changed_grammar;
-  import java.util.Vector;
+  import java.util.ArrayList;
+import java.util.List;
 
 import org.antlr.runtime.BitSet;
 import org.antlr.runtime.NoViableAltException;
@@ -76,7 +77,7 @@ public TreeAdaptor getTreeAdaptor() {
     	Ruler ruler;
     	
     	//handle input Tokensequence
-    	Vector<TNode> vec = new Vector<TNode>();
+    	List<TNode> vec = new ArrayList<TNode>();
     	/*set the ruler*/
     	public void setRuler(Ruler r)
     	{
@@ -180,14 +181,14 @@ public TreeAdaptor getTreeAdaptor() {
 
 
     public static class what_return extends TreeRuleReturnScope {
-        public Vector<TNode> res;
+        public List<TNode> res;
         CommonTree tree;
         public Object getTree() { return tree; }
     };
 
 
     // $ANTLR start "what"
-    // MOVInterpreterTree.g:49:1: what returns [Vector<TNode> res] : ( tokenspec | ANYTOKS );
+    // MOVInterpreterTree.g:49:1: what returns [List<TNode> res] : ( tokenspec | ANYTOKS );
     public final MOVInterpreterTree.what_return what() throws RecognitionException {
         MOVInterpreterTree.what_return retval = new MOVInterpreterTree.what_return();
         retval.start = input.LT(1);
@@ -279,14 +280,14 @@ public TreeAdaptor getTreeAdaptor() {
 
 
     public static class tokenspec_return extends TreeRuleReturnScope {
-        public Vector<TNode> res;
+        public List<TNode> res;
         CommonTree tree;
         public Object getTree() { return tree; }
     };
 
 
     // $ANTLR start "tokenspec"
-    // MOVInterpreterTree.g:52:1: tokenspec returns [Vector<TNode> res] : singletokenspec[toks] ( singletokenspec[toks] )* ;
+    // MOVInterpreterTree.g:52:1: tokenspec returns [List<TNode> res] : singletokenspec[toks] ( singletokenspec[toks] )* ;
     public final MOVInterpreterTree.tokenspec_return tokenspec() throws RecognitionException {
         MOVInterpreterTree.tokenspec_return retval = new MOVInterpreterTree.tokenspec_return();
         retval.start = input.LT(1);
@@ -303,7 +304,7 @@ public TreeAdaptor getTreeAdaptor() {
 
 
 
-         Vector<TNode> toks = new Vector<TNode>(); 
+         List<TNode> toks = new ArrayList<TNode>(); 
         try {
             // MOVInterpreterTree.g:54:2: ( singletokenspec[toks] ( singletokenspec[toks] )* )
             // MOVInterpreterTree.g:54:4: singletokenspec[toks] ( singletokenspec[toks] )*
@@ -374,14 +375,14 @@ public TreeAdaptor getTreeAdaptor() {
 
 
     public static class stokenspec_return extends TreeRuleReturnScope {
-        public Vector<TNode> res;
+        public List<TNode> res;
         CommonTree tree;
         public Object getTree() { return tree; }
     };
 
 
     // $ANTLR start "stokenspec"
-    // MOVInterpreterTree.g:55:1: stokenspec returns [Vector<TNode> res] : singletokenspec[toks] ( singletokenspec[toks] )* ;
+    // MOVInterpreterTree.g:55:1: stokenspec returns [List<TNode> res] : singletokenspec[toks] ( singletokenspec[toks] )* ;
     public final MOVInterpreterTree.stokenspec_return stokenspec() throws RecognitionException {
         MOVInterpreterTree.stokenspec_return retval = new MOVInterpreterTree.stokenspec_return();
         retval.start = input.LT(1);
@@ -398,7 +399,7 @@ public TreeAdaptor getTreeAdaptor() {
 
 
 
-         Vector<TNode> toks = new Vector<TNode>(); 
+         List<TNode> toks = new ArrayList<TNode>(); 
         try {
             // MOVInterpreterTree.g:57:2: ( singletokenspec[toks] ( singletokenspec[toks] )* )
             // MOVInterpreterTree.g:57:4: singletokenspec[toks] ( singletokenspec[toks] )*
@@ -469,14 +470,14 @@ public TreeAdaptor getTreeAdaptor() {
 
 
     public static class etokenspec_return extends TreeRuleReturnScope {
-        public Vector<TNode> res;
+        public List<TNode> res;
         CommonTree tree;
         public Object getTree() { return tree; }
     };
 
 
     // $ANTLR start "etokenspec"
-    // MOVInterpreterTree.g:58:1: etokenspec returns [Vector<TNode> res] : singletokenspec[toks] ( singletokenspec[toks] )* ;
+    // MOVInterpreterTree.g:58:1: etokenspec returns [List<TNode> res] : singletokenspec[toks] ( singletokenspec[toks] )* ;
     public final MOVInterpreterTree.etokenspec_return etokenspec() throws RecognitionException {
         MOVInterpreterTree.etokenspec_return retval = new MOVInterpreterTree.etokenspec_return();
         retval.start = input.LT(1);
@@ -493,7 +494,7 @@ public TreeAdaptor getTreeAdaptor() {
 
 
 
-         Vector<TNode> toks = new Vector<TNode>(); 
+         List<TNode> toks = new ArrayList<TNode>(); 
         try {
             // MOVInterpreterTree.g:60:2: ( singletokenspec[toks] ( singletokenspec[toks] )* )
             // MOVInterpreterTree.g:60:4: singletokenspec[toks] ( singletokenspec[toks] )*
@@ -564,14 +565,14 @@ public TreeAdaptor getTreeAdaptor() {
 
 
     public static class dtokenspec_return extends TreeRuleReturnScope {
-        public Vector<TNode> res;
+        public List<TNode> res;
         CommonTree tree;
         public Object getTree() { return tree; }
     };
 
 
     // $ANTLR start "dtokenspec"
-    // MOVInterpreterTree.g:61:1: dtokenspec returns [Vector<TNode> res] : singletokenspec[toks] ( singletokenspec[toks] )* ;
+    // MOVInterpreterTree.g:61:1: dtokenspec returns [List<TNode> res] : singletokenspec[toks] ( singletokenspec[toks] )* ;
     public final MOVInterpreterTree.dtokenspec_return dtokenspec() throws RecognitionException {
         MOVInterpreterTree.dtokenspec_return retval = new MOVInterpreterTree.dtokenspec_return();
         retval.start = input.LT(1);
@@ -588,7 +589,7 @@ public TreeAdaptor getTreeAdaptor() {
 
 
 
-         Vector<TNode> toks = new Vector<TNode>(); 
+         List<TNode> toks = new ArrayList<TNode>(); 
         try {
             // MOVInterpreterTree.g:63:2: ( singletokenspec[toks] ( singletokenspec[toks] )* )
             // MOVInterpreterTree.g:63:4: singletokenspec[toks] ( singletokenspec[toks] )*
@@ -665,8 +666,8 @@ public TreeAdaptor getTreeAdaptor() {
 
 
     // $ANTLR start "singletokenspec"
-    // MOVInterpreterTree.g:65:1: singletokenspec[Vector<TNode> tokspec] : ( token | type );
-    public final MOVInterpreterTree.singletokenspec_return singletokenspec(Vector<TNode> tokspec) throws RecognitionException {
+    // MOVInterpreterTree.g:65:1: singletokenspec[List<TNode> tokspec] : ( token | type );
+    public final MOVInterpreterTree.singletokenspec_return singletokenspec(List<TNode> tokspec) throws RecognitionException {
         MOVInterpreterTree.singletokenspec_return retval = new MOVInterpreterTree.singletokenspec_return();
         retval.start = input.LT(1);
 

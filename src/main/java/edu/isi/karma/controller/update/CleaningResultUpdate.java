@@ -2,7 +2,7 @@ package edu.isi.karma.controller.update;
 
 import java.io.PrintWriter;
 import java.util.HashMap;
-import java.util.Vector;
+import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -14,8 +14,8 @@ import edu.isi.karma.view.VWorkspace;
 
 public class CleaningResultUpdate extends AbstractUpdate {
 
-	private Vector<String> jsons;
-	private HashMap<String,Vector<String>> js2tps;
+	private List<String> jsons;
+	private HashMap<String,List<String>> js2tps;
 	private String hNodeId = "";
 
 	public enum JsonKeys {
@@ -25,7 +25,7 @@ public class CleaningResultUpdate extends AbstractUpdate {
 	private static Logger logger = LoggerFactory
 			.getLogger(CleaningResultUpdate.class);
 
-	public CleaningResultUpdate(String hNodeId, Vector<String> js,HashMap<String,Vector<String>> jstp) {
+	public CleaningResultUpdate(String hNodeId, List<String> js,HashMap<String,List<String>> jstp) {
 		this.hNodeId = hNodeId;
 		jsons = js;
 		js2tps = jstp;
@@ -44,7 +44,7 @@ public class CleaningResultUpdate extends AbstractUpdate {
 			{
 				JSONObject pac = new JSONObject();
 				JSONObject jo = new JSONObject(s);
-				Vector<String> tps = js2tps.get(s);
+				List<String> tps = js2tps.get(s);
 				JSONArray jstps = new JSONArray();
 				JSONObject tpsjo = new JSONObject();
 				for(int i = 0; i<tps.size();i++)

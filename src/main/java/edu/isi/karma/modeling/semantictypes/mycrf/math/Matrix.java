@@ -26,8 +26,8 @@ import edu.isi.karma.modeling.semantictypes.myutils.Prnt;
 
 
 /**
- * This class represents matrices and vectors.
- * It is primarily used to perform vector computations, 
+ * This class represents matrices and Lists.
+ * It is primarily used to perform List computations, 
  * such as,
  * addition, dot product, and scalar multiplication.
  * 
@@ -143,7 +143,7 @@ public class Matrix {
 	
 	public static double norm(Matrix m) {
 		if(m.numOfCols != 1)
-			Prnt.endIt("Matrix.norm got a non-vector matrix") ;
+			Prnt.endIt("Matrix.norm got a non-List matrix") ;
 		double sum = 0.0 ;
 		for(int i = 0 ; i < m.numOfRows ; i++) {
 			sum = sum + m.data[i][0] * m.data[i][0] ;

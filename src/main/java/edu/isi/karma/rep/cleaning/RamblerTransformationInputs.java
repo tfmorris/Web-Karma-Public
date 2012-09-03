@@ -22,7 +22,7 @@ package edu.isi.karma.rep.cleaning;
 
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.Vector;
+import java.util.List;
 
 import edu.isi.karma.cleaning.EditOper;
 import edu.isi.karma.cleaning.NonterminalValidator;
@@ -36,7 +36,7 @@ public class RamblerTransformationInputs implements TransformationInputs {
 	private Collection<TransformationExample> examples;
 	private ValueCollection inputValues;
 	private Transformation preferedTransformation;
-	private Vector<EditOper> preEditOpers;
+	private List<EditOper> preEditOpers;
 	public RamblerTransformationInputs(Collection<TransformationExample> examples,ValueCollection inputValues)
 	{
 		this.examples = examples;
@@ -49,7 +49,7 @@ public class RamblerTransformationInputs implements TransformationInputs {
 		while (iter.hasNext()) {
 			TransformationExample example = iter.next();
 			ruler.setNewInput(example.getBefore());
-			Vector<TNode> xNodes = ruler.vec;
+			List<TNode> xNodes = ruler.vec;
 			for (EditOper eo : preEditOpers) {
 				if (eo.oper.compareTo("ins") == 0) {
 					NonterminalValidator.applyins(eo, xNodes);
@@ -63,7 +63,7 @@ public class RamblerTransformationInputs implements TransformationInputs {
 		{
 			String valueString = inputValues.getValue(s);
 			ruler.setNewInput(valueString);
-			Vector<TNode> vTNodes = ruler.vec;
+			List<TNode> vTNodes = ruler.vec;
 			for(EditOper eo:preEditOpers)
 			{
 				if (eo.oper.compareTo("ins") == 0) {

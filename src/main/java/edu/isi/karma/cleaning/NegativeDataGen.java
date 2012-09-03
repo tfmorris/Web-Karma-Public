@@ -23,8 +23,9 @@ package edu.isi.karma.cleaning;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
-import java.util.Vector;
 
 import au.com.bytecode.opencsv.CSVReader;
 import au.com.bytecode.opencsv.CSVWriter;
@@ -36,13 +37,13 @@ import au.com.bytecode.opencsv.CSVWriter;
 //randomly perform a mov operation
 //randomly perform a del operation
 public class NegativeDataGen {
-	public static Vector<TNode> randomEdit(Vector<TNode> x,Vector<TNode> y)
+	public static List<TNode> randomEdit(List<TNode> x,List<TNode> y)
 	{
 		Random rd = new Random();
 		Ruler r = new Ruler();
 		r.setNewInput(x);
 		//randomly perform a ins operation
-		Vector<TNode> toks = new Vector<TNode>();
+		List<TNode> toks = new ArrayList<TNode>();
 		if(x.size() == 0)
 			return r.vec;
 		int dpos = rd.nextInt(x.size());
@@ -107,7 +108,7 @@ public class NegativeDataGen {
 							r1.setNewInput(pair[0]);
 							Ruler r2 = new Ruler();
 							r2.setNewInput(pair[1]);
-							Vector<TNode> res = NegativeDataGen.randomEdit(r1.vec,r2.vec);
+							List<TNode> res = NegativeDataGen.randomEdit(r1.vec,r2.vec);
 							String x = "";
 							for(int i = 0; i<res.size();i++)
 							{
@@ -116,6 +117,7 @@ public class NegativeDataGen {
 							pair[1] = x;
 							cw.writeNext(pair);
 						}
+						cr.close();
 						cw.flush();
 						cw.close();
 					}

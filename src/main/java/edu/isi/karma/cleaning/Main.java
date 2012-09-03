@@ -32,9 +32,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Random;
 import java.util.Set;
-import java.util.Vector;
 
 import org.antlr.runtime.ANTLRStringStream;
 import org.antlr.runtime.CharStream;
@@ -103,6 +101,8 @@ public class Main {
 					    eva.addPos(r.positions);
 					   // System.out.println(r.print());
 					    
+						br.close();
+						bres.close();
 					}
 					//output evaluation result
 					
@@ -120,15 +120,15 @@ public class Main {
 		String fpath = "/Users/bowu/Research/dataclean/data/testrule.txt";
 		 ResultViewer rv = new ResultViewer();
 		 //ResultViewer rv1 = new ResultViewer();
-		 Vector<CommonTree> ps = new Vector<CommonTree>();
+		 List<CommonTree> ps = new ArrayList<CommonTree>();
 		 String orgin = "";
 		 try
 		 {	
 				BufferedReader br = new BufferedReader(new FileReader(fpath));
 				String line = "";
-				Vector<String> row = new Vector<String>();
+				List<String> row = new ArrayList<String>();
 				row.add("rows");
-				HashMap<String,Vector<String>> hm = new HashMap<String,Vector<String>>(); 
+				HashMap<String,List<String>> hm = new HashMap<String,List<String>>(); 
 				
 				while((line=br.readLine())!=null)
 				{
@@ -146,7 +146,7 @@ public class Main {
 					while((xline=xbr.readNext())!=null)
 					{
 						Ruler r = new Ruler();
-						Vector<String> xrow = new Vector<String>();
+						List<String> xrow = new ArrayList<String>();
 						xrow.add(xline[0]);
 						r.setNewInput(xline[0]);	
 						CharStream cs =  new ANTLRStringStream(line);
@@ -170,6 +170,7 @@ public class Main {
 				        		isrit = false;
 				        } 
 					}
+					xbr.close();
 					if(hm.containsKey(s))
 	        			{
 	        				hm.get(s).add(line);
@@ -178,7 +179,7 @@ public class Main {
 	        			{
 	        				List<String> examples = Arrays.asList(s.split("\n"));
 	        				//RegularityClassifer.Add2FeatureFile(examples, "", isrit);
-	        				Vector<String> vr = new Vector<String>();
+	        				List<String> vr = new ArrayList<String>();
 	        				vr.add(line);
 	        				hm.put(s,vr); 
 	        			}
@@ -196,15 +197,15 @@ public class Main {
 	public static String[] exper1_cluster(String fpath,String fpath0,String ofpath)
 	{
 		// ResultViewer rv = new ResultViewer();
-		 Vector<CommonTree> ps = new Vector<CommonTree>();
+		 List<CommonTree> ps = new ArrayList<CommonTree>();
 		 String orgin = "";
 		 try
 		 {	
 				BufferedReader br = new BufferedReader(new FileReader(fpath));
 				String line = "";
-				Vector<String> row = new Vector<String>();
+				List<String> row = new ArrayList<String>();
 				row.add("rows");
-				HashMap<String,Vector<String>> hm = new HashMap<String,Vector<String>>(); 
+				HashMap<String,List<String>> hm = new HashMap<String,List<String>>(); 
 				
 				while((line=br.readLine())!=null)
 				{
@@ -220,7 +221,7 @@ public class Main {
 					while((xline=xbr.readNext())!=null)
 					{
 						Ruler r = new Ruler();
-						Vector<String> xrow = new Vector<String>();
+						List<String> xrow = new ArrayList<String>();
 						xrow.add(xline[0]);
 						r.setNewInput(xline[0]);	
 						CharStream cs =  new ANTLRStringStream(line);
@@ -250,7 +251,7 @@ public class Main {
 	        			}
 	        			else
 	        			{
-	        				Vector<String> vr = new Vector<String>();
+	        				List<String> vr = new ArrayList<String>();
 	        				vr.add(line);
 	        				hm.put(s,vr); 
 	        			}
@@ -261,7 +262,7 @@ public class Main {
 				int cnt = 0;
 				//ResultViewer rx = new ResultViewer();
 				boolean isfirstRun = true;
-				Vector<String> rawAddr = new Vector<String>();
+				List<String> rawAddr = new ArrayList<String>();
 				for(String ks:orgin.split("\n"))
 				{
 					rawAddr.add(ks);
@@ -270,9 +271,9 @@ public class Main {
 				String result =""; 
 				for(String xs:hm.keySet())
 				{
-					Vector<String> vs1 = hm.get(xs);
+//					List<String> vs1 = hm.get(xs);
 					RegularityFeatureSet rf = new RegularityFeatureSet();
-					Vector<String> addr = new Vector<String>();
+					List<String> addr = new ArrayList<String>();
 					for(String is:xs.split("\n"))
 					{
 						addr.add(is);
@@ -280,7 +281,7 @@ public class Main {
 					Collection<Feature> cf = rf.computeFeatures(rawAddr,addr);
 					Feature[] x = new Feature[cf.size()];
 					cf.toArray(x);
-					Vector<String> xrow = new Vector<String>();
+					List<String> xrow = new ArrayList<String>();
 					if(isfirstRun)
 					{
 						xrow.add("Featurename");
@@ -290,7 +291,7 @@ public class Main {
 						}
 						isfirstRun = false;
 						//rx.addRow(xrow);
-						xrow = new Vector<String>();
+						xrow = new ArrayList<String>();
 					}
 					if(!isfirstRun)
 					{
@@ -349,7 +350,7 @@ public class Main {
 			BufferedReader xbr = new BufferedReader(new FileReader(f));
 			while((xline=xbr.readLine())!=null)
 			{
-				Vector<String> xrow = new Vector<String>();
+				List<String> xrow = new ArrayList<String>();
 				if(xline.compareTo("")==0)
 					break;
 				//xrow.add(xline);
@@ -402,19 +403,19 @@ public class Main {
 			System.out.println(""+ex.toString());
 		}
 	}
-	static Vector<Integer> ruleNum1 = new Vector<Integer>();
-	static Vector<Integer> ruleNum2 = new Vector<Integer>();
+	static List<Integer> ruleNum1 = new ArrayList<Integer>();
+	static List<Integer> ruleNum2 = new ArrayList<Integer>();
 	// output for generating all the results of all rules
 	//fpath rule file path fpath0 data file
 	public static String[] output(String fpath,String fpath0)
 	{
 			 //ResultViewer rv = new ResultViewer();
-			 Vector<CommonTree> ps = new Vector<CommonTree>();
+			 List<CommonTree> ps = new ArrayList<CommonTree>();
 			 try
 			 {	
 					BufferedReader br = new BufferedReader(new FileReader(fpath));
 					String line = "";
-					Vector<String> row = new Vector<String>();
+					List<String> row = new ArrayList<String>();
 					row.add("rows");
 					while((line=br.readLine())!=null)
 					{
@@ -439,7 +440,7 @@ public class Main {
 					while((xline=xbr.readNext())!=null)
 					{
 						Ruler r = new Ruler();
-						Vector<String> xrow = new Vector<String>();
+						List<String> xrow = new ArrayList<String>();
 						xrow.add(xline[0]);
 						for(int k = 0;k<ps.size();k++)
 					    {
@@ -494,7 +495,7 @@ public class Main {
 			for(int p=0;p<ds.length;p++)
 			{
 				String[] res = ds[p].split("\n");
-				Vector<String> tr = new Vector<String>();
+				List<String> tr = new ArrayList<String>();
 				for(int k=0;k<res.length;k++)
 				{
 					if(res[k].compareTo(lines.get(k)[1])==0)
@@ -523,8 +524,8 @@ public class Main {
 			ResultViewer rv = new ResultViewer();
 			String[] res = xs.split("\n");
 			String[] wrongExample = null;//use for experiment to record incorrect transoformated result
-			Vector<String> tr = new Vector<String>();
-			Vector<String> org = new Vector<String>();
+			List<String> tr = new ArrayList<String>();
+			List<String> org = new ArrayList<String>();
 			for(String[] tmp:lines)
 			{
 				org.add(tmp[0]);
@@ -600,22 +601,22 @@ public class Main {
 		File nf = new File(dirpath);
 		File[] allfiles = nf.listFiles();
 		//statistics
-		Vector<String> names = new Vector<String>();
-		Vector<Integer> exampleCnt = new Vector<Integer>();
-		Vector<Double> timeleng = new Vector<Double>();
-		Vector<Integer> cRuleNum = new Vector<Integer>();
-		Vector<Vector<String>> ranks = new Vector<Vector<String>>();
-		Vector<Vector<Integer>> consisRules = new Vector<Vector<Integer>>();
-		Vector<String> cRules = new Vector<String>();
+		List<String> names = new ArrayList<String>();
+		List<Integer> exampleCnt = new ArrayList<Integer>();
+		List<Double> timeleng = new ArrayList<Double>();
+		List<Integer> cRuleNum = new ArrayList<Integer>();
+		List<List<String>> ranks = new ArrayList<List<String>>();
+		List<List<Integer>> consisRules = new ArrayList<List<Integer>>();
+		List<String> cRules = new ArrayList<String>();
 		//list all the csv file under the dir
 		for(File f:allfiles)
 		{
 			String cx = "";
 			
-			Vector<String[]> examples = new Vector<String[]>();
-			Vector<String[]> entries = new Vector<String[]>();	
-			Vector<String> rank = new Vector<String>();
-			Vector<Integer> consRule = new Vector<Integer>();
+			List<String[]> examples = new ArrayList<String[]>();
+			List<String[]> entries = new ArrayList<String[]>();	
+			List<String> rank = new ArrayList<String>();
+			List<Integer> consRule = new ArrayList<Integer>();
 			try
 			{
 				if(f.getName().indexOf(".csv")==(f.getName().length()-4))
@@ -639,7 +640,7 @@ public class Main {
 						cx = "";
 						HashMap<String,Integer> dic = new HashMap<String,Integer>();
 						long st = System.currentTimeMillis();
-						Vector<String> pls = RuleUtil.genRule(examples);
+						List<String> pls = RuleUtil.genRule(examples);
 						System.out.println("Consistent Rules :"+pls.size());
 						for(int k = 0; k<examples.size();k++)
 						{
@@ -655,7 +656,7 @@ public class Main {
 							cx +="\n\n"+pls.get(i);
 							String[] rules = pls.get(i).split("<RULESEP>");
 							//System.out.println(""+s1);
-							Vector<String> xr = new Vector<String>();
+							List<String> xr = new ArrayList<String>();
 							for(int t = 0; t< rules.length; t++)
 							{
 								if(rules[t].length()!=0)
@@ -702,10 +703,10 @@ public class Main {
 						{
 							if(!recdic.containsKey(f.getName()))
 							{
-								HashMap<String,Vector<Double>> tmp = new HashMap<String,Vector<Double>>();
+								HashMap<String,List<Double>> tmp = new HashMap<String,List<Double>>();
 								if(tmp.containsKey(""+examples.size()))
 								{
-									Vector<Double> x = tmp.get(""+examples.size());
+									List<Double> x = tmp.get(""+examples.size());
 									x.set(0, x.get(0)+RuleUtil.sgsnum);
 									x.set(1, x.get(1)+pls.size());
 									x.set(2, x.get(2)+corrNum);
@@ -718,7 +719,7 @@ public class Main {
 								}
 								else
 								{
-									Vector<Double> x = new Vector<Double>();
+									List<Double> x = new ArrayList<Double>();
 									x.add(1.0*RuleUtil.sgsnum);
 									x.add(1.0*pls.size());
 									x.add(1.0*corrNum);
@@ -739,10 +740,10 @@ public class Main {
 							}
 							else
 							{
-								HashMap<String,Vector<Double>> tmp = recdic.get(f.getName());
+								HashMap<String,List<Double>> tmp = recdic.get(f.getName());
 								if(tmp.containsKey(""+examples.size()))
 								{
-									Vector<Double> x = tmp.get(""+examples.size());
+									List<Double> x = tmp.get(""+examples.size());
 									x.set(0, x.get(0)+RuleUtil.sgsnum);
 									x.set(1, x.get(1)+pls.size());
 									x.set(2, x.get(2)+corrNum);
@@ -755,7 +756,7 @@ public class Main {
 								}
 								else
 								{
-									Vector<Double> x = new Vector<Double>();
+									List<Double> x = new ArrayList<Double>();
 									x.add(1.0*RuleUtil.sgsnum);
 									x.add(1.0*pls.size());
 									x.add(1.0*corrNum);
@@ -806,7 +807,7 @@ public class Main {
 				System.out.println(""+ex.toString());
 			}
 		}
-		Random r = new Random();
+//		Random r = new Random();
 		try
 		{
 			BufferedWriter bw = new BufferedWriter(new FileWriter(new File("/Users/bowu/mysoft/xx/logx.txt")));
@@ -819,6 +820,7 @@ public class Main {
 //				System.out.println(consisRules.get(x));
 			}
 			bw.flush();
+			bw.close();
 		}
 		catch(Exception ex)
 		{
@@ -826,7 +828,7 @@ public class Main {
 		}
 		
 	}
-	public HashMap<String,HashMap<String,Vector<Double>>> recdic = new HashMap<String,HashMap<String,Vector<Double>>>();
+	public HashMap<String,HashMap<String,List<Double>>> recdic = new HashMap<String,HashMap<String,List<Double>>>();
 	public void write2CSV()
 	{
 		try
@@ -838,14 +840,14 @@ public class Main {
 			{
 				String key = iter.next();
 				System.out.println(""+key);
-				HashMap<String,Vector<Double>> values = recdic.get(key);
+				HashMap<String,List<Double>> values = recdic.get(key);
 				Set<String> ks = values.keySet();
 				Iterator<String> iter1 = ks.iterator();
 				while(iter1.hasNext())
 				{
 					String[] row = new String[8];
 					String expcnt = iter1.next();
-					Vector<Double> vs = values.get(expcnt);
+					List<Double> vs = values.get(expcnt);
 					for(int j = 0; j<vs.size();j++)
 					{
 						row[j+2] = vs.get(j)+"";
@@ -867,7 +869,7 @@ public class Main {
 	public static void main(String[] args)
 	{
 		Main m = new Main();
-		Vector<Double> xy = new Vector<Double>();
+		List<Double> xy = new ArrayList<Double>();
 		for(int x = 0;x <1;x++)
 		{
 			double st = System.currentTimeMillis();

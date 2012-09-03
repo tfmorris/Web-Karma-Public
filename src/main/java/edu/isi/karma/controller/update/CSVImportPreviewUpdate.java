@@ -106,6 +106,7 @@ public class CSVImportPreviewUpdate extends AbstractUpdate {
 					CSVReader reader = new CSVReader(new StringReader(line),
 							delimiter, quoteCharacter, escapeCharacter);
 					String[] rowValues = reader.readNext();
+					reader.close();
 					ArrayList<String> headers = new ArrayList<String>();
 					if (rowValues == null || rowValues.length == 0) {
 						logger.error("No data found in the Header row!");
@@ -136,6 +137,7 @@ public class CSVImportPreviewUpdate extends AbstractUpdate {
 					CSVReader reader = new CSVReader(new StringReader(line),
 							delimiter, quoteCharacter, escapeCharacter);
 					String[] rowValues = reader.readNext();
+					reader.close();
 					ArrayList<String> vals = new ArrayList<String>();
 					if(rowValues != null) {
 						for (String val : rowValues) {

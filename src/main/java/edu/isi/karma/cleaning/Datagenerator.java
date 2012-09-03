@@ -25,7 +25,6 @@ import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 
 import au.com.bytecode.opencsv.CSVReader;
 
@@ -39,7 +38,7 @@ public class Datagenerator {
 	{
 		return RuleUtil.applyRule(rule, fpath);
 	}
-	public String generateRules(Vector<String[]> examples)
+	public String generateRules(List<String[]> examples)
 	{
 		try
 		{
@@ -70,7 +69,7 @@ public class Datagenerator {
 				int cnt = 0;
 				for(String[] pair:pairs)
 				{
-					String s = pair[0];
+//					String s = pair[0];
 					String s1 = pair[1];
 					String r = RuleUtil.applyRuleS(rule, s1);
 					if(r.compareTo(s1)!=0)
@@ -82,6 +81,9 @@ public class Datagenerator {
 				if(cnt*1.0/leng>0.5)
 				{
 					RuleUtil.write2file(tmp,(new File(fpath)).getAbsolutePath()+"_wst.txt");
+					br.close();
+					cr.close();
+					// TODO: Ugh! two different exit points - fix control flow
 					return;
 				}
 				if(cnt*1.0/leng>wst)
@@ -90,6 +92,8 @@ public class Datagenerator {
 					worst = tmp;
 				}				
 			}
+			br.close();
+			cr.close();
 			RuleUtil.write2file(worst,(new File(fpath)).getName()+"_wst.txt");
 		} catch (Exception e) {
 			System.out.println(""+e.toString());
@@ -108,7 +112,7 @@ public class Datagenerator {
 			String rfile = "/Users/bowu/Research/dataclean/data/40dataset/cRule.ru";
 			BufferedReader br = new BufferedReader(new FileReader(new File(rfile)));
 			String line = "";
-			Vector<String> rules = new Vector<String>();
+			List<String> rules = new ArrayList<String>();
 			while((line=br.readLine())!=null)
 			{
 				rules.add(line);
@@ -129,7 +133,7 @@ public class Datagenerator {
 					continue;
 				}
 				String p = dg.generateTruth(tf.getAbsolutePath(), rules.get(cnt));
-				Vector<String[]> examples = new Vector<String[]>();
+				List<String[]> examples = new ArrayList<String[]>();
 				examples.add(paras[0].split("%"));
 				String rpath = dg.generateRules(examples);
 				//dg.chooseWrost(p, rpath);

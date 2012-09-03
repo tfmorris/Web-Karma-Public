@@ -27,9 +27,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Random;
 import java.util.Set;
-import java.util.Vector;
 
 import org.antlr.runtime.ANTLRStringStream;
 import org.antlr.runtime.CharStream;
@@ -45,11 +45,11 @@ import edu.isi.karma.webserver.ServletContextParameterMap.ContextParameter;
 
 public class GrammarParseTree {
 	// the set of node  which are going to be mutated.
-	public Vector<GrammarTreeNode> candiNodes = new Vector<GrammarTreeNode>();
+	public List<GrammarTreeNode> candiNodes = new ArrayList<GrammarTreeNode>();
 	public int curState = 0;//used to indicte the current sampling step.
 	public GrammarTreeNode root;
-	//string = parentname+curname, Vector stores all the possible candidate
-	public HashMap<String,Vector<GrammarTreeNode>> subtemples = new HashMap<String,Vector<GrammarTreeNode>>();
+	//string = parentname+curname, List stores all the possible candidate
+	public HashMap<String,List<GrammarTreeNode>> subtemples = new HashMap<String,List<GrammarTreeNode>>();
 	public static RuleGenerator movgen;
 	public static RuleGenerator delgen;
 	public static RuleGenerator insgen;
@@ -58,8 +58,8 @@ public class GrammarParseTree {
 	public Alignment align;
 	private String GrammarType = "";
 	private static int cnt1 = 0,cnt2 = 0,cnt3 = 0;
-	private Vector<Tuple> ba = new Vector<Tuple>(); 
-	private Vector<HashSet<String>> diagDesc = new Vector<HashSet<String>>();
+	private List<Tuple> ba = new ArrayList<Tuple>(); 
+	private List<HashSet<String>> diagDesc = new ArrayList<HashSet<String>>();
 	public GrammarParseTree(String type)
 	{
 		this.GrammarType = type;
@@ -74,6 +74,7 @@ public class GrammarParseTree {
 			FileInputStream   file   =   new   FileInputStream(dirpathString+"grammar/MOVgrammar.txt"); 
 			byte[]   buf   =   new   byte[file.available()];     
 			file.read(buf,   0,   file.available());   // 
+			file.close();
 			String   str   =   new   String(buf); 
 			CharStream cs =  new ANTLRStringStream(str);
 			GrammarparserLexer lexer = new GrammarparserLexer(cs);
@@ -86,6 +87,7 @@ public class GrammarParseTree {
 	        FileInputStream   file1   =   new   FileInputStream(dirpathString+"grammar/INSgrammar.txt"); 
 			byte[]   buf1   =   new   byte[file1.available()];     
 			file1.read(buf1,   0,   file1.available());   // 
+			file1.close();
 			String   str1   =   new   String(buf1); 
 			CharStream cs1 =  new ANTLRStringStream(str1);
 			GrammarparserLexer lexer1 = new GrammarparserLexer(cs1);
@@ -97,7 +99,8 @@ public class GrammarParseTree {
 	        
 	        FileInputStream   file2   =   new   FileInputStream(dirpathString+"grammar/delgrammar.txt"); 
 			byte[]   buf2   =   new   byte[file2.available()];     
-			file2.read(buf2,   0,   file2.available());   // 
+			file2.read(buf2,   0,   file2.available());
+			file2.close();
 			String   str2   =   new   String(buf2); 
 			CharStream cs2 =  new ANTLRStringStream(str2);
 			GrammarparserLexer lexer2 = new GrammarparserLexer(cs2);
@@ -121,15 +124,15 @@ public class GrammarParseTree {
 		//System.out.println(rule);
 		for(int i =0; i<ba.size();i++)
 		{
-			Vector<TNode> bef = (Vector<TNode>)ba.get(i).getBefore().clone();
-			Vector<TNode> tras = RuleUtil.applyRule(rule, bef);
+			List<TNode> bef = new ArrayList<TNode>((List<TNode>)ba.get(i).getBefore());
+			List<TNode> tras = RuleUtil.applyRule(rule, bef);
 			//System.out.println(i+" "+ba.size()+" "+tras);
 			if(tras == null)
 			{
 				isConsis = false;
 				break;
 			}
-			Vector<TNode> aft = ba.get(i).getafter();
+			List<TNode> aft = ba.get(i).getafter();
 			
 			if(tras.toString().compareTo(aft.toString())!=0)
 			{
@@ -144,7 +147,7 @@ public class GrammarParseTree {
 		}
 		return isConsis;
 	}
-	public void setExample(Vector<Tuple> tp)
+	public void setExample(List<Tuple> tp)
 	{
 		this.ba = tp;
 	}
@@ -165,7 +168,7 @@ public class GrammarParseTree {
 			ArrayList<ArrayList<String>> copy = x.get(key);
 			for(int i = 0; i<copy.size(); i++)
 			{
-				ArrayList<String> xy = (ArrayList<String>)copy.get(i).clone();
+				ArrayList<String> xy = new ArrayList<String>(copy.get(i));
 				value.add(xy);
 			}
 			nx.put(key, value);
@@ -253,7 +256,7 @@ public class GrammarParseTree {
 		}
 	}
 	//assume 
-	public GrammarTreeNode induceTree(Vector<String> input)
+	public GrammarTreeNode induceTree(List<String> input)
 	{
 		String seg = "";
 		for(String s:input)
@@ -398,7 +401,7 @@ public class GrammarParseTree {
 	 * eos is the set of edit operation of multiple examples
 	 * p is the original token sequence.
 	 */
-	public boolean initalSubtemplete(Vector<HashSet<String>> sequen,HashMap<String,GrammarTreeNode> globalTemp)
+	public boolean initalSubtemplete(List<HashSet<String>> sequen,HashMap<String,GrammarTreeNode> globalTemp)
 	{
 		diagDesc = sequen;
 		//if subtemple exists, we should remove the production rules.
@@ -412,7 +415,7 @@ public class GrammarParseTree {
 			}
 			else
 			{
-				Vector<GrammarTreeNode> vg = new Vector<GrammarTreeNode>();
+				List<GrammarTreeNode> vg = new ArrayList<GrammarTreeNode>();
 				vg.add(root);
 				subtemples.put("etokenspec", vg);
 			}
@@ -427,7 +430,7 @@ public class GrammarParseTree {
 			}
 			else
 			{
-				Vector<GrammarTreeNode> vg = new Vector<GrammarTreeNode>();
+				List<GrammarTreeNode> vg = new ArrayList<GrammarTreeNode>();
 				vg.add(root);
 				subtemples.put("stokenspec", vg);
 			}
@@ -442,7 +445,7 @@ public class GrammarParseTree {
 			}
 			else
 			{
-				Vector<GrammarTreeNode> vg = new Vector<GrammarTreeNode>();
+				List<GrammarTreeNode> vg = new ArrayList<GrammarTreeNode>();
 				vg.add(root);
 				subtemples.put("tokenspec", vg);
 			}
@@ -457,7 +460,7 @@ public class GrammarParseTree {
 			}
 			else
 			{
-				Vector<GrammarTreeNode> vg = new Vector<GrammarTreeNode>();
+				List<GrammarTreeNode> vg = new ArrayList<GrammarTreeNode>();
 				vg.add(root);
 				subtemples.put("qnum", vg);
 			}
@@ -472,7 +475,7 @@ public class GrammarParseTree {
 			}
 			else
 			{
-				Vector<GrammarTreeNode> vg = new Vector<GrammarTreeNode>();
+				List<GrammarTreeNode> vg = new ArrayList<GrammarTreeNode>();
 				vg.add(root);
 				subtemples.put("snum", vg);
 			}
@@ -487,7 +490,7 @@ public class GrammarParseTree {
 			}
 			else
 			{
-				Vector<GrammarTreeNode> vg = new Vector<GrammarTreeNode>();
+				List<GrammarTreeNode> vg = new ArrayList<GrammarTreeNode>();
 				vg.add(root);
 				subtemples.put("tnum", vg);
 			}
@@ -502,7 +505,7 @@ public class GrammarParseTree {
 			}
 			else
 			{
-				Vector<GrammarTreeNode> vg = new Vector<GrammarTreeNode>();
+				List<GrammarTreeNode> vg = new ArrayList<GrammarTreeNode>();
 				vg.add(root);
 				subtemples.put("dnum", vg);
 			}
@@ -517,7 +520,7 @@ public class GrammarParseTree {
 			}
 			else
 			{
-				Vector<GrammarTreeNode> vg = new Vector<GrammarTreeNode>();
+				List<GrammarTreeNode> vg = new ArrayList<GrammarTreeNode>();
 				vg.add(root);
 				subtemples.put("dtokenspec", vg);
 			}
@@ -584,7 +587,7 @@ public class GrammarParseTree {
 		String key = e.parent.name+e.name;
 		if(subtemples.containsKey(key))
 		{
-			Vector<GrammarTreeNode> y = subtemples.get(key);
+			List<GrammarTreeNode> y = subtemples.get(key);
 			int size = y.size();
 			if(size == 1)
 			{
@@ -620,10 +623,10 @@ public class GrammarParseTree {
 				r2.setNewInput(s2);
 				System.out.println(s1+" ===== "+s2);
 				//System.out.println(Alignment.alignment1(r1.vec, r2.vec).toString());
-				Vector<Vector<EditOper>> res = Alignment.genEditOperation(r1.vec,r2.vec);
+				List<List<EditOper>> res = Alignment.genEditOperation(r1.vec,r2.vec);
 				// prepare description for sub tree
-				Vector<TNode> p = r1.vec;
-				Vector<TNode> q = r2.vec;
+				List<TNode> p = r1.vec;
+				List<TNode> q = r2.vec;
 			}
 		}
 		catch(Exception ex)

@@ -21,8 +21,9 @@
 package edu.isi.karma.cleaning.features;
 import java.io.File;
 import java.io.FileReader;
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Vector;
+import java.util.List;
 
 import au.com.bytecode.opencsv.CSVReader;
 import edu.isi.karma.cleaning.ResultViewer;
@@ -39,9 +40,9 @@ public class Main {
 			boolean isfirstRun = true;
 			for(int i = 0 ; i<flist.length;i++)
 			{
-				Vector<String> row = new Vector<String>();
-				Vector<String> examples = new Vector<String>();
-				Vector<String> oexamples = new Vector<String>();
+				List<String> row = new ArrayList<String>();
+				List<String> examples = new ArrayList<String>();
+				List<String> oexamples = new ArrayList<String>();
 				System.out.println(flist[i].getName());
 				if(!flist[i].getName().contains(".csv"))
 					continue;
@@ -53,6 +54,7 @@ public class Main {
 					oexamples.add(line[0]);
 					examples.add(line[1]);
 				}
+				re.close();
 				RegularityFeatureSet rf = new RegularityFeatureSet();
 				Collection<Feature> cf = rf.computeFeatures(oexamples,examples);
 				//Iterator<Feature> iter = cf.iterator();
@@ -67,7 +69,7 @@ public class Main {
 					}
 					isfirstRun = false;
 					rv.addRow(row);
-					row = new Vector<String>();
+					row = new ArrayList<String>();
 				}
 				if(!isfirstRun)
 				{

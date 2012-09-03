@@ -20,19 +20,19 @@
  ******************************************************************************/
 package edu.isi.karma.rep.cleaning;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Vector;
+import java.util.List;
 
-import edu.isi.karma.cleaning.EditOper;
 import edu.isi.karma.cleaning.RuleUtil;
 
 public class RamblerTransformationOutput implements TransformationOutput {
 
 	private RamblerTransformationInputs input;
 	private HashMap<String,Transformation> transformations; 
-	private Vector<EditOper> preEditOpers;
+//	private List<EditOper> preEditOpers;
 	public RamblerTransformationOutput(RamblerTransformationInputs input)
 	{
 		this.input = input;
@@ -46,7 +46,7 @@ public class RamblerTransformationOutput implements TransformationOutput {
 	private void learnTransformation() throws Exception
 	{
 		Collection<TransformationExample> exs =  input.getExamples();
-		Vector<String[]> exps = new Vector<String[]>();
+		List<String[]> exps = new ArrayList<String[]>();
 		Iterator<TransformationExample> iter = exs.iterator();
 		while(iter.hasNext())
 		{
@@ -54,7 +54,7 @@ public class RamblerTransformationOutput implements TransformationOutput {
 			String[] tmp = {t.getBefore(),t.getAfter()};
 			exps.add(tmp);
 		}
-		Vector<String> trans = RuleUtil.genRule(exps);
+		List<String> trans = RuleUtil.genRule(exps);
 		if(trans == null)
 		{
 			return;
@@ -63,7 +63,7 @@ public class RamblerTransformationOutput implements TransformationOutput {
 		{
 			String[] rules = trans.get(i).split("<RULESEP>");
 			//System.out.println(""+s1);
-			Vector<String> xr = new Vector<String>();
+			List<String> xr = new ArrayList<String>();
 			for(int t = 0; t< rules.length; t++)
 			{
 				if(rules[t].length()!=0)

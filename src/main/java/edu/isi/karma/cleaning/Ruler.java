@@ -23,11 +23,13 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
+import java.util.List;
 import java.util.ListIterator;
 import java.util.StringTokenizer;
-import java.util.Vector;
 
 import org.antlr.runtime.ANTLRStringStream;
 import org.antlr.runtime.CharStream;
@@ -37,26 +39,26 @@ public class Ruler {
 	String Trgt = "";
 	StringTokenizer st = null;
 	String[] seperator = {" ",","};
-	public Vector<TNode> vec;
+	public List<TNode> vec;
 	int curPos = 0;
-	Vector<Object[]> operators = new Vector<Object[]>();
-	Vector<Integer> positions;
-	Vector<TNode> whats;
-	Vector<Integer> consPos;
+	List<Object[]> operators = new ArrayList<Object[]>();
+	List<Integer> positions;
+	List<TNode> whats;
+	List<Integer> consPos;
 	public Ruler()
 	{
-		positions = new Vector<Integer>();
-		consPos = new Vector<Integer>();
-		whats = new Vector<TNode>();
+		positions = new ArrayList<Integer>();
+		consPos = new ArrayList<Integer>();
+		whats = new ArrayList<TNode>();
 		
 	}
 	public Ruler(String x)
 	{
-		positions = new Vector<Integer>();
-		consPos = new Vector<Integer>();
-		whats = new Vector<TNode>();
+		positions = new ArrayList<Integer>();
+		consPos = new ArrayList<Integer>();
+		whats = new ArrayList<TNode>();
 		this.initConstantPosition();
-		vec = new Vector<TNode>();
+		vec = new ArrayList<TNode>();
 		Org = x;
 		tokenize();
 	}
@@ -76,26 +78,26 @@ public class Ruler {
 	{
 		this.Org = x;
 		this.Trgt = "";
-		this.vec = new Vector<TNode>();
+		this.vec = new ArrayList<TNode>();
 		this.curPos = 0;
 		this.tokenize();
 		this.initConstantPosition();
 	}
-	public void setNewInput(Vector<TNode> x)
+	public void setNewInput(List<TNode> x)
 	{
 		this.Org = x.toString();
 		this.Trgt = "";
-		this.vec = new Vector<TNode>();
+		this.vec = new ArrayList<TNode>();
 		this.curPos = 0;
 		this.vec = x;
 		this.initConstantPosition();
 	}
-	public Vector<TNode> parsewhat(String input)
+	public List<TNode> parsewhat(String input)
 	{
-		String sep1 = "||";
+//		String sep1 = "||";
 		String sep2 = " ";
 		StringTokenizer st1 = new StringTokenizer(input,sep2);
-		Vector<TNode> vecx = new Vector<TNode>();
+		List<TNode> vecx = new ArrayList<TNode>();
 		while(st1.hasMoreTokens())
 		{
 			String tks = st1.nextToken();
@@ -135,7 +137,7 @@ public class Ruler {
 		return vecx;
 	}
 	//in current data,search the position of the tvec
-	public static int Search(Vector<TNode> xvec,Vector<TNode> tvec,int bpos)
+	public static int search(List<TNode> xvec,List<TNode> tvec,int bpos)
 	{
 		boolean isFind = false;
 		int p1 = -1;
@@ -164,7 +166,7 @@ public class Ruler {
 		return -1;
 	}
 	//evalPos()
-	public int evalPos(String input,Vector<TNode> t, String option)
+	public int evalPos(String input,List<TNode> t, String option)
 	{
 		boolean incld = false;
 		if(input.contains("first"))
@@ -180,7 +182,7 @@ public class Ruler {
 			//int pos1 = this.Search(this.vec,t,0);
 			if(option.compareTo("from_beginning")==0)
 			{
-				int pos = this.Search(vec,t, 0);
+				int pos = search(vec,t, 0);
 				if(pos == -1)
 					return -1;
 				if(incld)
@@ -205,9 +207,9 @@ public class Ruler {
 			}
 			else
 			{
-				Vector<TNode> tmpvec = (Vector<TNode>)this.vec.clone();
+				List<TNode> tmpvec = new ArrayList<TNode>(this.vec);
 				Collections.reverse(tmpvec);
-				int pos = this.Search(tmpvec,t, 0);
+				int pos = search(tmpvec,t, 0);
 				if(pos == -1)
 					return -1;
 				if(incld)
@@ -254,8 +256,8 @@ public class Ruler {
 				input = input.substring(10);
 				incld = true;
 			}
-			Vector<TNode> t = this.parsewhat(input);
-			int pos1 = this.Search(this.vec,t,0);
+			List<TNode> t = this.parsewhat(input);
+			int pos1 = search(this.vec,t,0);
 			if(incld)
 			{
 				return pos1;
@@ -268,7 +270,7 @@ public class Ruler {
 		/*else if(input.contains("LST"))
 		{
 			input = input.substring(4);
-			Vector<TNode> x = this.parsewhat(input);
+			List<TNode> x = this.parsewhat(input);
 			int pos1 = this.Search(x,0);
 			return pos1;
 		}*/
@@ -292,10 +294,10 @@ public class Ruler {
 				incld = true;
 				input = input.substring(10);
 			}
-			Vector<TNode> t = this.parsewhat(input);
-			Vector<TNode> tmpvec = (Vector<TNode>)this.vec.clone();
+			List<TNode> t = this.parsewhat(input);
+			List<TNode> tmpvec = new ArrayList<TNode>(this.vec);
 			Collections.reverse(tmpvec);
-			int pos = this.Search(tmpvec,t, 0);
+			int pos = search(tmpvec,t, 0);
 			if(pos == -1)
 				return 0;
 			if(incld)
@@ -334,7 +336,7 @@ public class Ruler {
 		int quan = 0;
 		int startpos = -1;
 		int endpos = 1000;
-		Vector<TNode> pat = new Vector<TNode>();
+		List<TNode> pat = new ArrayList<TNode>();
 		if(hm.containsKey("what"))
 		{
 			pat = this.parsewhat(hm.get("what"));
@@ -439,11 +441,14 @@ public class Ruler {
 		String fpath = "/Users/bowu/Research/dataclean/data/d1.txt";
 		String fpath1 = "/Users/bowu/Research/dataclean/data/td1.txt";
 		String fpath2 = "/Users/bowu/Research/dataclean/data/d1r.txt";
+		BufferedReader br = null;
+		BufferedWriter bw1 = null;
+		BufferedWriter bw2 = null;
 		try
 		{
-			BufferedReader br = new BufferedReader(new FileReader(fpath));
-			BufferedWriter bw1= new BufferedWriter(new FileWriter(fpath1));
-			BufferedWriter bw2 = new BufferedWriter(new FileWriter(fpath2));
+			br = new BufferedReader(new FileReader(fpath));
+			bw1= new BufferedWriter(new FileWriter(fpath1));
+			bw2 = new BufferedWriter(new FileWriter(fpath2));
 			String line = "";
 			while((line=br.readLine())!=null)
 			{
@@ -464,6 +469,29 @@ public class Ruler {
 		catch(Exception ex)
 		{
 			System.out.println(""+ex.toString());
+		}
+		finally {
+			if (br !=null) {
+				try {
+					br.close();
+				} catch (IOException e) {
+					// ignore error in error handler
+				}
+			}
+			if (bw1 !=null) {
+				try {
+					bw1.close();
+				} catch (IOException e) {
+					// ignore error in error handler
+				}
+			}
+			if (bw2 !=null) {
+				try {
+					bw2.close();
+				} catch (IOException e) {
+					// ignore error in error handler
+				}
+			}
 		}
 	}
 	
@@ -515,7 +543,7 @@ public class Ruler {
 		}
 		return res;
 	}
-	public void doOperation(String oper,String num,Vector<TNode> x,int spos,int epos)
+	public void doOperation(String oper,String num,List<TNode> x,int spos,int epos)
 	{
 		int quan = 0 ;
 		if(num==null||num.compareTo("anynumber")==0)
@@ -566,7 +594,7 @@ public class Ruler {
 	}
 	//toks is the token sequence that needed to be inserted into original token sequence
 	//dpos is the position start of the insertion
-	public void ins(Vector<TNode> toks,int dpos)
+	public void ins(List<TNode> toks,int dpos)
 	{
 		if(dpos<vec.size())
 		{
@@ -581,13 +609,13 @@ public class Ruler {
 	//toks specify the tokens need to be moved
 	//spos is the start position of the segment
 	//epos is the end position of the segment
-	public void mov(Vector<TNode> toks, int dpos, int spos,int epos)
+	public void mov(List<TNode> toks, int dpos, int spos,int epos)
 	{
 		int pos = 0;
 		int size = 0;
 		if(toks!=null)
 		{
-			pos = this.Search(this.vec,toks, spos);
+//			pos = this.search(this.vec,toks, spos);
 			if(pos+toks.size()>epos+1 || pos == -1)
 			{
 				return;
@@ -609,7 +637,7 @@ public class Ruler {
 		ListIterator<TNode> l = this.vec.listIterator(pos);
 		//ListIterator<TNode> dl = this.vec.listIterator(dpos);
 		int c = 0;
-		Vector<TNode> x = new Vector<TNode>();
+		List<TNode> x = new ArrayList<TNode>();
 		for(c = 0;c<size;c++)
 		{
 			//this.collectPoss(pos);
@@ -640,7 +668,7 @@ public class Ruler {
 			this.vec.addAll(dpos, x);
 		}
 	}
-	public void det(int n,Vector<TNode> toks, int start, int end)
+	public void det(int n,List<TNode> toks, int start, int end)
 	{
 		int cnt = 0;
 		int pos = 0;
@@ -655,7 +683,7 @@ public class Ruler {
 			}
 			else
 			{
-				pos = this.Search(this.vec,toks,start);
+//				pos = this.search(this.vec,toks,start);
 				deleng = toks.size();
 			}
 			if(pos+deleng>end+1 || pos == -1)

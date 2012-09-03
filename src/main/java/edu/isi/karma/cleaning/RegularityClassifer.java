@@ -22,7 +22,8 @@ package edu.isi.karma.cleaning;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
-import java.util.Vector;
+import java.util.ArrayList;
+import java.util.List;
 
 import weka.classifiers.functions.SimpleLogistic;
 import weka.core.Instance;
@@ -78,17 +79,17 @@ public class RegularityClassifer {
 		Prnt.prn(cf) ;
 	}
 	//return the confidence score for positive class label
-	public Vector<Double> getScores(String fpath) throws Exception
+	public List<Double> getScores(String fpath) throws Exception
 	{
 		BufferedReader fileReader = new BufferedReader(new FileReader(fpath));
 		Instances instances = new Instances(fileReader) ;
 		instances.setClassIndex(instances.numAttributes() -1) ;
 		Prnt.prn(instances.numAttributes()) ;
-		double confidence = -1;
-		Vector<Double> posConfid = new Vector<Double>();
+//		double confidence = -1;
+		List<Double> posConfid = new ArrayList<Double>();
 		for(int i=0;i<instances.size();i++) {			
 			Instance instance = instances.get(i) ;
-			double label = instance.value(instances.numAttributes()-1);
+//			double label = instance.value(instances.numAttributes()-1);
 			double[] dist = cf.distributionForInstance(instance) ;
 			posConfid.add(dist[1]);//keep history of all the confidence
 		}	
@@ -104,7 +105,7 @@ public class RegularityClassifer {
 		instances.setClassIndex(instances.numAttributes() -1) ;
 		Prnt.prn(instances.numAttributes()) ;
 		double confidence = -1;
-		Vector<Double> posConfid = new Vector<Double>();
+		List<Double> posConfid = new ArrayList<Double>();
 		for(int i=0;i<instances.size();i++) {			
 			Instance instance = instances.get(i) ;
 			double label = instance.value(instances.numAttributes()-1);
@@ -135,7 +136,7 @@ public class RegularityClassifer {
 			return -1;
 		}
 		//find the rank of confidence
-		int tiecnt = 0;
+//		int tiecnt = 0;
 		for(int i=0;i<posConfid.size();i++)
 		{
 			double d = posConfid.get(i);

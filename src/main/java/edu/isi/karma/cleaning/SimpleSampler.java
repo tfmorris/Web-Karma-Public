@@ -21,7 +21,7 @@
 package edu.isi.karma.cleaning;
 
 import java.util.HashSet;
-import java.util.Vector;
+import java.util.List;
 
 public class SimpleSampler {
 	private RuleGenerator rg;
@@ -37,7 +37,7 @@ public class SimpleSampler {
 		
 	}
 	// store the what
-	public void storeruleFragment(Vector<TNode> example, int sPos, int ePos)
+	public void storeruleFragment(List<TNode> example, int sPos, int ePos)
 	{
 		HashSet<String> s=rg.printRules("tokenspec",(ePos-sPos));
 	}

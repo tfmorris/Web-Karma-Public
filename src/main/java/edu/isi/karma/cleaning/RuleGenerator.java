@@ -25,9 +25,9 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Random;
 import java.util.Set;
-import java.util.Vector;
 
 import org.antlr.runtime.ANTLRStringStream;
 import org.antlr.runtime.CharStream;
@@ -41,8 +41,8 @@ import edu.isi.karma.cleaning.changed_grammar.RuleInterpreterTree;
 // generator all possible rules from the grammar
 public class RuleGenerator {
 
-	private String origin;
-	private String target;
+//	private String origin;
+//	private String target;
 	public HashMap<String,ArrayList<ArrayList<String>>> nonterminals;
 	public HashMap<String,String> consterminals; 
 	public HashMap<String,Integer> curRuleConfig; // integer is the index of rule
@@ -93,9 +93,9 @@ public class RuleGenerator {
 	    }
 	}
 	//replace the tar with a set of new values. each of this new value become a new rule
-	public static Vector<String> substitueRuleVar(String rule,Vector<String> newV,String tar)
+	public static List<String> substitueRuleVar(String rule,List<String> newV,String tar)
 	{
-		Vector<String> rs = new Vector<String>();		
+		List<String> rs = new ArrayList<String>();		
 		for(String nv:newV)
 		{
 			String tmps = rule;
@@ -104,9 +104,9 @@ public class RuleGenerator {
 		}
 		return rs;
 	}
-	public Vector<String> replacetokspec(Collection<String> whats,Collection<TNode> examplex,int spos,int epos)
+	public List<String> replacetokspec(Collection<String> whats,Collection<TNode> examplex,int spos,int epos)
 	{
-		Vector<String> res = new Vector<String>();
+		List<String> res = new ArrayList<String>();
 		ArrayList<TNode> example = new ArrayList<TNode>(examplex.size());
 		example.addAll(examplex);
 		for(String s:whats)
@@ -146,26 +146,26 @@ public class RuleGenerator {
 	//assign the values to the variables using the examples
 	// s is the rule contains the token that need to be assign value
 	//example is the token sequence for the orignial string
-	public Vector<String> assignValue(String s,Vector<Vector<String>> vs)
+	public List<String> assignValue(String s,List<List<String>> vs)
 	{
-		Vector<String> rules = new Vector<String>();
-		Vector<String> resrules = new Vector<String>();
+		List<String> rules = new ArrayList<String>();
+		List<String> resrules = new ArrayList<String>();
 		rules.add(s);
 		//tokenize the example
 		//identify the variance part
 		
-		Vector<String> wNum = new Vector<String>();
+		List<String> wNum = new ArrayList<String>();
 		wNum = vs.get(0);
-		Vector<String> wToken = new Vector<String>();
+		List<String> wToken = new ArrayList<String>();
 		wToken = vs.get(1);
 		//remove
-		Vector<String> sNum = new Vector<String>();
+		List<String> sNum = new ArrayList<String>();
 		sNum = vs.get(2);
-		Vector<String> sToken = new Vector<String>();
+		List<String> sToken = new ArrayList<String>();
 		sToken = vs.get(3);
-		Vector<String> eNum = new Vector<String>();
+		List<String> eNum = new ArrayList<String>();
 		eNum = vs.get(4);
-		Vector<String> eToken = new Vector<String>();
+		List<String> eToken = new ArrayList<String>();
 		eToken = vs.get(5);
 		int pos1 = s.indexOf("from");
 		int pos2 = s.indexOf("from", pos1+1);
@@ -183,19 +183,19 @@ public class RuleGenerator {
 			{
 				if(p<pos1)
 				{
-					Vector<String> res = substitueRuleVar(fr,wNum,"NUM");
+					List<String> res = substitueRuleVar(fr,wNum,"NUM");
 					rules.addAll(res);
 					continue;
 				}
 				else if(p>pos1 && p<pos2)
 				{
-					Vector<String> res = substitueRuleVar(fr,sNum,"NUM");
+					List<String> res = substitueRuleVar(fr,sNum,"NUM");
 					rules.addAll(res);
 					continue;
 				}
 				else if(p>pos2)
 				{
-					Vector<String> res = substitueRuleVar(fr,eNum,"NUM");
+					List<String> res = substitueRuleVar(fr,eNum,"NUM");
 					rules.addAll(res);
 					continue;
 				}
@@ -204,19 +204,19 @@ public class RuleGenerator {
 			{
 				if(p<pos1)
 				{
-					Vector<String> res = substitueRuleVar(fr,wToken,"TOKEN");
+					List<String> res = substitueRuleVar(fr,wToken,"TOKEN");
 					rules.addAll(res);
 					continue;
 				}
 				else if(p>pos1 && p<pos2)
 				{
-					Vector<String> res = substitueRuleVar(fr,sToken,"TOKEN");
+					List<String> res = substitueRuleVar(fr,sToken,"TOKEN");
 					rules.addAll(res);
 					continue;
 				}
 				else if(p>pos2)
 				{
-					Vector<String> res = substitueRuleVar(fr,eToken,"TOKEN");
+					List<String> res = substitueRuleVar(fr,eToken,"TOKEN");
 					rules.addAll(res);
 					continue;
 				}
@@ -247,14 +247,14 @@ public class RuleGenerator {
 		
 	}
 	//do the cross join between ArrayList<String>
-	public Vector<String> crossJoin(ArrayList<HashSet<String>> array)
+	public List<String> crossJoin(ArrayList<HashSet<String>> array)
 	{
-		Vector<String> y1=new Vector<String>();
-		Vector<String> y2=new Vector<String>();
-		y1 = new Vector<String>();
+		List<String> y1=new ArrayList<String>();
+		List<String> y2=new ArrayList<String>();
+		y1 = new ArrayList<String>();
 		y1.addAll(array.get(0));
-		Vector<String> y3;
-		Vector<String> y4 = new Vector<String>();
+		List<String> y3;
+		List<String> y4 = new ArrayList<String>();
 		if(array.size()==1)
 		{
 			 y4.addAll(array.get(0));
@@ -262,17 +262,17 @@ public class RuleGenerator {
 		}
 		for(int i=0; i<array.size()-1; i++)
 		{
-			HashSet<String> x = array.get(i);
+//			HashSet<String> x = array.get(i);
 			if(i%2==0)
 			{
 				y3 = y1;
-				y2 = new Vector<String>();
+				y2 = new ArrayList<String>();
 				y4 = y2;
 			}
 			else
 			{
 				y3 = y2;
-				y1 = new Vector<String>();
+				y1 = new ArrayList<String>();
 				y4 = y1;
 			}
 			for(String str:y3)
@@ -335,7 +335,7 @@ public class RuleGenerator {
 				}
 			}
 			//mix v
-			Vector<String> z = this.crossJoin(v);
+			List<String> z = this.crossJoin(v);
 			allchoic.addAll(z);
 		}
 		return allchoic;
@@ -369,7 +369,7 @@ public class RuleGenerator {
 				for(int i= 0;i<size;i++)
 				{
 					//create a new string list and added to s
-					ArrayList<String> al = (ArrayList<String>)s.get(i).clone(); 
+					ArrayList<String> al = new ArrayList<String>(s.get(i)); 
 					al.add("");
 					s.add(al);
 					//add a new element at the end

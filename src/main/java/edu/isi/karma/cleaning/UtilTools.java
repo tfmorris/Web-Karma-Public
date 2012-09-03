@@ -2,13 +2,14 @@ package edu.isi.karma.cleaning;
 
 import java.io.File;
 import java.io.FileWriter;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
-import java.util.Vector;
 
 import org.json.JSONObject;
 
@@ -18,7 +19,7 @@ import edu.isi.karma.cleaning.features.Feature;
 import edu.isi.karma.cleaning.features.RegularityFeatureSet;
 
 public class UtilTools {
-	public static Vector<String> results = new Vector<String>();
+	public static List<String> results = new ArrayList<String>();
 	public static int index = 0;
 	public static void clearTmpVars()
 	{
@@ -47,10 +48,10 @@ public class UtilTools {
 		{
 			CSVWriter cw = new CSVWriter(new FileWriter(new File("./tmp/tmp.csv")),',');
 			//write header into the csv file
-			Vector<String> tmp = new Vector<String>();
-			Vector<String> tmp1 = new Vector<String>();
+//			List<String> tmp = new ArrayList<String>();
+//			List<String> tmp1 = new ArrayList<String>();
 			RegularityFeatureSet rfs = new RegularityFeatureSet();
-			Collection<Feature> cols = rfs.computeFeatures(tmp, tmp1);
+//			Collection<Feature> cols = rfs.computeFeatures(tmp, tmp1);
 			String[] xyz = new String[rfs.fnames.size()+1];
 			for(int i = 0; i<xyz.length-1; i++)
 			{
@@ -59,7 +60,7 @@ public class UtilTools {
 			xyz[xyz.length-1] = "label";
 			cw.writeNext(xyz);
 			//write the data
-			Vector<String> examples = new Vector<String>();
+			List<String> examples = new ArrayList<String>();
 			if(s!=null && s.length()>0)
 			{
 				String[] z = s.split("\n");
@@ -74,11 +75,11 @@ public class UtilTools {
 			for(String o:dic)
 			{
 				UtilTools.results.add(o);
-				Vector<String> row = new Vector<String>();
+				List<String> row = new ArrayList<String>();
 				if(s!=null && o.compareTo(s)==0)
 				{
 					RegularityFeatureSet rf = new RegularityFeatureSet();
-					Vector<String> oexamples = new Vector<String>();
+					List<String> oexamples = new ArrayList<String>();
 					String[] y = o.split("\n");
 					for(String elem:y)
 					{
@@ -99,7 +100,7 @@ public class UtilTools {
 				else
 				{
 					RegularityFeatureSet rf = new RegularityFeatureSet();
-					Vector<String> oexamples = new Vector<String>();
+					List<String> oexamples = new ArrayList<String>();
 					String[] y = o.split("\n");
 					for(String elem:y)
 					{
@@ -118,7 +119,7 @@ public class UtilTools {
 					row.add("0"); // change this according to the dataset.
 
 				}
-				cw.writeNext((String[])row.toArray(new String[row.size()]));
+				cw.writeNext(row.toArray(new String[row.size()]));
 			}
 			cw.flush();
 			cw.close();
@@ -132,10 +133,10 @@ public class UtilTools {
 		}
 		
 	}
-	public static Vector<Integer> topKindexs(Vector<Double> scores, int k)
+	public static List<Integer> topKindexs(List<Double> scores, int k)
 	{
 		int cnt = 0;
-		Vector<Integer> res = new Vector<Integer>();
+		List<Integer> res = new ArrayList<Integer>();
 		ScoreObj[] sas = new ScoreObj[scores.size()];
 		for(int i= 0; i<scores.size(); i++)
 		{
@@ -152,7 +153,7 @@ public class UtilTools {
 	public static int rank(HashMap<String,Integer> dic,String s,String trainPath)
 	{
 		Set<String> keys = dic.keySet();
-		String[] ks = (String[])keys.toArray(new String[keys.size()]);
+		String[] ks = keys.toArray(new String[keys.size()]);
 		String fpath = UtilTools.dic2Arff(ks, s);
 		RegularityClassifer rc = new RegularityClassifer(trainPath);
 		try
@@ -171,9 +172,9 @@ public class UtilTools {
 			return -1;
 		}
 	}
-	public static Vector<Double> getScores(String[] res,String trainPath)
+	public static List<Double> getScores(String[] res,String trainPath)
 	{
-		Vector<Double> vds = new Vector<Double>();
+		List<Double> vds = new ArrayList<Double>();
 		//convert the json format to \n seperated format
 		try
 		{

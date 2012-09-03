@@ -20,28 +20,29 @@
  ******************************************************************************/
 package edu.isi.karma.cleaning;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
-import java.util.Vector;
 
 public class Evaluator {
 	Ruler r;
-	public Vector<String> pos;
-	public Vector<String> cht;
+	public List<String> pos;
+	public List<String> cht;
 	public Evaluator()
 	{
-		pos=new Vector<String>();
-		cht = new Vector<String>();
+		pos=new ArrayList<String>();
+		cht = new ArrayList<String>();
 	}
-	public void addPos(Vector<Integer> xpos)
+	public void addPos(List<Integer> xpos)
 	{
 		for(int i = 0; i< xpos.size() ; i++)
 		{
 			pos.add(String.valueOf(xpos.get(i)));
 		}
 	}
-	public void addCnt(Vector<TNode> x)
+	public void addCnt(List<TNode> x)
 	{
 		for(int i = 0; i< x.size() ; i++)
 		{
@@ -53,7 +54,7 @@ public class Evaluator {
 		this.r = r;
 	}
 	
-	public double calShannonEntropy(Vector<String> data)
+	public double calShannonEntropy(List<String> data)
 	{
 		double entropy = 0;
 		HashMap<String,Integer> map = new HashMap<String,Integer>();

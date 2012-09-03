@@ -2,7 +2,8 @@
 
   // We want the generated parser class to be in this package.
   package edu.isi.karma.cleaning.changed_grammar;
-  import java.util.Vector;
+  import java.util.ArrayList;
+import java.util.List;
 
 import org.antlr.runtime.BitSet;
 import org.antlr.runtime.NoViableAltException;
@@ -81,7 +82,7 @@ public TreeAdaptor getTreeAdaptor() {
     	Ruler ruler;
     	
     	//handle input Tokensequence
-    	Vector<TNode> vec = new Vector<TNode>();
+    	List<TNode> vec = new ArrayList<TNode>();
     	/*set the ruler*/
     	public void setRuler(Ruler r)
     	{
@@ -175,14 +176,14 @@ public TreeAdaptor getTreeAdaptor() {
 
     public static class what_return extends TreeRuleReturnScope {
         public String num;
-        public Vector<TNode> res;
+        public List<TNode> res;
         CommonTree tree;
         public Object getTree() { return tree; }
     };
 
 
     // $ANTLR start "what"
-    // RuleInterpreterTree.g:49:1: what returns [String num,Vector<TNode> res] : ( quantifier tokenspec | ANYTOKS );
+    // RuleInterpreterTree.g:49:1: what returns [String num,List<TNode> res] : ( quantifier tokenspec | ANYTOKS );
     public final RuleInterpreterTree.what_return what() throws RecognitionException {
         RuleInterpreterTree.what_return retval = new RuleInterpreterTree.what_return();
         retval.start = input.LT(1);
@@ -384,14 +385,14 @@ public TreeAdaptor getTreeAdaptor() {
 
 
     public static class tokenspec_return extends TreeRuleReturnScope {
-        public Vector<TNode> res;
+        public List<TNode> res;
         CommonTree tree;
         public Object getTree() { return tree; }
     };
 
 
     // $ANTLR start "tokenspec"
-    // RuleInterpreterTree.g:55:1: tokenspec returns [Vector<TNode> res] : singletokenspec[toks] ( singletokenspec[toks] )* ;
+    // RuleInterpreterTree.g:55:1: tokenspec returns [List<TNode> res] : singletokenspec[toks] ( singletokenspec[toks] )* ;
     public final RuleInterpreterTree.tokenspec_return tokenspec() throws RecognitionException {
         RuleInterpreterTree.tokenspec_return retval = new RuleInterpreterTree.tokenspec_return();
         retval.start = input.LT(1);
@@ -408,7 +409,7 @@ public TreeAdaptor getTreeAdaptor() {
 
 
 
-         Vector<TNode> toks = new Vector<TNode>(); 
+         List<TNode> toks = new ArrayList<TNode>(); 
         try {
             // RuleInterpreterTree.g:57:2: ( singletokenspec[toks] ( singletokenspec[toks] )* )
             // RuleInterpreterTree.g:57:4: singletokenspec[toks] ( singletokenspec[toks] )*
@@ -479,14 +480,14 @@ public TreeAdaptor getTreeAdaptor() {
 
 
     public static class stokenspec_return extends TreeRuleReturnScope {
-        public Vector<TNode> res;
+        public List<TNode> res;
         CommonTree tree;
         public Object getTree() { return tree; }
     };
 
 
     // $ANTLR start "stokenspec"
-    // RuleInterpreterTree.g:58:1: stokenspec returns [Vector<TNode> res] : singletokenspec[toks] ( singletokenspec[toks] )* ;
+    // RuleInterpreterTree.g:58:1: stokenspec returns [List<TNode> res] : singletokenspec[toks] ( singletokenspec[toks] )* ;
     public final RuleInterpreterTree.stokenspec_return stokenspec() throws RecognitionException {
         RuleInterpreterTree.stokenspec_return retval = new RuleInterpreterTree.stokenspec_return();
         retval.start = input.LT(1);
@@ -503,7 +504,7 @@ public TreeAdaptor getTreeAdaptor() {
 
 
 
-         Vector<TNode> toks = new Vector<TNode>(); 
+         List<TNode> toks = new ArrayList<TNode>(); 
         try {
             // RuleInterpreterTree.g:60:2: ( singletokenspec[toks] ( singletokenspec[toks] )* )
             // RuleInterpreterTree.g:60:4: singletokenspec[toks] ( singletokenspec[toks] )*
@@ -574,14 +575,14 @@ public TreeAdaptor getTreeAdaptor() {
 
 
     public static class etokenspec_return extends TreeRuleReturnScope {
-        public Vector<TNode> res;
+        public List<TNode> res;
         CommonTree tree;
         public Object getTree() { return tree; }
     };
 
 
     // $ANTLR start "etokenspec"
-    // RuleInterpreterTree.g:61:1: etokenspec returns [Vector<TNode> res] : singletokenspec[toks] ( singletokenspec[toks] )* ;
+    // RuleInterpreterTree.g:61:1: etokenspec returns [List<TNode> res] : singletokenspec[toks] ( singletokenspec[toks] )* ;
     public final RuleInterpreterTree.etokenspec_return etokenspec() throws RecognitionException {
         RuleInterpreterTree.etokenspec_return retval = new RuleInterpreterTree.etokenspec_return();
         retval.start = input.LT(1);
@@ -598,7 +599,7 @@ public TreeAdaptor getTreeAdaptor() {
 
 
 
-         Vector<TNode> toks = new Vector<TNode>(); 
+         List<TNode> toks = new ArrayList<TNode>(); 
         try {
             // RuleInterpreterTree.g:63:2: ( singletokenspec[toks] ( singletokenspec[toks] )* )
             // RuleInterpreterTree.g:63:4: singletokenspec[toks] ( singletokenspec[toks] )*
@@ -675,8 +676,8 @@ public TreeAdaptor getTreeAdaptor() {
 
 
     // $ANTLR start "singletokenspec"
-    // RuleInterpreterTree.g:65:1: singletokenspec[Vector<TNode> tokspec] : ( token | type );
-    public final RuleInterpreterTree.singletokenspec_return singletokenspec(Vector<TNode> tokspec) throws RecognitionException {
+    // RuleInterpreterTree.g:65:1: singletokenspec[List<TNode> tokspec] : ( token | type );
+    public final RuleInterpreterTree.singletokenspec_return singletokenspec(List<TNode> tokspec) throws RecognitionException {
         RuleInterpreterTree.singletokenspec_return retval = new RuleInterpreterTree.singletokenspec_return();
         retval.start = input.LT(1);
 

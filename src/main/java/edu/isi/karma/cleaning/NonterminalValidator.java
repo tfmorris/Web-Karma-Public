@@ -20,10 +20,10 @@
  ******************************************************************************/
 package edu.isi.karma.cleaning;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Vector;
 
 import org.antlr.runtime.ANTLRStringStream;
 import org.antlr.runtime.CharStream;
@@ -35,7 +35,7 @@ import edu.isi.karma.cleaning.changed_grammar.templateParserParser;
 public class NonterminalValidator 
 {
 	//
-	public static void applyoper(EditOper op,Vector<TNode> ex,String type)
+	public static void applyoper(EditOper op,List<TNode> ex,String type)
 	{
 		if(type.compareTo("mov")==0)
 		{
@@ -50,9 +50,9 @@ public class NonterminalValidator
 			applydel(op,ex);
 		}
 	}
-	public static void applymov(EditOper op, Vector<TNode> ex)
+	public static void applymov(EditOper op, List<TNode> ex)
 	{
-		Vector<TNode> excpy = (Vector<TNode>)ex.clone();
+		List<TNode> excpy = new ArrayList<TNode>(ex);
 		if(op.dest >= op.endPos)
 		{
 			List<TNode> tmp = excpy.subList(op.starPos, op.endPos+1);
@@ -70,18 +70,18 @@ public class NonterminalValidator
 			System.out.println("applymov error");
 		}
 	}
-	public static void applyins(EditOper op,Vector<TNode> ex)
+	public static void applyins(EditOper op,List<TNode> ex)
 	{
 		ex.addAll(op.dest,op.tar);
 	}
-	public static void applydel(EditOper op,Vector<TNode> ex)
+	public static void applydel(EditOper op,List<TNode> ex)
 	{
-		Vector<TNode> excpy = (Vector<TNode>)ex.clone();
+		List<TNode> excpy = new ArrayList<TNode>(ex);
 		List<TNode> tmp = excpy.subList(op.starPos, op.endPos+1);
 		ex.removeAll(tmp);
 	}
 	//generate the what string for parsing
-	public static HashSet<String> generateWhatTemp(EditOper ops,Vector<TNode> ex)
+	public static HashSet<String> generateWhatTemp(EditOper ops,List<TNode> ex)
 	{
 		
 		HashSet<String> rules = new HashSet<String>();
@@ -98,7 +98,7 @@ public class NonterminalValidator
 		size = target.size();
 		//shift operation to find whether a positon is 1
 		// 1 means general 0 mean use token
-		int threshold = (int)Math.pow(2, size-1);
+//		int threshold = (int)Math.pow(2, size-1);
 		for(int i=0;i<=Math.pow(2, size);i++)
 		{
 			String rule = "";
@@ -197,7 +197,7 @@ public class NonterminalValidator
 		}
 	}
 	//generate the tokenspec for start end and denstination current key cannot differentiate them
-	public static HashSet<String> genstartContext(EditOper ops,Vector<TNode> ex)
+	public static HashSet<String> genstartContext(EditOper ops,List<TNode> ex)
 	{
 		HashSet<String> rules = new HashSet<String>();
 		//startPosition
@@ -221,7 +221,7 @@ public class NonterminalValidator
 		
 	}
 	//generate the tokenspec for start end and denstination current key cannot differentiate them
-	public static HashSet<String> gendestContext(EditOper ops,Vector<TNode> ex)
+	public static HashSet<String> gendestContext(EditOper ops,List<TNode> ex)
 	{
 		HashSet<String> rules = new HashSet<String>();
 		//startPosition
@@ -244,7 +244,7 @@ public class NonterminalValidator
 		return rules;
 		
 	}
-	public static HashSet<String> genPostion(EditOper ops, Vector<TNode> ex, String type)
+	public static HashSet<String> genPostion(EditOper ops, List<TNode> ex, String type)
 	{
 		HashSet<String> pos = new HashSet<String>();
 		if(type.compareTo("dest")==0)
@@ -282,7 +282,7 @@ public class NonterminalValidator
 		}
 		return pos;
 	}
-	public static HashSet<String> genendendContext(EditOper ops,Vector<TNode> ex)
+	public static HashSet<String> genendendContext(EditOper ops,List<TNode> ex)
 	{
 		HashSet<String> rules = new HashSet<String>();
 		int epos = ops.endPos;
@@ -305,11 +305,11 @@ public class NonterminalValidator
 		
 	}
 	//generate the number for quantity
-	public static HashSet<String> genNum(EditOper ops,Vector<TNode> ex)
+	public static HashSet<String> genNum(EditOper ops,List<TNode> ex)
 	{
 		HashSet<String> rules = new HashSet<String>();
-		int size = 0;
-		/*if(ops.tar.size()!=0)
+		/*int size = 0;
+		if(ops.tar.size()!=0)
 		{
 			size = ops.tar.size();
 		}
@@ -326,7 +326,7 @@ public class NonterminalValidator
 		
 	}
 	/******************************************************************/
-	public static boolean CheckRule(Vector<EditOper> ops,String rule)
+	public static boolean CheckRule(List<EditOper> ops,String rule)
 	{
 		for(EditOper o:ops)
 		{
@@ -338,9 +338,9 @@ public class NonterminalValidator
 		}
 		return true;
 	}
-	public static Vector<Vector<String>> getLiteralValue(Vector<EditOper> ops,Vector<Vector<TNode>> orgexample,RuleGenerator rgen)
+	public static List<List<String>> getLiteralValue(List<EditOper> ops,List<List<TNode>> orgexample,RuleGenerator rgen)
 	{
-		Vector<Vector<String>> x = new Vector<Vector<String>>();
+		List<List<String>> x = new ArrayList<List<String>>();
 		//check whether can be generalized
 		String y = ops.get(0).oper;
 		for(int i = 0; i<ops.size();i++)
@@ -351,23 +351,23 @@ public class NonterminalValidator
 				System.exit(1);
 			}
 		}
-		Vector<String> wToken = new Vector<String>();
-		Vector<String> wquan = new Vector<String>();
-		Vector<String> p1t = new Vector<String>();
-		Vector<String> p1 = new Vector<String>();
-		Vector<String> p2t = new Vector<String>();
-		Vector<String> p2 = new Vector<String>();
-		Vector<String> p3t = new Vector<String>();
-		Vector<String> p3 = new Vector<String>();
+		List<String> wToken = new ArrayList<String>();
+		List<String> wquan = new ArrayList<String>();
+		List<String> p1t = new ArrayList<String>();
+		List<String> p1 = new ArrayList<String>();
+		List<String> p2t = new ArrayList<String>();
+		List<String> p2 = new ArrayList<String>();
+		List<String> p3t = new ArrayList<String>();
+		List<String> p3 = new ArrayList<String>();
 		//need to get the value for quan,what,pos1 pos2 pos3
 		
 		int quan = ops.get(0).tar.size();
-		Vector<TNode> what = new Vector<TNode>();
-		what = ops.get(0).tar;
+//		List<TNode> what = new ArrayList<TNode>();
+//		what = ops.get(0).tar;
 		int pos1 = ops.get(0).starPos;
 		int pos2 = ops.get(0).endPos;
 		int pos3 = ops.get(0).dest;
-		Vector<String > woken = rgen.replacetokspec(rgen.printRules("tokenspec",(quan)),orgexample.get(0) , ops.get(0).starPos, ops.get(0).endPos);
+		List<String > woken = rgen.replacetokspec(rgen.printRules("tokenspec",(quan)),orgexample.get(0) , ops.get(0).starPos, ops.get(0).endPos);
 		wToken.addAll(woken);
 		//store the context token to identify the location of a key position
 		for(int k = -1; k<=1;k++)
@@ -401,7 +401,7 @@ public class NonterminalValidator
 				pos2 = -1;// -1 means no consistency
 			}
 			// generalized the token sequence
-			Vector<String> wTokenx = rgen.replacetokspec(rgen.printRules("tokenspec",(eo.tar.size())),orgexample.get(i) , ops.get(i).starPos, ops.get(i).endPos);
+			List<String> wTokenx = rgen.replacetokspec(rgen.printRules("tokenspec",(eo.tar.size())),orgexample.get(i) , ops.get(i).starPos, ops.get(i).endPos);
 			wToken.retainAll(wTokenx);			
 		}
 		//
@@ -431,9 +431,9 @@ public class NonterminalValidator
 		x.add(p3t);
 		return x;
 	}
-	public static Vector<String> substitueRuleVar(String rule,Vector<String> newV,String tar)
+	public static List<String> substitueRuleVar(String rule,List<String> newV,String tar)
 	{
-		Vector<String> rs = new Vector<String>();		
+		List<String> rs = new ArrayList<String>();		
 		for(String nv:newV)
 		{
 			String tmps = rule;
@@ -446,16 +446,16 @@ public class NonterminalValidator
 	//2 num 3 token
 	//4 num 5 token
 	//6 num 7 token
-	public static Vector<String> assignValue(String rule,Vector<Vector<String>> vs)
+	public static List<String> assignValue(String rule,List<List<String>> vs)
 	{
-		Vector<String> wtokens = new Vector<String>();
-		Vector<String> wNum = new Vector<String>();
-		Vector<String> p1 = new Vector<String>();
-		Vector<String> p1t = new Vector<String>();
-		Vector<String> p2 = new Vector<String>();
-		Vector<String> p2t = new Vector<String>();
-		Vector<String> p3 = new Vector<String>();
-		Vector<String> p3t = new Vector<String>();
+		List<String> wtokens = new ArrayList<String>();
+		List<String> wNum = new ArrayList<String>();
+		List<String> p1 = new ArrayList<String>();
+		List<String> p1t = new ArrayList<String>();
+		List<String> p2 = new ArrayList<String>();
+		List<String> p2t = new ArrayList<String>();
+		List<String> p3 = new ArrayList<String>();
+		List<String> p3t = new ArrayList<String>();
 		if(rule.indexOf("mov")==0)
 		{
 			wtokens = vs.get(0);
@@ -483,8 +483,8 @@ public class NonterminalValidator
 			p2 = vs.get(4);
 			p2t = vs.get(5);
 		}
-		Vector<String> rules = new Vector<String>();
-		Vector<String> resrules = new Vector<String>();
+		List<String> rules = new ArrayList<String>();
+		List<String> resrules = new ArrayList<String>();
 		rules.add(rule);
 		//find three positions
 		int pos1 = rule.indexOf("from");
@@ -508,25 +508,25 @@ public class NonterminalValidator
 			{
 				if(p<pos1)
 				{
-					Vector<String> res = substitueRuleVar(fr,wNum,"NUM");
+					List<String> res = substitueRuleVar(fr,wNum,"NUM");
 					rules.addAll(res);
 					continue;
 				}
 				else if(p>pos1 && p<pos2)
 				{
-					Vector<String> res = substitueRuleVar(fr,p1,"NUM");
+					List<String> res = substitueRuleVar(fr,p1,"NUM");
 					rules.addAll(res);
 					continue;
 				}
 				else if(p>pos2&&p<pos3)
 				{
-					Vector<String> res = substitueRuleVar(fr,p2,"NUM");
+					List<String> res = substitueRuleVar(fr,p2,"NUM");
 					rules.addAll(res);
 					continue;
 				}
 				else if(p>pos3)
 				{
-					Vector<String> res = substitueRuleVar(fr,p3,"NUM");
+					List<String> res = substitueRuleVar(fr,p3,"NUM");
 					rules.addAll(res);
 					continue;
 				}
@@ -535,25 +535,25 @@ public class NonterminalValidator
 			{
 				if(p<pos1)
 				{
-					Vector<String> res = substitueRuleVar(fr,wtokens,"TOKEN");
+					List<String> res = substitueRuleVar(fr,wtokens,"TOKEN");
 					rules.addAll(res);
 					continue;
 				}
 				else if(p>pos1 && p<pos2)
 				{
-					Vector<String> res = substitueRuleVar(fr,p1t,"TOKEN");
+					List<String> res = substitueRuleVar(fr,p1t,"TOKEN");
 					rules.addAll(res);
 					continue;
 				}
 				else if(p>pos2 && p<pos3)
 				{
-					Vector<String> res = substitueRuleVar(fr,p2t,"TOKEN");
+					List<String> res = substitueRuleVar(fr,p2t,"TOKEN");
 					rules.addAll(res);
 					continue;
 				}
 				else if(p> pos3)
 				{
-					Vector<String> res = substitueRuleVar(fr,p3t,"TOKEN");
+					List<String> res = substitueRuleVar(fr,p3t,"TOKEN");
 					rules.addAll(res);
 					continue;
 				}

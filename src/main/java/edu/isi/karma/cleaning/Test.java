@@ -36,7 +36,7 @@ public class Test {
 			ArrayList<ArrayList<String>> copy = x.get(key);
 			for(int i = 0; i<copy.size(); i++)
 			{
-				ArrayList<String> xy = (ArrayList<String>)copy.get(i).clone();
+				ArrayList<String> xy = new ArrayList<String>(copy.get(i));
 				value.add(xy);
 			}
 			nx.put(key, value);

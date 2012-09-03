@@ -23,32 +23,33 @@ package edu.isi.karma.cleaning;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
+import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Vector;
+import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 class Tuple
 {
 	//(beforetoks, aftertoks)
-	private Vector<Vector<TNode>> tuple = new Vector<Vector<TNode>>();
-	public Tuple(Vector<TNode> bef,Vector<TNode> aft)
+	private List<List<TNode>> tuple = new ArrayList<List<TNode>>();
+	public Tuple(List<TNode> bef,List<TNode> aft)
 	{
 		tuple.add(bef);
 		tuple.add(aft);
 	}
-	public Vector<TNode> getBefore()
+	public List<TNode> getBefore()
 	{
 		return tuple.get(0);
 	}
-	public Vector<TNode> getafter()
+	public List<TNode> getafter()
 	{
 		return tuple.get(1);
 	}
 	public String toString()
 	{
-		Vector<TNode> bef = this.getBefore();
-		Vector<TNode> aft = this.getafter();
+		List<TNode> bef = this.getBefore();
+		List<TNode> aft = this.getafter();
 		String orgString = "";
 		String aftString = "";
 		for(TNode t:bef)
@@ -64,13 +65,13 @@ class Tuple
 }
 public class Description 
 {
-	public Vector<Vector<Vector<HashSet<String>>>> desc = new Vector<Vector<Vector<HashSet<String>>>>();
+	public List<List<List<HashSet<String>>>> desc = new ArrayList<List<List<HashSet<String>>>>();
 	//((tup11,tup21),(tup12,tup22)....)
-	public Vector<Vector<Vector<Tuple>>> sequences = new Vector<Vector<Vector<Tuple>>>();
+	public List<List<List<Tuple>>> sequences = new ArrayList<List<List<Tuple>>>();
 	public Description()
 	{
 	}
-	public Description(Vector<Vector<Vector<HashSet<String>>>> desc)
+	public Description(List<List<List<HashSet<String>>>> desc)
 	{
 		this.desc = desc;
 	}
@@ -84,35 +85,35 @@ public class Description
 		desc.remove(index);
 		sequences.remove(index);
 	}
-	public Vector<Vector<Vector<HashSet<String>>>> getDesc()
+	public List<List<List<HashSet<String>>>> getDesc()
 	{
 		return desc;
 	}
-	public Vector<Vector<Vector<Tuple>>> getSeqs()
+	public List<List<List<Tuple>>> getSeqs()
 	{
 		return this.sequences;
 	}
 	
-	public void addSeqs(Vector<Vector<Tuple>> seq)
+	public void addSeqs(List<List<Tuple>> seq)
 	{
 		sequences.add(seq);
 	}
-	public void addDesc(Vector<Vector<HashSet<String>>> seq)
+	public void addDesc(List<List<HashSet<String>>> seq)
 	{
 		desc.add(seq);
 	}
 	public void newDesc()
 	{
-		this.desc = new Vector<Vector<Vector<HashSet<String>>>>();
+		this.desc = new ArrayList<List<List<HashSet<String>>>>();
 	}
 	public void newSeqs()
 	{
-		this.sequences = new Vector<Vector<Vector<Tuple>>>();
+		this.sequences = new ArrayList<List<List<Tuple>>>();
 	}
 	public void writeJSONString() throws Exception
 	{
 		
-		String rep = "";
+//		String rep = "";
 		if(this.desc.size() != this.sequences.size())
 		{
 			CleaningLogger.write("description toString error");

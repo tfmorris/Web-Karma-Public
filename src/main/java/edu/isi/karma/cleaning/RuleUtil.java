@@ -23,15 +23,13 @@ package edu.isi.karma.cleaning;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Set;
-import java.util.Vector;
+import java.util.List;
 
 import org.antlr.runtime.ANTLRStringStream;
 import org.antlr.runtime.CharStream;
@@ -51,7 +49,7 @@ import edu.isi.karma.cleaning.changed_grammar.RuleInterpreterParser;
 import edu.isi.karma.cleaning.changed_grammar.RuleInterpreterTree;
 
 public class RuleUtil {
-	public static String tokens2str(Vector<TNode> x)
+	public static String tokens2str(List<TNode> x)
 	{
 		String resString = "";
 		for(TNode t:x)
@@ -60,7 +58,7 @@ public class RuleUtil {
 		}
 		return resString;
 	}
-	public static String tokens2strwithStyle(Vector<TNode> x)
+	public static String tokens2strwithStyle(List<TNode> x)
 	{
 		String resString = "";
 		for(TNode t:x)
@@ -86,11 +84,11 @@ public class RuleUtil {
 		}
 	}
 	// 
-	public static Vector<String> applyRuleF(Vector<String> rules,String fpath0)
+	public static List<String> applyRuleF(List<String> rules,String fpath0)
 	{
 		try
 		{
-			Vector<String> res = new Vector<String>();
+			List<String> res = new ArrayList<String>();
 			BufferedReader br = new BufferedReader(new FileReader(fpath0));
 			String line = "";
 			while((line = br.readLine())!= null)
@@ -102,6 +100,7 @@ public class RuleUtil {
 				line = RuleUtil.applyRule(rules, line);
 				res.add(line);
 			}
+			br.close();
 			return res;
 		}
 		catch(Exception ex)
@@ -111,13 +110,13 @@ public class RuleUtil {
 		}
 	}
 	//apply a sequence of rules
-	public static String applyRulewithStyle(Vector<String> rules, String s)
+	public static String applyRulewithStyle(List<String> rules, String s)
 	{
 		try
 		{
 		Ruler r = new Ruler();
 		r.setNewInput(s);
-		Vector<TNode> x = r.vec;
+		List<TNode> x = r.vec;
 		/*value preprocessing starts*/
 		for(EditOper eo:preEditOpers)
 		{
@@ -138,13 +137,13 @@ public class RuleUtil {
 			return "";
 		}
 	}
-	public static String applyRule(Vector<String> rules, String s)
+	public static String applyRule(List<String> rules, String s)
 	{
 		try
 		{
 		Ruler r = new Ruler();
 		r.setNewInput(s);
-		Vector<TNode> x = r.vec;
+		List<TNode> x = r.vec;
 		/*value preprocessing starts*/
 		for(EditOper eo:preEditOpers)
 		{
@@ -166,7 +165,7 @@ public class RuleUtil {
 		}
 	}
 	//apply a rule on a token sequence and return a token sequence
-	public static Vector<TNode> applyRule(String rule,Vector<TNode> before)
+	public static List<TNode> applyRule(String rule,List<TNode> before)
 	{
 		try 
 		{
@@ -221,7 +220,7 @@ public class RuleUtil {
 		
 	}
 	//apply a rule on String and return a token sequence
-	public static Vector<TNode> applyRulet(String rule,String s)
+	public static List<TNode> applyRulet(String rule,String s)
 	{
 		try 
 		{
@@ -332,7 +331,7 @@ public class RuleUtil {
 			BufferedReader xbr = new BufferedReader(new FileReader(f));
 			while((xline=xbr.readLine())!=null)
 			{
-				Vector<String> xrow = new Vector<String>();
+				List<String> xrow = new ArrayList<String>();
 				if(xline.compareTo("")==0)
 					break;
 				String s = RuleUtil.applyRuleS(rule, xline);
@@ -342,6 +341,7 @@ public class RuleUtil {
 			    //xrow.add(r.toString());
 				rv.addRow(xrow);
 			}
+			xbr.close();
 			rv.print(f.getAbsolutePath()+"_pair.txt");
 			return f.getAbsolutePath()+"_pair.txt";
 		}
@@ -351,30 +351,30 @@ public class RuleUtil {
 			return "";
 		}	 
 	}
-	public static Vector<Vector<String>> getLitervalue(Vector<TNode> example, int sPos, int ePos,RuleGenerator gen)
+	public static List<List<String>> getLitervalue(List<TNode> example, int sPos, int ePos,RuleGenerator gen)
 	{
 		//tokenize the example
 		//identify the variance part
 		int length = ePos - sPos +1; // the deleted number of Tnodes
-		Vector<String> wNum = new Vector<String>();
+		List<String> wNum = new ArrayList<String>();
 		wNum.add(String.valueOf(length));
 		//wNum.add("1"); // all the token to be deleted
-		Vector<String> wToken = new Vector<String>();
+		List<String> wToken = new ArrayList<String>();
 		wToken = gen.replacetokspec(gen.printRules("tokenspec",(ePos-sPos)), example, sPos, ePos);
 		//remove
-		Vector<String> sNum = new Vector<String>();
+		List<String> sNum = new ArrayList<String>();
 		sNum.add(String.valueOf(sPos+1));
 		sNum.add("0");
 		sNum.add(String.valueOf(example.size()-sPos-1));
-		Vector<String> sToken = new Vector<String>();
+		List<String> sToken = new ArrayList<String>();
 		sToken.add("\""+example.get(sPos).text+"\"");
-		Vector<String> eNum = new Vector<String>();
+		List<String> eNum = new ArrayList<String>();
 		eNum.add(String.valueOf(ePos));
 		eNum.add("0");
 		eNum.add(String.valueOf(example.size()-ePos-1));
-		Vector<String> eToken = new Vector<String>();
+		List<String> eToken = new ArrayList<String>();
 		eToken.add("\""+example.get(ePos).text+"\"");
-		Vector<Vector<String>> vs = new Vector<Vector<String>>();
+		List<List<String>> vs = new ArrayList<List<String>>();
 		vs.add(wNum);
 		vs.add(wToken);
 		vs.add(sNum);
@@ -383,20 +383,20 @@ public class RuleUtil {
 		vs.add(eToken);
 		return vs;
 	}
-	public static void filter(String nonterm, Vector<String> rules,Vector<TNode> org,Vector<TNode> tar,Vector<EditOper> eos)
+	public static void filter(String nonterm, List<String> rules,List<TNode> org,List<TNode> tar,List<EditOper> eos)
 	{
 		return;
 	}
 	public static int sgsnum = 0;
 	//ops is corresponding editoperation of multiple sequence
-	public static Vector<EditOper> preEditOpers = new Vector<EditOper>();
-	public static Vector<String> genRule(Vector<String[]> examples)
+	public static List<EditOper> preEditOpers = new ArrayList<EditOper>();
+	public static List<String> genRule(List<String[]> examples)
 	{	
-		Vector<String> rules = new Vector<String>();
+//		List<String> rules = new ArrayList<String>();
 		try
 		{	
-			Vector<Vector<TNode>> org = new Vector<Vector<TNode>>();
-			Vector<Vector<TNode>> tar = new Vector<Vector<TNode>>();
+			List<List<TNode>> org = new ArrayList<List<TNode>>();
+			List<List<TNode>> tar = new ArrayList<List<TNode>>();
 			for(int i =0 ; i<examples.size();i++)
 			{
 				Ruler r = new Ruler();
@@ -418,12 +418,12 @@ public class RuleUtil {
 				}
 			}
 			/*example preprocessing ends*/
-			Vector<Vector<GrammarParseTree>> trees = RuleUtil.genGrammarTrees(org, tar);
+			List<List<GrammarParseTree>> trees = RuleUtil.genGrammarTrees(org, tar);
 			sgsnum = trees.size();
-			Vector<Integer> l = new Vector<Integer>();
-			Vector<Integer> sr = new Vector<Integer>();
-			Vector<String> pls = new Vector<String>();
-			for(Vector<GrammarParseTree> gt:trees)
+			List<Integer> l = new ArrayList<Integer>();
+			List<Integer> sr = new ArrayList<Integer>();
+			List<String> pls = new ArrayList<String>();
+			for(List<GrammarParseTree> gt:trees)
 			{
 				l.add(gt.size());
 				sr.add(1);
@@ -442,7 +442,7 @@ public class RuleUtil {
 				int index = MarkovDP.sampleByScore(l,sr);
 				//Random r = new Random();
 				//int index = r.nextInt(1);
-				Vector<GrammarParseTree> gt = trees.get(index);
+				List<GrammarParseTree> gt = trees.get(index);
 				System.out.print(gt.size()+","+index+"\n");	
 				HashMap<MDPState,MDPState> his = new HashMap<MDPState,MDPState>();
 				int sccnt = 0;
@@ -468,25 +468,25 @@ public class RuleUtil {
 		}
 	}
 	
-	public static Vector<Vector<Vector<EditOper>>> genEditOpers(Vector<Vector<TNode>> orgs,Vector<Vector<TNode>> tars) throws Throwable
+	public static List<List<List<EditOper>>> genEditOpers(List<List<TNode>> orgs,List<List<TNode>> tars) throws Throwable
 	{
-		Vector<Vector<Vector<EditOper>>> tmp =new Vector<Vector<Vector<EditOper>>>();
+		List<List<List<EditOper>>> tmp =new ArrayList<List<List<EditOper>>>();
 		for(int i=0;i<orgs.size();i++)
 		{
-			Vector<TNode> x = orgs.get(i);
-			Vector<TNode> y = tars.get(i);
-			Vector<Vector<EditOper>> ops = Alignment.genEditOperation(x, y);//ops contains multiple edit sequence
-			Vector<Vector<EditOper>> tx = new Vector<Vector<EditOper>>();
+			List<TNode> x = orgs.get(i);
+			List<TNode> y = tars.get(i);
+			List<List<EditOper>> ops = Alignment.genEditOperation(x, y);//ops contains multiple edit sequence
+			List<List<EditOper>> tx = new ArrayList<List<EditOper>>();
 			for(int j = 0; j<ops.size();j++)
 			{
-				String sign = "";
-				Vector<TNode> cur = x;
+//				String sign = "";
+				List<TNode> cur = x;
 				for(EditOper xeo:ops.get(j))
 				{
-					sign+=xeo.oper;
+//					sign+=xeo.oper;
 					xeo.before = cur;
 					Ruler r = new Ruler();
-					r.setNewInput((Vector<TNode>)cur.clone());
+					r.setNewInput(new ArrayList<TNode>(cur));
 					if(xeo.oper.compareTo("del")==0)
 					{
 						r.doOperation("del", "1", null, xeo.starPos, xeo.endPos);
@@ -499,7 +499,7 @@ public class RuleUtil {
 					{
 						r.doOperation("ins", "1", xeo.tar, xeo.dest, 0);
 					}
-					xeo.after = (Vector<TNode>)(r.vec.clone());
+					xeo.after = new ArrayList<TNode>(r.vec);
 					cur = r.vec;
 				}
 				tx.add(ops.get(j));
@@ -513,7 +513,7 @@ public class RuleUtil {
 	//move direction is the same
 	//param: curSeqs edit sequence 
 	//return: the signature of current  edit sequence
-	public static String getSign(Vector<EditOper> curSeq)
+	public static String getSign(List<EditOper> curSeq)
 	{
 		String sign = "";
 		//size
@@ -538,9 +538,9 @@ public class RuleUtil {
 		}
 		return sign;
 	}
-	public static Vector<Vector<GrammarParseTree>> genGrammarTrees(Vector<Vector<TNode>> orgs,Vector<Vector<TNode>> tars)
+	public static List<List<GrammarParseTree>> genGrammarTrees(List<List<TNode>> orgs,List<List<TNode>> tars)
 	{
-		Vector<Vector<Vector<EditOper>>> tmp = new Vector<Vector<Vector<EditOper>>>();
+		List<List<List<EditOper>>> tmp = new ArrayList<List<List<EditOper>>>();
 		try
 		{	
 			tmp = genEditOpers(orgs,tars);
@@ -553,28 +553,28 @@ public class RuleUtil {
 		//if number of operation is not the same continue
 		//       (one edit)
 		HashMap<String,GrammarTreeNode> global_temp = new HashMap<String,GrammarTreeNode>();
-		Vector<Vector<Vector<HashSet<String>>>> descriptions = new Vector<Vector<Vector<HashSet<String>>>>();//store description for multiple sequence
+		List<List<List<HashSet<String>>>> descriptions = new ArrayList<List<List<HashSet<String>>>>();//store description for multiple sequence
 		Description dcrpt = new Description();
-		Vector<Vector<Vector<Tuple>>> sequences = new Vector<Vector<Vector<Tuple>>>();
-		Vector<String> sign = new Vector<String>();
+		List<List<List<Tuple>>> sequences = new ArrayList<List<List<Tuple>>>();
+		List<String> sign = new ArrayList<String>();
 		HashSet<String> hs = new HashSet<String>();
 		for(int i=0;i<tmp.size();i++)
 		{
-			Vector<String> newsign = new Vector<String>();
-			Vector<Vector<EditOper>> curSeqs = tmp.get(i);
+			List<String> newsign = new ArrayList<String>();
+			List<List<EditOper>> curSeqs = tmp.get(i);
 			if(descriptions.size() == 0)
 			{		
-				for(Vector<EditOper> eos: curSeqs)
+				for(List<EditOper> eos: curSeqs)
 				{
-					Vector<Vector<Tuple>> seq = new Vector<Vector<Tuple>>();
-					Vector<TNode> p = (Vector<TNode>)orgs.get(i).clone();
-					Vector<Vector<HashSet<String>>> seqscurExamp = new Vector<Vector<HashSet<String>>>(); //store the description for one editsequence 
+					List<List<Tuple>> seq = new ArrayList<List<Tuple>>();
+					List<TNode> p = new ArrayList<TNode>(orgs.get(i));
+					List<List<HashSet<String>>> seqscurExamp = new ArrayList<List<HashSet<String>>>(); //store the description for one editsequence 
 					for(EditOper eo:eos)//
 					{
-						Vector<Tuple> vt = new Vector<Tuple>();
+						List<Tuple> vt = new ArrayList<Tuple>();
 						vt.add(new Tuple(eo.before,eo.after));
 						seq.add(vt);
-						Vector<HashSet<String>> allParams = new Vector<HashSet<String>>();//store the all description for one operation
+						List<HashSet<String>> allParams = new ArrayList<HashSet<String>>();//store the all description for one operation
 						HashSet<String> set1 = NonterminalValidator.genendendContext(eo, p);
 						for(String s: set1)
 						{
@@ -654,21 +654,21 @@ public class RuleUtil {
 						//signature are the same
 						if(RuleUtil.getSign(curSeqs.get(l)).compareTo(sign.get(j))==0)
 						{
-							Vector<TNode> p = (Vector<TNode>)orgs.get(i).clone();
-							Vector<Vector<HashSet<String>>> seqscurExamp = new Vector<Vector<HashSet<String>>>();
+							List<TNode> p = new ArrayList<TNode>(orgs.get(i));
+							List<List<HashSet<String>>> seqscurExamp = new ArrayList<List<HashSet<String>>>();
 							//used to keep the edit history
-							Vector<Vector<Tuple>> seq = new Vector<Vector<Tuple>>();
+							List<List<Tuple>> seq = new ArrayList<List<Tuple>>();
 							//clone the history
 							for(int k = 0;k<sequences.get(j).size(); k++)
 							{
-								seq.add((Vector<Tuple>)sequences.get(j).get(k).clone());
+								seq.add(new ArrayList<Tuple>(sequences.get(j).get(k)));
 							}
-							//Vector<Vector<Tuple>> seq = (Vector<Vector<Tuple>>)sequences.get(j).clone();
+							//List<List<Tuple>> seq = (List<List<Tuple>>)sequences.get(j).clone();
 							for(int m = 0; m<curSeqs.get(l).size();m++)
 							{
 								//add before and after here
 								seq.get(m).add(new Tuple(curSeqs.get(l).get(m).before,curSeqs.get(l).get(m).after));
-								Vector<HashSet<String>> allParams = new Vector<HashSet<String>>();
+								List<HashSet<String>> allParams = new ArrayList<HashSet<String>>();
 								HashSet<String> set1 = NonterminalValidator.genendendContext(curSeqs.get(l).get(m), p);
 								set1.retainAll(descriptions.get(j).get(m).get(0));
 								System.out.println(set1);
@@ -732,21 +732,21 @@ public class RuleUtil {
 		
 		//descriptions = filterDescription(descriptions,sign); // many descriptoins
 		//prepare three kind of rule generator
-		Vector<Vector<GrammarParseTree>> gps = new Vector<Vector<GrammarParseTree>>();
+		List<List<GrammarParseTree>> gps = new ArrayList<List<GrammarParseTree>>();
 		//inite parse before all the object are initialized
-		Vector<Vector<Vector<Tuple>>> seqs = dcrpt.getSeqs();
+		List<List<List<Tuple>>> seqs = dcrpt.getSeqs();
 		GrammarParseTree.initGrammarParserTrees();
 		int validCnt = 0;
 		for(int i=0; i<dcrpt.getDesc().size(); i++)
 		{
-			Vector<Vector<HashSet<String>>> curSeq = dcrpt.getDesc().get(i);
-			Vector<Vector<Tuple>> seq = seqs.get(i);
+			List<List<HashSet<String>>> curSeq = dcrpt.getDesc().get(i);
+			List<List<Tuple>> seq = seqs.get(i);
 			// iterates through all the operations
-			Vector<GrammarParseTree> tmptrees = new Vector<GrammarParseTree>();		
+			List<GrammarParseTree> tmptrees = new ArrayList<GrammarParseTree>();		
 			boolean isvalid = true;
 			for(int j=0; j<curSeq.size();j++)
 			{
-				Vector<HashSet<String>> oper = curSeq.get(j);
+				List<HashSet<String>> oper = curSeq.get(j);
 				String type = oper.get(8).iterator().next();
 				
 				GrammarParseTree gt = new GrammarParseTree(type);
@@ -776,13 +776,13 @@ public class RuleUtil {
 	public static void filter(Description desc)
 	{
 		int i = 0;
-		Vector<Vector<Vector<HashSet<String>>>> dsc = desc.getDesc();
+		List<List<List<HashSet<String>>>> dsc = desc.getDesc();
 		while(i < dsc.size())
 		{
-			Vector<Vector<HashSet<String>>> seq = dsc.get(i);//get one sequence
+			List<List<HashSet<String>>> seq = dsc.get(i);//get one sequence
 			boolean isvalid = true;
 			//iter through all edit operation
-			for(Vector<HashSet<String>> s:seq)
+			for(List<HashSet<String>> s:seq)
 			{
 				if((s.get(0).size()==0&&s.get(4).size()==0)||(s.get(1).size()==0&&s.get(3).size()==0)||(s.get(6).size()==0&&s.get(7).size()==0))
 				{
@@ -807,8 +807,8 @@ public class RuleUtil {
 			String fp = "/Users/bowu/Research/dataclean/data/RuleData/FullChange.csv";
 			CSVReader cr = new CSVReader(new FileReader(new File(fp)),'\t');
 			String x[];
-			Vector<Vector<TNode>> orgs = new Vector<Vector<TNode>>();
-			Vector<Vector<TNode>> tars = new Vector<Vector<TNode>>();
+			List<List<TNode>> orgs = new ArrayList<List<TNode>>();
+			List<List<TNode>> tars = new ArrayList<List<TNode>>();
 			String[] exmp = {"2011-07-09","07/09/2011"};
 			while((x=cr.readNext())!=null)
 			{
@@ -820,23 +820,24 @@ public class RuleUtil {
 				r2.setNewInput(s2);
 				System.out.println(s1+" ===== "+s2);
 				//System.out.println(Alignment.alignment1(r1.vec, r2.vec).toString());
-				//Vector<Vector<EditOper>> res = Alignment.genEditOperation(r1.vec,r2.vec);
+				//List<List<EditOper>> res = Alignment.genEditOperation(r1.vec,r2.vec);
 				// prepare description for sub tree
-				Vector<TNode> p = r1.vec;
+				List<TNode> p = r1.vec;
 				orgs.add(p);
-				Vector<TNode> q = r2.vec;
+				List<TNode> q = r2.vec;
 				tars.add(q);
 			}
-			Vector<Vector<GrammarParseTree>> trees = RuleUtil.genGrammarTrees(orgs, tars);
-			Vector<Vector<String>> ress = new Vector<Vector<String>>();
+			cr.close();
+			List<List<GrammarParseTree>> trees = RuleUtil.genGrammarTrees(orgs, tars);
+			List<List<String>> ress = new ArrayList<List<String>>();
 			BufferedWriter bw = new BufferedWriter(new FileWriter(new File("/Users/bowu/mysoft/restransit.txt")));
 			int corrNum = 0;
 			int cnt = 10;
-			Vector<int[]> resut = new Vector<int[]>();
+			List<int[]> resut = new ArrayList<int[]>();
 			for(int b = 1; b<21; b++)
 			{
 				corrNum = 0;
-				for(Vector<GrammarParseTree> ts:trees)
+				for(List<GrammarParseTree> ts:trees)
 				{
 					if(ts.size()>=7)
 						continue;
@@ -844,8 +845,8 @@ public class RuleUtil {
 					while(cnt < b*10)
 					{
 						String tar = exmp[0];
-						Vector<String> res = new Vector<String>();
-						Vector<String> ruls = new Vector<String>();
+						List<String> res = new ArrayList<String>();
+						List<String> ruls = new ArrayList<String>();
 						for(GrammarParseTree t:ts)
 						{
 							GrammarTreeNode gn = new GrammarTreeNode("");

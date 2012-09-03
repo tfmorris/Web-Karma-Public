@@ -22,29 +22,30 @@ package edu.isi.karma.cleaning;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
-import java.util.Vector;
+import java.util.ArrayList;
+import java.util.List;
 
 import au.com.bytecode.opencsv.CSVWriter;
 
 public class ResultViewer {
-	public Vector<Vector<String>> table;
+	public List<List<String>> table;
 	private boolean init = false;
 	public ResultViewer()
 	{
-		table = new Vector<Vector<String>>();
+		table = new ArrayList<List<String>>();
 	}
-	public void addRow(Vector<String> row)
+	public void addRow(List<String> row)
 	{
 		table.add(row);
 	}
-	public void addColumn(Vector<String> column)
+	public void addColumn(List<String> column)
 	{
 		int rows = column.size();
 		if(!init)
 		{
 			for(int i=0;i<rows;i++)
 			{
-				Vector<String> elem = new Vector<String>();
+				List<String> elem = new ArrayList<String>();
 				table.add(elem);
 			}
 		}

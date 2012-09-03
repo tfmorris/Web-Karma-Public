@@ -20,11 +20,12 @@
  ******************************************************************************/
 package edu.isi.karma.cleaning;
 
-import java.util.Vector;
+import java.util.ArrayList;
+import java.util.List;
 
 public class GrammarTreeNode{
 	GrammarTreeNode parent = null;
-	Vector<GrammarTreeNode> children = new Vector<GrammarTreeNode>();
+	List<GrammarTreeNode> children = new ArrayList<GrammarTreeNode>();
 	String name = "";
 	public GrammarTreeNode(String n)
 	{

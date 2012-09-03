@@ -19,6 +19,7 @@
  * and related projects, please see: http://www.isi.edu/integration
  ******************************************************************************/
 package edu.isi.karma.cleaning;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -26,37 +27,36 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-import java.util.Vector;
 
 public class Alignment {
 	//generate preprcessing editsteps before generating rules
-	public static Vector<EditOper> getPreprocessingEditOpers(Vector<TNode> a,Vector<TNode> b)
+	public static List<EditOper> getPreprocessingEditOpers(List<TNode> a,List<TNode> b)
 	{
-		Vector<EditOper> inss = Alignment.insopers(a,b);
+		List<EditOper> inss = Alignment.insopers(a,b);
 		return inss;
 	}
 	//follow the framework of INS MOV DEL
 	//generat all possible edit operations
 	//a target token sequence b orginal token sequence
-	public static Vector<Vector<EditOper>> genEditOperation(Vector<TNode> a, Vector<TNode> b)
+	public static List<List<EditOper>> genEditOperation(List<TNode> a, List<TNode> b)
 	{
 		Alignment.paths.clear();
 		//generate INS operation (only need to record the content)
-		/*Vector<EditOper> inss = Alignment.insopers(a,b);
+		/*List<EditOper> inss = Alignment.insopers(a,b);
 		for(EditOper eo:inss)
 		{
 			NonterminalValidator.applyins(eo, clonea);
 			eo.before = a;
 			eo.after = clonea;
 		}*/
-		Vector<TNode> clonea = (Vector<TNode>)a.clone();
+		List<TNode> clonea = new ArrayList<TNode>(a);
 		//generate MOV and DEL operation
-		Vector<Vector<EditOper>> movdels = Alignment.movopers(clonea,b);
+		List<List<EditOper>> movdels = Alignment.movopers(clonea,b);
 		//generate all combination of the two set of operation sequence
-		Vector<Vector<EditOper>> res = new Vector<Vector<EditOper>>();
-		for(Vector<EditOper> v:movdels)
+		List<List<EditOper>> res = new ArrayList<List<EditOper>>();
+		for(List<EditOper> v:movdels)
 		{
-			Vector<EditOper> z = new Vector<EditOper>();
+			List<EditOper> z = new ArrayList<EditOper>();
 			z.addAll(v);
 			res.add(z);
 			System.out.println(""+z.toString());
@@ -64,9 +64,9 @@ public class Alignment {
 		Alignment.paths.clear();
 		return res;
 	}
-	public static Vector<Integer> delopers(Vector<int[]> a,Vector<TNode> before)
+	public static List<Integer> delopers(List<int[]> a,List<TNode> before)
 	{
-		Vector<Integer> v = new Vector<Integer>();
+		List<Integer> v = new ArrayList<Integer>();
 		for(int i = 0; i< before.size(); i++)
 		{
 			boolean isFind = false;
@@ -85,7 +85,7 @@ public class Alignment {
 		}
 		return v;
 	}
-	public static boolean isAdjacent(int a,int b, Vector<Integer> sortedmks)
+	public static boolean isAdjacent(int a,int b, List<Integer> sortedmks)
 	{
 		if(a==b)
 			return true; // <S> <E> token
@@ -104,12 +104,12 @@ public class Alignment {
 		return false;
 	}
 	//mks contains the positions need to be sorted
-	//q contains the unsorted positions,q contains all orignal vector's positions
+	//q contains the unsorted positions,q contains all orignal List's positions
 	//return all the segments start and end position
-	public static Vector<int[]> deterContinus(Vector<Integer> q,Vector<Integer> mks)
+	public static List<int[]> deterContinus(List<Integer> q,List<Integer> mks)
 	{
-		Vector<int[]> segments = new Vector<int[]>();
-		Vector<Integer> copymks = (Vector<Integer>)mks.clone();
+		List<int[]> segments = new ArrayList<int[]>();
+		List<Integer> copymks = new ArrayList<Integer>(mks);
 		Collections.sort(copymks);
 		int start = 0;// the start of the segment
 		int pre = start;//the previous valid element in current segment
@@ -148,7 +148,7 @@ public class Alignment {
 		segments.add(b);
 		return segments;
 	}
-	public static Vector<Vector<EditOper>> movopers(Vector<TNode> a, Vector<TNode> b)
+	public static List<List<EditOper>> movopers(List<TNode> a, List<TNode> b)
 	{
 		int stoken = 0;
 		for(TNode t:a){
@@ -159,15 +159,15 @@ public class Alignment {
 			stoken ++;
 		}
 		int etoken = a.size()-1;
-		Vector<Vector<int[]>> mapping = map(a,b);
-		Vector<Vector<EditOper>> paths = new Vector<Vector<EditOper>>();
+		List<List<int[]>> mapping = map(a,b);
+		List<List<EditOper>> paths = new ArrayList<List<EditOper>>();
 		for(int i= 0; i< mapping.size();i++)
 		{
-			Vector<EditOper> ev = new Vector<EditOper>();
-			Vector<int[]> tmapping = mapping.get(i);
-			Vector<Integer> positions =  new Vector<Integer>();
+//			List<EditOper> ev = new ArrayList<EditOper>();
+			List<int[]> tmapping = mapping.get(i);
+			List<Integer> positions =  new ArrayList<Integer>();
 			//record the original order
-			Vector<Integer> mks = new Vector<Integer>(b.size());
+			List<Integer> mks = new ArrayList<Integer>(b.size());
 			for(int  n = 0;n<b.size();n++)
 			{
 				mks.add(-1);
@@ -176,7 +176,7 @@ public class Alignment {
 			{
 				positions.add(n);
 				//check if n is in the mapping array
-				boolean isfind = false;
+//				boolean isfind = false;
 				for(int m = 0; m<tmapping.size();m++)
 				{
 					if(tmapping.get(m)[0]==n)
@@ -220,9 +220,9 @@ public class Alignment {
 			positions.set(stoken,positions.get(stoken+1));
 			positions.set(etoken,positions.get(etoken-1));
 			//detect the continous segments
-			Vector<int[]> segments =  deterContinus(positions,mks);
-			Vector<EditOper> xx = new Vector<EditOper>();
-			Vector<Vector<Integer>> history = new Vector<Vector<Integer>>();
+			List<int[]> segments =  deterContinus(positions,mks);
+			List<EditOper> xx = new ArrayList<EditOper>();
+			List<List<Integer>> history = new ArrayList<List<Integer>>();
 			try 
 			{
 				transMOVDEL(segments,positions,mks,xx,history,a,paths);
@@ -233,7 +233,7 @@ public class Alignment {
 		return paths;
 	}
 	//
-	public static int getReverseOrderNum(Vector<Integer> position)
+	public static int getReverseOrderNum(List<Integer> position)
 	{
 		int cnt = 0;
 		for(int i = 0; i<position.size(); i++)
@@ -252,7 +252,7 @@ public class Alignment {
 		}
 		return cnt;
 	}
-	public static Vector<Vector<EditOper>> paths = new Vector<Vector<EditOper>>();
+	public static List<List<EditOper>> paths = new ArrayList<List<EditOper>>();
 	/*
 	 * segments: all the continous part
 	 * position: contains the unsorted positions
@@ -260,13 +260,13 @@ public class Alignment {
 	 * eo: for record the path for one move and delete sequence
 	 * history is used to store all previous state to prevent visit some visited state dead loop
 	 */
-	public static void transMOVDEL(Vector<int[]> segments,Vector<Integer> positon,Vector<Integer> x,Vector<EditOper> eo,Vector<Vector<Integer>> history,Vector<TNode> a,Vector<Vector<EditOper>> paths)
+	public static void transMOVDEL(List<int[]> segments,List<Integer> positon,List<Integer> x,List<EditOper> eo,List<List<Integer>> history,List<TNode> a,List<List<EditOper>> paths)
 	{
 		if(eo.size()>positon.size()-1)//prune, the number of mov should be less than total size -1 
 			return;
 		if(history.size()>0)
 		{
-			for(Vector<Integer> l:history)
+			for(List<Integer> l:history)
 			{
 				if(positon.equals(l))
 				{
@@ -274,16 +274,16 @@ public class Alignment {
 				}
 			}
 		}
-		Vector<Vector<Integer>> history1 = (Vector<Vector<Integer>>)history.clone(); 
+		List<List<Integer>> history1 = new ArrayList<List<Integer>>(history); 
 		history1.add(positon);
 		boolean globalcontrary = false;
 		boolean localcontrary = false;
 		for(int i = 0; i<segments.size(); i++)
 		{
 			localcontrary = false;
-			int minNum = Integer.MAX_VALUE;
+//			int minNum = Integer.MAX_VALUE;
 			EditOper eox = new EditOper();
-			Vector<Integer> positonx = new Vector<Integer>();
+			List<Integer> positonx = new ArrayList<Integer>();
 			//move to the back
 			EditOper eo2 = new EditOper();
 			for(int k=i+1;k<segments.size();k++)
@@ -301,7 +301,7 @@ public class Alignment {
 			}
 			if(localcontrary)
 			{
-				Vector<Integer> positon2 = (Vector<Integer>)positon.clone();
+				List<Integer> positon2 = new ArrayList<Integer>(positon);
 				//update the position2
 				List<Integer> tmp2 = positon.subList(eo2.starPos, eo2.endPos+1);
 				positon2.removeAll(tmp2);
@@ -329,8 +329,8 @@ public class Alignment {
 					eo1.endPos = segments.get(i)[1];
 					eo1.oper = "mov";
 					eo1.dest = segments.get(k)[0];// before the first segment
-					//Vector<EditOper> seq1 = (Vector<EditOper>)eo.clone();
-					Vector<Integer> positon1 = (Vector<Integer>)positon.clone();
+					//List<EditOper> seq1 = (List<EditOper>)eo.clone();
+					List<Integer> positon1 = (List<Integer>)positon.clone();
 					//seq1.add(eo1);
 					List<Integer> tmp1 = positon.subList(eo1.starPos, eo1.endPos+1);
 					//update positon1 array
@@ -347,9 +347,9 @@ public class Alignment {
 			}*/
 			if(localcontrary)
 			{
-				Vector<EditOper> seqx = (Vector<EditOper>)eo.clone();
+				List<EditOper> seqx = new ArrayList<EditOper>(eo);
 				seqx.add(eox);			
-				Vector<int[]> newsegments1 = deterContinus(positonx,x);
+				List<int[]> newsegments1 = deterContinus(positonx,x);
 				transMOVDEL(newsegments1,positonx,x,seqx,history1,a,paths);
 			}
 		}
@@ -395,9 +395,9 @@ public class Alignment {
 		}
 		return;
 	}
-	public static Vector<EditOper> insopers(Vector<TNode> a, Vector<TNode> b)
+	public static List<EditOper> insopers(List<TNode> a, List<TNode> b)
 	{
-		Vector<EditOper> eo = new Vector<EditOper>();
+		List<EditOper> eo = new ArrayList<EditOper>();
 		boolean[] marks = new boolean[a.size()];
 		for(int i= 0;i<marks.length;i++)
 		{
@@ -429,11 +429,11 @@ public class Alignment {
 		return eo;
 	}
 	//merge continouse operation together
-	public static Vector<Vector<int[]>> mergeOperation(Vector<Vector<int[]>> res)
+	public static List<List<int[]>> mergeOperation(List<List<int[]>> res)
 	{
 		return null;
 	}
-	public static void alignment(Vector<AlignObj> a,Vector<AlignObj> b,boolean[] aind,boolean[] bind,String path,HashSet<String> res)
+	public static void alignment(List<AlignObj> a,List<AlignObj> b,boolean[] aind,boolean[] bind,String path,HashSet<String> res)
 	{
 		boolean isend = true;
 		for(int i = 0; i< a.size(); i++)
@@ -478,11 +478,11 @@ public class Alignment {
 				
 		}
 	}
-	public static Vector<Vector<int[]>> map(Vector<TNode> a,Vector<TNode> b)
+	public static List<List<int[]>> map(List<TNode> a,List<TNode> b)
 	{
-		Vector<Vector<int[]>> res = new Vector<Vector<int[]>>();
-		HashMap<String, Vector<AlignObj>> dic = new HashMap<String, Vector<AlignObj>>();
-		HashMap<String, Vector<AlignObj>> revdic = new HashMap<String, Vector<AlignObj>>();
+		List<List<int[]>> res = new ArrayList<List<int[]>>();
+		HashMap<String, List<AlignObj>> dic = new HashMap<String, List<AlignObj>>();
+		HashMap<String, List<AlignObj>> revdic = new HashMap<String, List<AlignObj>>();
 		String blankmapping = "";
 		boolean[] aind = new boolean[a.size()];
 		for(int i=0; i<aind.length;i++)
@@ -530,7 +530,7 @@ public class Alignment {
 						if(dic.containsKey(key))
 						{
 							AlignObj aObj = new AlignObj(nNode, j);
-							Vector<AlignObj> vao = dic.get(key);
+							List<AlignObj> vao = dic.get(key);
 							boolean isrun = false;
 							for(int k = 0; k<vao.size(); k++)
 							{
@@ -543,7 +543,7 @@ public class Alignment {
 								dic.get(key).add(aObj);
 						}
 						else {
-							Vector<AlignObj> vec = new Vector<AlignObj>();
+							List<AlignObj> vec = new ArrayList<AlignObj>();
 							AlignObj aObj = new AlignObj(nNode, j);
 							vec.add(aObj);
 							dic.put(key, vec);
@@ -551,7 +551,7 @@ public class Alignment {
 						if(revdic.containsKey(key))
 						{
 							AlignObj aObj = new AlignObj(mNode, i);
-							Vector<AlignObj> vao = revdic.get(key);
+							List<AlignObj> vao = revdic.get(key);
 							boolean isrun = false;
 							for(int k = 0; k<vao.size(); k++)
 							{
@@ -564,7 +564,7 @@ public class Alignment {
 								revdic.get(key).add(aObj);
 						}
 						else {
-							Vector<AlignObj> vec = new Vector<AlignObj>();
+							List<AlignObj> vec = new ArrayList<AlignObj>();
 							AlignObj aObj = new AlignObj(mNode, i);
 							vec.add(aObj);
 							revdic.put(key, vec);
@@ -588,7 +588,7 @@ public class Alignment {
 		//generate blank space mapping
 		for(int i=0;i<a.size();i++)
 		{
-			Vector<int[]> tmp = new Vector<int[]>();
+//			List<int[]> tmp = new ArrayList<int[]>();
 			for(int j=0; j<b.size(); j++)
 			{
 				//check whether two whitespaces are counterpart
@@ -602,7 +602,7 @@ public class Alignment {
 		}
 		String theprefix = mappingprefix+blankmapping;		
 		//generate ambiguious mapping
-		Vector<String> allpathes=new Vector<String>();
+		List<String> allpathes=new ArrayList<String>();
 		allpathes.add(theprefix);
 		Iterator<String> it1 = keys.iterator();
 		while(it1.hasNext())
@@ -613,8 +613,8 @@ public class Alignment {
 				if(dic.get(k).get(0).tNode.type != TNode.BNKTYP)
 				{
 					String path = "";
-					Vector<AlignObj> x1= dic.get(k);
-					Vector<AlignObj> y1=revdic.get(k);
+					List<AlignObj> x1= dic.get(k);
+					List<AlignObj> y1=revdic.get(k);
 					HashSet<String> pathes = new HashSet<String>();
 					boolean[] xind = new boolean[x1.size()];
 					for(int i = 0; i<xind.length;i++)
@@ -631,7 +631,7 @@ public class Alignment {
 					int cnt = allpathes.size();
 					while(cnt>0)
 					{
-						String pString = allpathes.elementAt(0);
+						String pString = allpathes.get(0);
 						Iterator<String> ks = pathes.iterator();	
 						while(ks.hasNext())
 						{
@@ -650,7 +650,7 @@ public class Alignment {
 			String p = iter.next().trim();
 			if(p.length()==0)
 				continue;
-			Vector<int[]> line = new Vector<int[]>();
+			List<int[]> line = new ArrayList<int[]>();
 			String[] mps = p.trim().split("#");
 			for(String str:mps)
 			{
@@ -671,9 +671,9 @@ public class Alignment {
 	// kinds of operations "delete, insert, Move" '
 	// this method could also be wrong, so the best would be this alignment 
 	//just give weak supervision, the later component would adjust it self to learn the right rule
-	public static Vector<EditOper> alignment1(Vector<TNode> a, Vector<TNode> b)
+	public static List<EditOper> alignment1(List<TNode> a, List<TNode> b)
 	{
-		HashMap<Integer,Integer> res = new HashMap<Integer,Integer>();
+//		HashMap<Integer,Integer> res = new HashMap<Integer,Integer>();
 		int matrix[][] = new int[a.size()+1][b.size()+1];// the first row and column is kept for empty
 		// initialize the first row and column
 		int stepCost = 1;
@@ -707,9 +707,9 @@ public class Alignment {
 		int ptr1 = a.size();
 		int ptr2 = b.size();
 		//use the alignment to derive the edit operations
-		Vector<EditOper> editv = new Vector<EditOper>();
-		HashMap<String,Vector<Integer>> dtmp = new HashMap<String,Vector<Integer>>();
-		HashMap<String,Vector<Integer>> itmp = new HashMap<String,Vector<Integer>>();
+		List<EditOper> editv = new ArrayList<EditOper>();
+		HashMap<String,List<Integer>> dtmp = new HashMap<String,List<Integer>>();
+		HashMap<String,List<Integer>> itmp = new HashMap<String,List<Integer>>();
 		// 0th column and 0th row always represents the epsilon
 		while(!(ptr1==0&&ptr2==0))
 		{
@@ -734,7 +734,7 @@ public class Alignment {
 				}
 				else
 				{
-					Vector<Integer> ax = new Vector<Integer>();
+					List<Integer> ax = new ArrayList<Integer>();
 					ax.add(editv.size()-1); // add the current index into the sequence
 					dtmp.put(a.get(ptr1-1).text, ax);
 				}
@@ -745,7 +745,7 @@ public class Alignment {
 				
 				EditOper eo = new EditOper();
 				eo.oper = "ins";
-				Vector<TNode> t = new Vector<TNode>();
+				List<TNode> t = new ArrayList<TNode>();
 				t.add( b.get(ptr2-1));
 				eo.tar = t;
 				eo.dest = ptr1;
@@ -756,7 +756,7 @@ public class Alignment {
 				}
 				else
 				{
-					Vector<Integer> ax = new Vector<Integer>();
+					List<Integer> ax = new ArrayList<Integer>();
 					ax.add(editv.size()-1); // add the current index into the sequence
 					itmp.put(b.get(ptr2-1).text, ax);
 				}
@@ -764,15 +764,15 @@ public class Alignment {
 			}
 		}
 		//replace the del ins of same symbol with mov operation
-		Vector<Object> rv = new Vector<Object>();
+		List<Object> rv = new ArrayList<Object>();
 		
 		for(String x:dtmp.keySet())
 		{
 			if(itmp.containsKey(x))
 			{
 				//p and q are the index of the edit operation sequene the bigger, the latter
-				Vector<Integer> q = dtmp.get(x);
-				Vector<Integer> p = itmp.get(x);
+				List<Integer> q = dtmp.get(x);
+				List<Integer> p = itmp.get(x);
 				Iterator<Integer> t1 = q.iterator();//delete
 				Iterator<Integer> t2 = p.iterator();//insert
 				while(t1.hasNext()&&t2.hasNext())
@@ -815,7 +815,7 @@ public class Alignment {
 			editv.remove(o);
 		}
 		//merge the continuous same type of operations
-		Vector<EditOper> newEo = new Vector<EditOper>();
+		List<EditOper> newEo = new ArrayList<EditOper>();
 		int pre = 0;
 		for(int ptr = 1; ptr <editv.size();ptr++)
 		{
@@ -836,7 +836,7 @@ public class Alignment {
 					if(ptr-pre>1) // need to merge
 					{
 						EditOper e = editv.get(ptr-1);
-						Vector<TNode> x = new Vector<TNode>();
+						List<TNode> x = new ArrayList<TNode>();
 						e.starPos = editv.get(pre).starPos<=e.starPos?editv.get(pre).starPos:e.starPos;
 						e.endPos = editv.get(pre).endPos>=e.endPos?editv.get(pre).endPos:e.endPos;
 						for(int k = pre;k<ptr;k++)
@@ -865,7 +865,7 @@ public class Alignment {
 					if(ptr-pre>1) // need to merge
 					{
 						EditOper e = editv.get(ptr-1);
-						Vector<TNode> x = new Vector<TNode>();
+						List<TNode> x = new ArrayList<TNode>();
 						e.endPos = editv.get(pre).endPos;
 						for(int k = pre;k<ptr;k++)
 						{
@@ -893,7 +893,7 @@ public class Alignment {
 					if(ptr-pre>1) // need to merge
 					{
 						EditOper e = editv.get(ptr-1);
-						Vector<TNode> x = new Vector<TNode>();
+						List<TNode> x = new ArrayList<TNode>();
 						e.endPos = editv.get(pre).starPos;
 						for(int k = pre;k<ptr;k++)
 						{
@@ -916,18 +916,18 @@ public class Alignment {
 		return newEo;
 	}
 	//used to generate template candidate tree for sampling
-	public static void generateSubtemplate(HashMap<String,Vector<GrammarTreeNode>> container)
+	public static void generateSubtemplate(HashMap<String,List<GrammarTreeNode>> container)
 	{
 		
 	}
-	public static Vector<int[]> getParams(Vector<TNode> org,Vector<TNode> tar)
+	public static List<int[]> getParams(List<TNode> org,List<TNode> tar)
 	{
 		//specially for del,  
 		int optr = 0;
 		int tptr= 0;
 		boolean start = false;
 		int a[] = new int[2];
-		Vector<int[]> poss = new Vector<int[]>();
+		List<int[]> poss = new ArrayList<int[]>();
 		while(optr<org.size() && tptr<tar.size())
 		{
 			if(org.get(optr).sameNode(tar.get(tptr)))
@@ -959,20 +959,20 @@ public class Alignment {
 		}
 		return poss;
 	}
-	public static Vector<int[]> getParams(String sorg,String star)
+	public static List<int[]> getParams(String sorg,String star)
 	{
 		Ruler ru = new Ruler();
 		ru.setNewInput(sorg);
 		Ruler ru1 = new Ruler();
 		ru1.setNewInput(star);
-		Vector<TNode> org = ru.vec;
-		Vector<TNode> tar = ru1.vec;
+		List<TNode> org = ru.vec;
+		List<TNode> tar = ru1.vec;
 		//specially for del,  
 		int optr = 0;
 		int tptr= 0;
 		boolean start = false;
 		int a[] = new int[2];
-		Vector<int[]> poss = new Vector<int[]>();
+		List<int[]> poss = new ArrayList<int[]>();
 		while(optr<org.size() && tptr<tar.size())
 		{
 			if(org.get(optr).sameNode(tar.get(tptr)))

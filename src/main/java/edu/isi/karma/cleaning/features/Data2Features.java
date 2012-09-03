@@ -2,8 +2,9 @@ package edu.isi.karma.cleaning.features;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Vector;
+import java.util.List;
 
 import weka.core.Instances;
 import weka.core.converters.ArffSaver;
@@ -34,15 +35,15 @@ public class Data2Features {
 	}
 	//cpath is the original data file, label is the class label
 	//
-	public static Vector<String> data2CSVfeaturefile(String cpath,String label)
+	public static List<String> data2CSVfeaturefile(String cpath,String label)
 	{
 		//test the class
 		try
 		{
 			File f = new File(cpath);
-			Vector<String> row = new Vector<String>();
-			Vector<String> oexamples = new Vector<String>();
-			Vector<String> examples = new Vector<String>();
+			List<String> row = new ArrayList<String>();
+			List<String> oexamples = new ArrayList<String>();
+			List<String> examples = new ArrayList<String>();
 			CSVReader re = new CSVReader(new FileReader(f), '\t');
 			String[] line = null;
 			re.readNext();//discard the first line
@@ -51,6 +52,7 @@ public class Data2Features {
 				oexamples.add(line[0]);
 				examples.add(line[1]);
 			}
+			re.close();
 			RegularityFeatureSet rf = new RegularityFeatureSet();
 			Collection<Feature> cf = rf.computeFeatures(oexamples,examples);
 			Feature[] x = cf.toArray(new Feature[cf.size()]);
@@ -82,8 +84,8 @@ public class Data2Features {
 			
 			//xyz[0] = "name";
 			
-			Vector<String> oexamples = new Vector<String>();
-			Vector<String> examples = new Vector<String>();
+			List<String> oexamples = new ArrayList<String>();
+			List<String> examples = new ArrayList<String>();
 			RegularityFeatureSet rfs = new RegularityFeatureSet();
 			Collection<Feature> cols = rfs.computeFeatures(examples, oexamples);
 			String[] xyz = new String[rfs.fnames.size()+1];
@@ -101,7 +103,7 @@ public class Data2Features {
 				File f = pfs[i];
 				if(f.getName().indexOf(".csv")==(f.getName().length()-4))
 				{
-					Vector<String> row = Data2Features.data2CSVfeaturefile(f.getAbsolutePath(), "1");
+					List<String> row = Data2Features.data2CSVfeaturefile(f.getAbsolutePath(), "1");
 					cw.writeNext((String[])row.toArray(new String[row.size()]));
 				}
 			}
@@ -113,7 +115,7 @@ public class Data2Features {
 				File f = nfs[i];
 				if(f.getName().indexOf(".csv")==(f.getName().length()-4))
 				{
-					Vector<String> row = Data2Features.data2CSVfeaturefile(f.getAbsolutePath(), "-1");
+					List<String> row = Data2Features.data2CSVfeaturefile(f.getAbsolutePath(), "-1");
 					cw.writeNext((String[])row.toArray(new String[row.size()]));
 				}
 			}

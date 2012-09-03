@@ -24,23 +24,24 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Random;
 import java.util.Set;
-import java.util.Vector;
 
 import au.com.bytecode.opencsv.CSVReader;
 
 public class MarkovDP {
-	public Vector<MDPState> states = new Vector<MDPState>();
-	public Vector<MDPAction> policies = new Vector<MDPAction>();
+	public List<MDPState> states = new ArrayList<MDPState>();
+	public List<MDPAction> policies = new ArrayList<MDPAction>();
 	public double cta = 0.9; //discount factor
-	public Vector<GrammarParseTree> spaces = new Vector<GrammarParseTree>();
-	public Vector<Vector<TNode>> sToks = new Vector<Vector<TNode>>();
-	public Vector<Vector<TNode>> eToks = new Vector<Vector<TNode>>();
-	private static int rulecnt = 0;
+	public List<GrammarParseTree> spaces = new ArrayList<GrammarParseTree>();
+	public List<List<TNode>> sToks = new ArrayList<List<TNode>>();
+	public List<List<TNode>> eToks = new ArrayList<List<TNode>>();
+//	private static int rulecnt = 0;
 	//private static HashSet<String> tmprules = new HashSet<String>();
 	// state and its sequence of values.
 	private HashMap<MDPState,MDPState> hisStates = new HashMap<MDPState,MDPState>();
@@ -97,11 +98,11 @@ public class MarkovDP {
 	}
 	public boolean isValid()
 	{
-		Vector<Vector<TNode>> elem = states.get(states.size()-1).obs;
+		List<List<TNode>> elem = states.get(states.size()-1).obs;
 		for(int i = 0; i<elem.size(); i++)
 		{
-			Vector<TNode> x = elem.get(i);
-			Vector<TNode> y = eToks.get(i);
+			List<TNode> x = elem.get(i);
+			List<TNode> y = eToks.get(i);
 			String s1 = "";
 			String s2 = "";
 			for(TNode t:x)
@@ -123,13 +124,13 @@ public class MarkovDP {
 		String res1 = "";
 		for(MDPState a:states)
 		{
-			Vector<String> r = a.getObservation();
+			List<String> r = a.getObservation();
 			res += " , "+r.get(0);
 			res1 += " , "+r.get(1);
 		}
 		return res+"\n"+res1;
 	}
-	public MarkovDP(Vector<Vector<TNode>> s,Vector<Vector<TNode>> e,Vector<GrammarParseTree> gts)
+	public MarkovDP(List<List<TNode>> s,List<List<TNode>> e,List<GrammarParseTree> gts)
 	{
 		sToks = s;
 		eToks = e;
@@ -144,8 +145,8 @@ public class MarkovDP {
 		}
 		for(int cnt = 0; cnt <s.obs.size(); cnt ++)
 		{
-			Vector<TNode> a = s.obs.get(cnt);
-			Vector<TNode> b = eToks.get(cnt);
+			List<TNode> a = s.obs.get(cnt);
+			List<TNode> b = eToks.get(cnt);
 			int matrix[][] = new int[a.size()+1][b.size()+1];// the first row and column is kept for empty
 			// initialize the first row and column
 			int stepCost = 1;
@@ -198,10 +199,10 @@ public class MarkovDP {
 		}
 		states.add(s);
 	}
-	public Vector<String> sampleAction(int index)
+	public List<String> sampleAction(int index)
 	{
-		Vector<String> result = new Vector<String>();
-		Vector<String> tmpresult = new Vector<String>(); // if no consistent intermediate rule, use the rest
+		List<String> result = new ArrayList<String>();
+		List<String> tmpresult = new ArrayList<String>(); // if no consistent intermediate rule, use the rest
 		if(index >= spaces.size())
 		{
 			return null;
@@ -248,7 +249,7 @@ public class MarkovDP {
 		}
 		s.visitedTime += 1;
 		int actualInd = s.index+1;
-		Vector<String> res = this.sampleAction(s.index);
+		List<String> res = this.sampleAction(s.index);
 		if(res == null)
 		{
 			return value+Math.pow(cta, getDeepth()-depth)*costFun(s);
@@ -256,8 +257,8 @@ public class MarkovDP {
 		double tcost = Math.pow(cta, getDeepth()-depth)*costFun(s)+value;
 		double minnum = Double.MAX_VALUE;
 		String bestRule = "";
-		Vector<MDPState> children = new Vector<MDPState>();
-		Vector<String> rules = new Vector<String>();
+		List<MDPState> children = new ArrayList<MDPState>();
+		List<String> rules = new ArrayList<String>();
 		double totalScore = 0.0;
 		for(String crule:res)
 		{	
@@ -321,9 +322,9 @@ public class MarkovDP {
 	}
 	//sample the index according to length, the short the better
 	//length value = 1/Length
-	public static int sampleByScore(Vector<Integer> a,Vector<Integer> b)
+	public static int sampleByScore(List<Integer> a,List<Integer> b)
 	{
-		HashMap<Integer,Vector<Integer>> length2Num = new HashMap<Integer,Vector<Integer>>();
+		HashMap<Integer,List<Integer>> length2Num = new HashMap<Integer,List<Integer>>();
 		for(int i = 0;i<a.size();i++)
 		{
 			int leng = a.get(i);
@@ -331,7 +332,7 @@ public class MarkovDP {
 				length2Num.get(leng).add(i);
 			else
 			{	
-				Vector<Integer> tmp = new Vector<Integer>();
+				List<Integer> tmp = new ArrayList<Integer>();
 				tmp.add(i);
 				length2Num.put(leng, tmp);
 			}
@@ -356,11 +357,11 @@ public class MarkovDP {
 			x[i] = (x[i]/total);
 		}
 		int index = multinominalSampler(x);
-		Vector<Integer> vi = length2Num.get(sign[index]);
+		List<Integer> vi = length2Num.get(sign[index]);
 		Random r = new Random();
 		int pos = r.nextInt(vi.size());
 		return vi.get(pos);
-		/*Vector<Double> cv = new Vector<Double>();
+		/*List<Double> cv = new ArrayList<Double>();
 		double div = 0.0;
 		for(int i = 0; i<a.size(); i++)
 		{
@@ -405,8 +406,8 @@ public class MarkovDP {
 			String fp = "/Users/bowu/Research/dataclean/data/RuleData/FullChange.csv";
 			CSVReader cr = new CSVReader(new FileReader(new File(fp)),'\t');
 			String x[];
-			Vector<Vector<TNode>> orgs = new Vector<Vector<TNode>>();
-			Vector<Vector<TNode>> tars = new Vector<Vector<TNode>>();
+			List<List<TNode>> orgs = new ArrayList<List<TNode>>();
+			List<List<TNode>> tars = new ArrayList<List<TNode>>();
 			while((x=cr.readNext())!=null)
 			{
 				Ruler r1 = new Ruler();
@@ -416,21 +417,22 @@ public class MarkovDP {
 				String s2 = x[1];
 				r2.setNewInput(s2);
 				System.out.println(s1+" ===== "+s2);
-				Vector<TNode> p = r1.vec;
+				List<TNode> p = r1.vec;
 				orgs.add(p);
-				Vector<TNode> q = r2.vec;
+				List<TNode> q = r2.vec;
 				tars.add(q);
 			}
-			Vector<Vector<GrammarParseTree>> trees = RuleUtil.genGrammarTrees(orgs, tars);
-			//Vector<Vector<String>> ress = new Vector<Vector<String>>();
+			cr.close();
+			List<List<GrammarParseTree>> trees = RuleUtil.genGrammarTrees(orgs, tars);
+			//List<List<String>> ress = new ArrayList<List<String>>();
 			BufferedWriter bw = new BufferedWriter(new FileWriter(new File("/Users/bowu/mysoft/restransit.txt")));
-			Vector<String> s = new Vector<String>();
+			List<String> s = new ArrayList<String>();
 			HashSet<String> s1 = new HashSet<String>();
-			Vector<String> s2 = new Vector<String>();
+			List<String> s2 = new ArrayList<String>();
 			int corrNum = 0;
-			Vector<Integer> l = new Vector<Integer>();
-			Vector<Integer> sr = new Vector<Integer>();
-			for(Vector<GrammarParseTree> gt:trees)
+			List<Integer> l = new ArrayList<Integer>();
+			List<Integer> sr = new ArrayList<Integer>();
+			for(List<GrammarParseTree> gt:trees)
 			{
 				l.add(gt.size());
 				sr.add(1);
@@ -438,7 +440,7 @@ public class MarkovDP {
 			for(int c=0; c<200;c++)
 			{
 				int index = MarkovDP.sampleByScore(l,sr);
-				Vector<GrammarParseTree> gt = trees.get(index);
+				List<GrammarParseTree> gt = trees.get(index);
 				//System.out.println(""+gt.size());
 				try
 				{
@@ -474,13 +476,13 @@ public class MarkovDP {
 			{
 				String[] rules = s1.get(z).split("#");
 				//System.out.println(""+s1);
-				Vector<String> xr = new Vector<String>();
+				List<String> xr = new ArrayList<String>();
 				for(int t = 0; t< rules.length; t++)
 				{
 					if(rules[t].length()!=0)
 						xr.add(rules[t]);
 				}
-				Vector<String> tres = RuleUtil.applyRuleF(xr, "/Users/bowu/Research/dataclean/data/RuleData/rawdata/50_satallite_name.txt");
+				List<String> tres = RuleUtil.applyRuleF(xr, "/Users/bowu/Research/dataclean/data/RuleData/rawdata/50_satallite_name.txt");
 				rv.addColumn(tres);
 			}*/
 			for(int i = 0; i<s.size();i++)
@@ -504,8 +506,8 @@ public class MarkovDP {
 class MDPState{
 	int index = 0;
 	int visitedTime = 0;
-	Vector<Vector<TNode>> obs = new Vector<Vector<TNode>>();
-	public Vector<Double> hisScore = new Vector<Double>();
+	List<List<TNode>> obs = new ArrayList<List<TNode>>();
+	public List<Double> hisScore = new ArrayList<Double>();
 	public double totalScore = 0.0;
 	public double initConst = 12.0;
 	public MDPState()
@@ -516,7 +518,7 @@ class MDPState{
 		this.hisScore.add(s);
 		this.totalScore += s;
 	}
-	public boolean isObsequal(Vector<Vector<TNode>> x)
+	public boolean isObsequal(List<List<TNode>> x)
 	{
 		if((obs.size() != x.size())||x.size() == 0)
 		{
@@ -565,7 +567,7 @@ class MDPState{
 		res += index;
 		return res.hashCode();
 	}
-	public MDPState(Vector<Vector<TNode>> toks,int index)
+	public MDPState(List<List<TNode>> toks,int index)
 	{
 		obs = toks;
 		this.index = index;
@@ -577,14 +579,14 @@ class MDPState{
 		//System.out.println(obs.size()+"  "+this.getObservation());
 		for(int i = 0; i<obs.size(); i++)
 		{
-			Vector<TNode> nt = RuleUtil.applyRule(rule, (Vector<TNode>)this.obs.get(i).clone());
+			List<TNode> nt = RuleUtil.applyRule(rule, new ArrayList<TNode>(this.obs.get(i)));
 			if(nt == null)
 				return null;
 			newState.obs.add(nt);
 		}
 		return newState;
 	}
-	public void updateToks(int index,Vector<TNode> x)
+	public void updateToks(int index,List<TNode> x)
 	{
 		this.obs.set(index, x);
 	}
@@ -592,9 +594,9 @@ class MDPState{
 	{
 		this.index = index;
 	}
-	public Vector<String> getObservation()
+	public List<String> getObservation()
 	{
-		Vector<String> s = new Vector<String>();
+		List<String> s = new ArrayList<String>();
 		for(int i=0;i<obs.size();i++)
 		{
 			String res = "";

@@ -2,7 +2,8 @@
 
   // We want the generated parser class to be in this package.
   package edu.isi.karma.cleaning.changed_grammar;
-  import java.util.Vector;
+  import java.util.ArrayList;
+import java.util.List;
 
 import org.antlr.runtime.BitSet;
 import org.antlr.runtime.NoViableAltException;
@@ -78,7 +79,7 @@ public TreeAdaptor getTreeAdaptor() {
     	Ruler ruler;
     	
     	//handle input Tokensequence
-    	Vector<TNode> vec = new Vector<TNode>();
+    	List<TNode> vec = new ArrayList<TNode>();
     	/*set the ruler*/
     	public void setRuler(Ruler r)
     	{
@@ -171,14 +172,14 @@ public TreeAdaptor getTreeAdaptor() {
 
 
     public static class what_return extends TreeRuleReturnScope {
-        public Vector<TNode> res;
+        public List<TNode> res;
         CommonTree tree;
         public Object getTree() { return tree; }
     };
 
 
     // $ANTLR start "what"
-    // INSInterpreterTree.g:48:1: what returns [Vector<TNode> res] : tokenspec ;
+    // INSInterpreterTree.g:48:1: what returns [List<TNode> res] : tokenspec ;
     public final INSInterpreterTree.what_return what() throws RecognitionException {
         INSInterpreterTree.what_return retval = new INSInterpreterTree.what_return();
         retval.start = input.LT(1);
@@ -230,14 +231,14 @@ public TreeAdaptor getTreeAdaptor() {
 
 
     public static class tokenspec_return extends TreeRuleReturnScope {
-        public Vector<TNode> res;
+        public List<TNode> res;
         CommonTree tree;
         public Object getTree() { return tree; }
     };
 
 
     // $ANTLR start "tokenspec"
-    // INSInterpreterTree.g:50:1: tokenspec returns [Vector<TNode> res] : singletokenspec[toks] ( singletokenspec[toks] )* ;
+    // INSInterpreterTree.g:50:1: tokenspec returns [List<TNode> res] : singletokenspec[toks] ( singletokenspec[toks] )* ;
     public final INSInterpreterTree.tokenspec_return tokenspec() throws RecognitionException {
         INSInterpreterTree.tokenspec_return retval = new INSInterpreterTree.tokenspec_return();
         retval.start = input.LT(1);
@@ -254,7 +255,7 @@ public TreeAdaptor getTreeAdaptor() {
 
 
 
-         Vector<TNode> toks = new Vector<TNode>(); 
+         List<TNode> toks = new ArrayList<TNode>(); 
         try {
             // INSInterpreterTree.g:52:2: ( singletokenspec[toks] ( singletokenspec[toks] )* )
             // INSInterpreterTree.g:52:4: singletokenspec[toks] ( singletokenspec[toks] )*
@@ -325,14 +326,14 @@ public TreeAdaptor getTreeAdaptor() {
 
 
     public static class dtokenspec_return extends TreeRuleReturnScope {
-        public Vector<TNode> res;
+        public List<TNode> res;
         CommonTree tree;
         public Object getTree() { return tree; }
     };
 
 
     // $ANTLR start "dtokenspec"
-    // INSInterpreterTree.g:53:1: dtokenspec returns [Vector<TNode> res] : singletokenspec[toks] ( singletokenspec[toks] )* ;
+    // INSInterpreterTree.g:53:1: dtokenspec returns [List<TNode> res] : singletokenspec[toks] ( singletokenspec[toks] )* ;
     public final INSInterpreterTree.dtokenspec_return dtokenspec() throws RecognitionException {
         INSInterpreterTree.dtokenspec_return retval = new INSInterpreterTree.dtokenspec_return();
         retval.start = input.LT(1);
@@ -349,7 +350,7 @@ public TreeAdaptor getTreeAdaptor() {
 
 
 
-         Vector<TNode> toks = new Vector<TNode>(); 
+         List<TNode> toks = new ArrayList<TNode>(); 
         try {
             // INSInterpreterTree.g:55:2: ( singletokenspec[toks] ( singletokenspec[toks] )* )
             // INSInterpreterTree.g:55:4: singletokenspec[toks] ( singletokenspec[toks] )*
@@ -426,8 +427,8 @@ public TreeAdaptor getTreeAdaptor() {
 
 
     // $ANTLR start "singletokenspec"
-    // INSInterpreterTree.g:56:1: singletokenspec[Vector<TNode> tokspec] : ( token | type );
-    public final INSInterpreterTree.singletokenspec_return singletokenspec(Vector<TNode> tokspec) throws RecognitionException {
+    // INSInterpreterTree.g:56:1: singletokenspec[List<TNode> tokspec] : ( token | type );
+    public final INSInterpreterTree.singletokenspec_return singletokenspec(List<TNode> tokspec) throws RecognitionException {
         INSInterpreterTree.singletokenspec_return retval = new INSInterpreterTree.singletokenspec_return();
         retval.start = input.LT(1);
 

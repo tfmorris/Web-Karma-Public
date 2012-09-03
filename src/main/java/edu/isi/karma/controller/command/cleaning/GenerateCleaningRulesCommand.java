@@ -28,7 +28,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-import java.util.Vector;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -51,7 +50,7 @@ import edu.isi.karma.view.VWorkspace;
 
 public class GenerateCleaningRulesCommand extends WorksheetCommand {
 	final String hNodeId;
-	private Vector<TransformationExample> examples;
+	private List<TransformationExample> examples;
 	RamblerTransformationInputs inputs;
 
 	public GenerateCleaningRulesCommand(String id, String worksheetId, String hNodeId, String examples) {
@@ -60,9 +59,9 @@ public class GenerateCleaningRulesCommand extends WorksheetCommand {
 		this.examples = this.parseExample(examples);
 		
 	}
-	public Vector<TransformationExample> parseExample(String example)
+	public List<TransformationExample> parseExample(String example)
 	{
-		Vector<TransformationExample> x = new Vector<TransformationExample>();
+		List<TransformationExample> x = new ArrayList<TransformationExample>();
 		try
 		{
 			JSONArray jsa = new JSONArray(example);
@@ -107,18 +106,18 @@ public class GenerateCleaningRulesCommand extends WorksheetCommand {
 		return CommandType.undoable;
 	}
 	
-	private static Vector<String> getTopK(Set<String> res,int k)
+	private static List<String> getTopK(Set<String> res,int k)
 	{
-		String trainPath = "./grammar/features.arff";
-		Vector<String> vs = new Vector<String>();
 		//
 		String[] x = (String[])res.toArray(new String[res.size()]);
 		/*System.out.println(""+x);
-		Vector<Double> scores = UtilTools.getScores(x, trainPath);
+		String trainPath = "./grammar/features.arff";
+		List<String> vs = new ArrayList<String>();
+		List<Double> scores = UtilTools.getScores(x, trainPath);
 		System.out.println("Scores: "+scores);
-		Vector<Integer> ins =UtilTools.topKindexs(scores, k);
+		List<Integer> ins =UtilTools.topKindexs(scores, k);
 		System.out.println("Indexs: "+ins);*/
-		Vector<String> y = new Vector<String>();
+		List<String> y = new ArrayList<String>();
 		for(int i = 0; i<k&&i<x.length;i++)
 		{
 			y.add(x[i]);
@@ -162,9 +161,9 @@ public class GenerateCleaningRulesCommand extends WorksheetCommand {
 			iterNum ++;
 		}
 		Iterator<String> iter = rtf.getTransformations().keySet().iterator();
-		Vector<ValueCollection> vvc = new Vector<ValueCollection>();
-		HashMap<String,Vector<String>> js2tps = new HashMap<String,Vector<String>>();
-		int index = 0;
+		List<ValueCollection> vvc = new ArrayList<ValueCollection>();
+		HashMap<String,List<String>> js2tps = new HashMap<String,List<String>>();
+//		int index = 0;
 		while(iter.hasNext())
 		{
 			String tpid = iter.next();
@@ -177,13 +176,13 @@ public class GenerateCleaningRulesCommand extends WorksheetCommand {
 			}
 			else
 			{
-				Vector<String> tps = new Vector<String>();
+				List<String> tps = new ArrayList<String>();
 				tps.add(tpid);
 				js2tps.put(reps, tps);
 			}
 		}
 		////////
-		Vector<String> jsons = new Vector<String>();
+		List<String> jsons = new ArrayList<String>();
 		if(js2tps.keySet().size()!=0)
 		{
 			jsons = getTopK(js2tps.keySet(), 50);
@@ -218,7 +217,7 @@ public class GenerateCleaningRulesCommand extends WorksheetCommand {
 					int isadded = 0;
 					HashMap<String,String> tx = new HashMap<String,String>();
 					int i = 0;
-					Vector<TransformationExample> vrt = new Vector<TransformationExample>();
+					List<TransformationExample> vrt = new ArrayList<TransformationExample>();
 					while ((pair=cr.readNext())!=null)
 					{
 						
@@ -231,15 +230,16 @@ public class GenerateCleaningRulesCommand extends WorksheetCommand {
 							isadded ++;
 						}
 						i++;
-					}				
+					}
+					cr.close();
 					RamblerValueCollection vc = new RamblerValueCollection(tx);
 					RamblerTransformationInputs inputs = new RamblerTransformationInputs(vrt, vc);
 					//generate the program
 					RamblerTransformationOutput rtf = new RamblerTransformationOutput(inputs);
-					HashMap<String,Vector<String>> js2tps = new HashMap<String,Vector<String>>();
+					HashMap<String,List<String>> js2tps = new HashMap<String,List<String>>();
 					Iterator<String> iter = rtf.getTransformations().keySet().iterator();
-					Vector<ValueCollection> vvc = new Vector<ValueCollection>();
-					int index = 0;
+					List<ValueCollection> vvc = new ArrayList<ValueCollection>();
+//					int index = 0;
 					while(iter.hasNext())
 					{
 						String tpid = iter.next();
@@ -252,7 +252,7 @@ public class GenerateCleaningRulesCommand extends WorksheetCommand {
 						}
 						else
 						{
-							Vector<String> tps = new Vector<String>();
+							List<String> tps = new ArrayList<String>();
 							tps.add(tpid);
 							js2tps.put(reps, tps);
 						}
@@ -263,7 +263,7 @@ public class GenerateCleaningRulesCommand extends WorksheetCommand {
 						System.out.println("No Rules have been found");
 						return; 
 					}
-					Vector<String> jsons = getTopK(js2tps.keySet(), 3);
+					List<String> jsons = getTopK(js2tps.keySet(), 3);
 					for(String s:jsons)
 					{
 						System.out.println(""+s);

@@ -23,7 +23,7 @@ package edu.isi.karma.cleaning;
 import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Vector;
+import java.util.List;
 
 import org.antlr.runtime.ANTLRStringStream;
 import org.antlr.runtime.CharStream;
@@ -51,7 +51,8 @@ public class ReducedGrammar {
 			String fname = gfpath;
 			FileInputStream   file   =   new   FileInputStream(fname); 
 			byte[]   buf   =   new   byte[file.available()];     
-			file.read(buf,   0,   file.available());   // 
+			file.read(buf,   0,   file.available());
+			file.close();
 			String   str   =   new   String(buf); 
 			CharStream cs =  new ANTLRStringStream(str);
 			GrammarparserLexer lexer = new GrammarparserLexer(cs);
@@ -77,12 +78,12 @@ public class ReducedGrammar {
 	//tar is the transformed tokensequence
 	//opers are the operations done with the position information and token sequence information.
 	//these operations are equivalent  to each other.
-	public void addExample(Vector<TNode> org,Vector<TNode> tar,Vector<EditOper> opers)
+	public void addExample(List<TNode> org,List<TNode> tar,List<EditOper> opers)
 	{
 	}
 	//converst parse tree into arrayList<ArrrayList<String>>
 	//should be called when parsering the tree
-	public void handletokenspec(Vector<TNode> sequence,String nonterm)
+	public void handletokenspec(List<TNode> sequence,String nonterm)
 	{
 		try
 		{

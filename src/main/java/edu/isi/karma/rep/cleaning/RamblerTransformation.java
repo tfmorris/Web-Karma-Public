@@ -20,20 +20,21 @@
  ******************************************************************************/
 package edu.isi.karma.rep.cleaning;
 
-import java.util.Vector;
+import java.util.ArrayList;
+import java.util.List;
 
 import edu.isi.karma.cleaning.RuleUtil;
 
 
 public class RamblerTransformation implements Transformation {
 
-	private Vector<String> rules = new Vector<String>();
+	private List<String> rules = new ArrayList<String>();
 	public String signature = "";
-	public RamblerTransformation(Vector<String> rules)
+	public RamblerTransformation(List<String> rules)
 	{
 		this.setTransformationRules(rules);
 	}
-	public void setTransformationRules(Vector<String> rules)
+	public void setTransformationRules(List<String> rules)
 	{
 		this.rules = rules;
 		for(int i = 0; i< rules.size(); i++)
