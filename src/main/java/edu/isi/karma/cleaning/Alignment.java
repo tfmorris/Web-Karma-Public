@@ -1015,11 +1015,9 @@ class AlignObj
 		this.index = index;
 	}
 }
-class Comparator1 implements Comparator{
-	public int compare(Object ob1,Object ob2)
+class Comparator1 implements Comparator<EditOper>{
+	public int compare(EditOper x,EditOper y)
 	{
-		EditOper x = (EditOper)ob1;
-		EditOper y = (EditOper)ob2;
 		if(x.dest > y.dest)
 		{
 			return 1;
