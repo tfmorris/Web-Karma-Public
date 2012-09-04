@@ -73,11 +73,8 @@ public class RelationPredicate extends Predicate{
 	 */
 	public RelationPredicate clone(){
 		RelationPredicate p = new RelationPredicate(name);
-		for(int i=0; i<terms.size(); i++){
-			Term t = terms.get(i);
-			p.addTerm(t.clone());
-		}
-		p.source=source;
+		p.copy(this);
+		p.source = this.source;
 		return p;
 	}
 

@@ -29,8 +29,8 @@ import edu.isi.mediator.gav.util.MediatorUtil;
  * @author mariam
  *
  */
-public abstract class Term{
-	
+public abstract class Term implements Cloneable {
+
 	/**
 	 * variable name
 	 */
@@ -48,14 +48,23 @@ public abstract class Term{
 	 */
 	protected Visible isAllowedAfterUAC = Visible.NOT_SET;
 	public enum Visible{TRUE,FALSE,NOT_SET};
-	
+
+
+	public void copy(Term source) {
+		this.var = source.var;
+		this.queryName = source.queryName;
+		this.isAllowedAfterUAC = source.isAllowedAfterUAC;
+	}
+
 	/* (non-Javadoc)
 	 * @see java.lang.Object#clone()
 	 */
+	@Override
 	public abstract Term clone();
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
+	@Override
 	public abstract String toString();
 	/**
 	 * Two terms are equal if the var and the val are equal
@@ -64,7 +73,7 @@ public abstract class Term{
 	 * 		true if this term is equal to t
 	 */
 	public abstract boolean equals(Term t);
-	
+
 	/**
 	 * Returns true if the source attribute associated with this term needs binding.
 	 * @param b
@@ -93,7 +102,7 @@ public abstract class Term{
 	 * @throws MediatorException
 	 */
 	public String getSqlValNoType() throws MediatorException{return null;}
-	
+
 	////////////for UAC
 	/**
 	 * Sets isAllowedAfterUAC.
@@ -105,30 +114,34 @@ public abstract class Term{
 		Visible v;
 		if(b==true){
 			v=Visible.TRUE;
+		}else{
+			v=Visible.FALSE;
 		}
-		else v=Visible.FALSE;
-		
-		if(isAllowedAfterUAC==Visible.NOT_SET || isAllowedAfterUAC==Visible.FALSE)
+
+		if(isAllowedAfterUAC==Visible.NOT_SET || isAllowedAfterUAC==Visible.FALSE){
 			isAllowedAfterUAC=v;
+		}
 		//else if I already determined that it is allowed just leave it alone
 		//it will be allowed even if it is not allowed from other concepts
 		//if not allowed from a _none_ concept I will see only vals from the visible concept
 		//if from _none_but_joinable_ it will join, so I will see only the joined values, so OK
 		//same if I have partial values visible, there will be a join
 	}
-	
+
 	/**
 	 * @return
 	 * 		true if isAllowedAfterUAC==Visible.NOT_SET || isAllowedAfterUAC==Visible.TRUE
 	 * 		false otherwise
 	 */
 	public boolean isAllowed(){
-		if(isAllowedAfterUAC==Visible.NOT_SET || isAllowedAfterUAC==Visible.TRUE)
+		if(isAllowedAfterUAC==Visible.NOT_SET || isAllowedAfterUAC==Visible.TRUE){
 			return true;
-		else return false;
+		}else{
+			return false;
+		}
 	}
 	/////////////////////////////////////////////
-	
+
 	//for VarTerm=var & ConstTerm=val
 	/**
 	 * @return
@@ -138,7 +151,7 @@ public abstract class Term{
 	public String getTermValue(){
 		return var;
 	}
-	
+
 	/**
 	 * @return
 	 * 		var
@@ -152,7 +165,7 @@ public abstract class Term{
 	 * 		null otherwise
 	 */
 	public String getVal(){return null;}
-	
+
 	/**
 	 * @return
 	 * 		queryName
@@ -183,10 +196,11 @@ public abstract class Term{
 	 * 		an integer used to construct the name.
 	 */
 	public void changeVarName(int index){
-		if(var!=null)
+		if(var!=null){
 			var = var + "_unique" + index;
+		}
 	}
-	
+
 	/**
 	 * Unify this term.
 	 * @param binding
@@ -211,6 +225,6 @@ public abstract class Term{
 		}
 		return this;
 	}
-	
+
 }
 

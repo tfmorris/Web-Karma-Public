@@ -58,11 +58,8 @@ public class FunctionPredicate extends RelationPredicate{
 	 */
 	public FunctionPredicate clone(){
 		FunctionPredicate p = new FunctionPredicate(name);
-		for(int i=0; i<terms.size(); i++){
-			Term t = terms.get(i);
-			p.addTerm(t.clone());
-		}
-		p.source=source;
+		p.copy(this);
+		p.source=this.source;
 		return p;
 	}
 	

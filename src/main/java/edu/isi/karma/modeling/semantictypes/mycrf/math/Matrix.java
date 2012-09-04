@@ -34,7 +34,7 @@ import edu.isi.karma.modeling.semantictypes.myutils.Prnt;
  * @author amangoel
  *
  */
-public class Matrix {
+public class Matrix implements Cloneable {
 	
 	int numOfRows ;
 	int numOfCols ;

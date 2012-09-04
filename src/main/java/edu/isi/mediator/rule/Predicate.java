@@ -36,7 +36,7 @@ import edu.isi.mediator.gav.util.MediatorUtil;
  * @author mariam
  *
  */
-public abstract class Predicate{
+public abstract class Predicate implements Cloneable {
 	
 	protected String name;
 	protected ArrayList<Term> terms = new ArrayList<Term>();
@@ -47,6 +47,11 @@ public abstract class Predicate{
 	 */
 	private boolean isDomainPredicate = false;
 	
+	public void copy(Predicate source) {
+	    this.name = source.name;
+	    this.terms = new ArrayList<Term>(source.terms);
+	    this.isDomainPredicate = source.isDomainPredicate;
+	}
 	public abstract Predicate clone();
 	public abstract String toString();
 
@@ -260,8 +265,13 @@ public abstract class Predicate{
 	 * 			<br>false otherwise
 	 * 			<br>Two predicates are equal if the name is equals and all terms are equals
 	 */
-	public boolean equals(Predicate p){
-		//System.out.println("Compare " + this + " and " + p);		
+	@Override
+	public boolean equals(Object other){
+	    if (other == null || !(other instanceof Predicate)) {
+	        return false;
+	    }
+	    Predicate p = (Predicate) other;
+		//System.out.println("Compare " + this + " and " + p1);
 		if(!p.getName().equals(name))
 			return false;
 		//if different number of terms, can't be a UNION
@@ -278,12 +288,9 @@ public abstract class Predicate{
 		return true;
 	}
 	
-	/* (non-Javadoc)
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
-	public boolean equals(Object p){
-		//System.out.println("Compare OBJECT" + this + " and " + p);		
-		return this.equals((Predicate)p);
+	@Override
+	public int hashCode() {
+	    return this.getName().hashCode() + this.terms.size();
 	}
 	
 	/**

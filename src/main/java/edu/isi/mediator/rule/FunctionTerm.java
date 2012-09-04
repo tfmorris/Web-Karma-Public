@@ -59,10 +59,8 @@ public class FunctionTerm extends Term{
 	 */
 	public FunctionTerm clone(){
 		FunctionTerm t = new FunctionTerm();
-		t.var = var;
-		t.queryName = queryName;
+		t.copy(this);
 		t.function=function.clone();
-		t.isAllowedAfterUAC=isAllowedAfterUAC;
 		return t;
 	}
 
@@ -123,11 +121,7 @@ public class FunctionTerm extends Term{
 	 */
 	public boolean equals(Term t){
 		//System.out.println("Equal term : " + this + " and " + t);
-		if(!(t instanceof FunctionTerm))
-			return false;
-		if(function.equals(((FunctionTerm)t).function))
-				return true;
-		else return false;
+	    return t instanceof FunctionTerm && function.equals(((FunctionTerm)t).function);
 	}
 	
 	/* (non-Javadoc)

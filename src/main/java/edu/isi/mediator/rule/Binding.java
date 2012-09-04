@@ -34,7 +34,7 @@ import edu.isi.mediator.gav.util.MediatorUtil;
  * Support class for unification.
  * @author mariam
  */
-public class Binding{
+public class Binding implements Cloneable {
 	
 	//key = rule var; val = query var/or constant
 	/**

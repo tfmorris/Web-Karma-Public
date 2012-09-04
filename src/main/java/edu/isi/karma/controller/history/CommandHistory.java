@@ -48,7 +48,7 @@ import edu.isi.karma.view.VWorkspace;
  * @author szekely
  * 
  */
-public class CommandHistory {
+public class CommandHistory implements Cloneable {
 
 	private final ArrayList<Command> history = new ArrayList<Command>();
 

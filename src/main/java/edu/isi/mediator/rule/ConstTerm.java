@@ -84,10 +84,8 @@ public class ConstTerm extends Term{
 	 */
 	public ConstTerm clone(){
 		ConstTerm t = new ConstTerm();
+		t.copy(this);
 		t.val=val;
-		t.var=var;
-		t.queryName = queryName;
-		t.isAllowedAfterUAC=isAllowedAfterUAC;
 		return t;
 	}
 
@@ -129,23 +127,16 @@ public class ConstTerm extends Term{
 	 */
 	public boolean equals(Term t){
 		//System.out.println("Equal term : " + this + " and " + t);
-		String var1, var2;
-		if(var==null)
-			var1="null";
-		else var1=var;
-		
-		if(t.var==null)
-			var2="null";
-		else var2=t.var;
-
-		if(!(t instanceof ConstTerm))
-			return false;
-		if(val.equals(((ConstTerm)t).val) && var1.equals(var2)){
-				return true;
-		}
-		else return false;
+	    return t instanceof ConstTerm && ((t.var == null && this.var == null) || this.var.equals(t.var));
 	}
 	
+	private String unquote(String s) {
+	       if(s.startsWith("\"") || s.startsWith("'")) {
+	            return s.substring(1, s.length()-1);
+	       } else {
+	           return s;
+	       }
+	}
 	/**
 	 * Checks equality of VALUE.
 	 * @param t
@@ -155,17 +146,9 @@ public class ConstTerm extends Term{
 	 */
 	public boolean equalsValue(ConstTerm t){
 		
-		String newV1=val, newV2=t.val;
-		if(newV1.startsWith("\"") || newV1.startsWith("'"))
-			newV1 = newV1.substring(1, newV1.length()-1);
-
-		if(newV2.startsWith("\"") || newV2.startsWith("'"))
-			newV2 = newV2.substring(1, newV2.length()-1);
-
-		if(newV1.equals(newV2)){
-			return true;
-		}
-		else return false;
+	    return t != null 
+	            && ((t.val == null && this.val == null) 
+	                    || unquote(t.val).equals(unquote(this.val)));
 	}
 
 	/* (non-Javadoc)
@@ -288,11 +271,13 @@ public class ConstTerm extends Term{
 	 * 		input value otherwise
 	 */
 	private String normalizeVal(String val){
-		if(val==null)
+		if(val==null) {
 			return MediatorConstants.NULL_VALUE;
-		else if(val.toUpperCase().equals(MediatorConstants.NULL_VALUE))
+		} else if(val.toUpperCase().equals(MediatorConstants.NULL_VALUE)) {
 			return MediatorConstants.NULL_VALUE;
-		else return val;
+		} else {
+		    return val;
+		}
 	}
 	
 	/* (non-Javadoc)

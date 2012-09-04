@@ -31,7 +31,7 @@ import edu.isi.mediator.gav.util.MediatorConstants;
  * Defines a BuiltInPredicate (equality, lessThan, like, etc.)
  * Example: (X >= 5) (Y like 'foo')
  */
-public class BuiltInPredicate extends Predicate{
+public class BuiltInPredicate extends Predicate {
 		
 	/**
 	 * true if this equality predicate is represented as an Assign operator in the query graph.
@@ -59,11 +59,8 @@ public class BuiltInPredicate extends Predicate{
 	 */
 	public BuiltInPredicate clone(){
 		BuiltInPredicate p = new BuiltInPredicate(name);
-		for(int i=0; i<terms.size(); i++){
-			Term t = terms.get(i);
-			p.addTerm(t.clone());
-		}
-		p.isAssignment=isAssignment;
+		p.copy(this);
+		p.isAssignment = this.isAssignment;
 		return p;
 	}
 	

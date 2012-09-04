@@ -56,9 +56,7 @@ public class VarTerm extends Term{
 	 */
 	public VarTerm clone(){
 		VarTerm t = new VarTerm();
-		t.var = var;
-		t.queryName = queryName;
-		t.isAllowedAfterUAC=isAllowedAfterUAC;
+		t.copy(this);
 		return t;
 	}
 	
@@ -66,11 +64,7 @@ public class VarTerm extends Term{
 	 * @see edu.isi.mediator.gav.domain.Term#equals(edu.isi.mediator.gav.domain.Term)
 	 */
 	public boolean equals(Term t){
-		if(!(t instanceof VarTerm))
-			return false;
-		if(var.equals(t.var))
-			return true;
-		else return false;
+	    return t instanceof VarTerm && var.equals(t.var);
 	}
 	
 	/**
