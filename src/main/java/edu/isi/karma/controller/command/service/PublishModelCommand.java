@@ -99,8 +99,9 @@ public class PublishModelCommand extends Command{
 			logger.info("The worksheet does not have a service object.");
 //			return new UpdateContainer(new ErrorUpdate(
 //				"Error occured while publishing the model. The worksheet does not have a service object."));
-		} else
+		}else{
 			service = wk.getMetadataContainer().getService();
+		}
 		
 		AlignmentManager mgr = AlignmentManager.Instance();
 		String alignmentId = mgr.constructAlignmentId(ws.getId(), vWorksheetId);
@@ -108,24 +109,28 @@ public class PublishModelCommand extends Command{
 		
 		if (al == null) { 
 			logger.error("The alignment model is null.");
-			if (service == null)
+			if (service == null){
 				return new UpdateContainer(new ErrorUpdate(
 					"Error occured while publishing the source. The alignment model is null."));
+			}
 		} 
 		
 		DirectedWeightedMultigraph<Vertex, LabeledWeightedEdge> tree = null;
-		if (al != null) 
+		if (al != null){
 			tree = al.getSteinerTree();
+		}
 		
 		if (tree == null) { 
 			logger.error("The alignment tree is null.");
-			if (service == null)
+			if (service == null){
 				return new UpdateContainer(new ErrorUpdate(
 					"Error occured while publishing the source. The alignment tree is null."));
+			}
 		}
 		
-		if (service != null) service.updateModel(tree);
-		else {
+		if (service != null){
+			service.updateModel(tree);
+		}else {
 			source = new Source(wk.getTitle(), tree);
 			MetadataContainer metaData = wk.getMetadataContainer();
 			if (metaData == null) {
@@ -193,15 +198,17 @@ public class PublishModelCommand extends Command{
 			logger.error("The worksheet does not have a service object.");
 //			return new UpdateContainer(new ErrorUpdate(
 //				"Error occured while deleting the model. The worksheet does not have a service object."));
-		} else
+		}else{
 			service = wk.getMetadataContainer().getService();
+		}
 		
 		if (!wk.containSource()) { 
 			logger.error("The worksheet does not have a source object.");
 //			return new UpdateContainer(new ErrorUpdate(
 //				"Error occured while deleting the model. The worksheet does not have a source object."));
-		} else
+		}else{
 			source = wk.getMetadataContainer().getSource();
+		}
 		
 		try {
 

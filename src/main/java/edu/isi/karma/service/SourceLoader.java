@@ -62,12 +62,14 @@ public class SourceLoader {
 		
 		try {
 		if (f.exists()) {
-			if (!f.delete())
+			if (!f.delete()){
 				logger.debug("The file " + fileName + " cannot be deleted from " + dir);
-			else
+			}else{
 				logger.debug("The file " + fileName + " has been deleted from " + dir);
-		} else
+			}
+		}else{
 			logger.debug("The file " + fileName + " does not exist in " + dir);
+		}
 		} catch (Throwable t) {
 			logger.debug("cannot delete the file " + fileName + " from " + dir + " because " + t.getMessage());
 		}
@@ -77,8 +79,9 @@ public class SourceLoader {
 	public static Source getSourceByUri(String uri) {
 		
 		Model m = Repository.Instance().getNamedModel(uri);
-		if (m == null)
+		if (m == null){
 			return null;
+		}
 
 		Source source = getSourceFromJenaModel(m);
 		return source;
@@ -108,7 +111,9 @@ public class SourceLoader {
 			"      } \n";
 		
 		if (sourceLimit != null) {
-			if (sourceLimit.intValue() < 0) sourceLimit = DEFAULT_SOURCE_RESULTS_SIZE;
+			if (sourceLimit.intValue() < 0){
+				sourceLimit = DEFAULT_SOURCE_RESULTS_SIZE;
+			}
 			queryString += "LIMIT " + String.valueOf(sourceLimit.intValue() + "\n");
 		}
 		
@@ -121,8 +126,9 @@ public class SourceLoader {
 		try {
 			ResultSet results = qexec.execSelect() ;
 			
-			if (!results.hasNext())
+			if (!results.hasNext()){
 				logger.info("query does not return any answer.");
+			}
 
 //			ResultSetFormatter.out(System.out, results, query) ;
 			 
@@ -143,13 +149,16 @@ public class SourceLoader {
 
 				logger.debug("source uri: " + source_uri);
 				logger.debug("source id: " + source_id);
-				if (name != null && name.isLiteral()) source_name = name.asLiteral().getString();
+				if (name != null && name.isLiteral()){
+					source_name = name.asLiteral().getString();
+				}
 				logger.debug("source name: " + source_name);
 				
-				if (source_id.trim().length() > 0)
+				if (source_id.trim().length() > 0){
 					sourceList.add(new Source(source_id, source_name));
-				else
+				}else{
 					logger.info("length of source id is zero.");
+				}
 			}
 			
 			return sourceList;
@@ -200,13 +209,15 @@ public class SourceLoader {
 		Map<String, Map<String, String>> sourceIdsAndMappings =
 			semanticModel.findInJenaModel(Repository.Instance().getModel(), sourceLimit);
 		
-		if (sourceIdsAndMappings == null)
+		if (sourceIdsAndMappings == null){
 			return null;
+		}
 		
 		for (String sourceId : sourceIdsAndMappings.keySet()) {
 			Model m = Repository.Instance().getNamedModel(sourceId);
-			if (m != null)
+			if (m != null){
 				sourcesAndMappings.put(getSourceFromJenaModel(m), sourceIdsAndMappings.get(sourceId));
+			}
 		}
 		
 		return sourcesAndMappings;
@@ -234,14 +245,16 @@ public class SourceLoader {
 			
 			edu.isi.karma.service.Model m = source.getModel();
 
-			if (m == null)
+			if (m == null){
 				continue;
+			}
 			
 			Map<String, Map<String, String>> sourceIdsAndMappings =
 				m.findInJenaModel(jenaModel, null);
 			
-			if (sourceIdsAndMappings == null)
+			if (sourceIdsAndMappings == null){
 				continue;
+			}
 			
 			Iterator<String> itr = sourceIdsAndMappings.keySet().iterator();
 			if (itr.hasNext()) {
@@ -292,8 +305,9 @@ public class SourceLoader {
 		if (nodeIterator.hasNext() && (node = nodeIterator.next()).isLiteral()) {
 			source_name = node.asLiteral().getString();
 			logger.debug("source name: " + source_name);
-		} else
+		}else{
 			logger.debug("source does not have a name.");
+		}
 		
 		Source source = new Source(source_id);
 		source.setName(source_name);
@@ -374,8 +388,9 @@ public class SourceLoader {
 		if (nodeIterator.hasNext() && (node = nodeIterator.next()).isLiteral()) {
 			att_name = node.asLiteral().getString();
 			logger.debug("attribute name: " + att_name);
-		} else
+		}else{
 			logger.debug("attribute does not have a name.");
+		}
 		
 		Attribute att = new Attribute(att_id, att_resource.getNameSpace(), att_name, IOType.NONE, AttributeRequirement.NONE);
 		
@@ -489,10 +504,11 @@ public class SourceLoader {
 			argument1Id = node.asResource().getLocalName();
 			logger.debug("The atom argument1 is: " + argument1Id);
 			
-			if (isInstanceOfTheClass(node.asResource(), attribute))
+			if (isInstanceOfTheClass(node.asResource(), attribute)){
 				argument1Type = ArgumentType.ATTRIBUTE;
-			else if (isInstanceOfTheClass(node.asResource(), variable))
+			}else if (isInstanceOfTheClass(node.asResource(), variable)){
 				argument1Type = ArgumentType.VARIABLE;
+			}
 			
 		} else {
 			logger.info("atom does not have an argument1.");
@@ -548,10 +564,11 @@ public class SourceLoader {
 			argument1Id = node.asResource().getLocalName();
 			logger.debug("The atom argument1 is: " + argument1Id);
 			
-			if (isInstanceOfTheClass(node.asResource(), attribute))
+			if (isInstanceOfTheClass(node.asResource(), attribute)){
 				argument1Type = ArgumentType.ATTRIBUTE;
-			else if (isInstanceOfTheClass(node.asResource(), variable))
+			}else if (isInstanceOfTheClass(node.asResource(), variable)){
 				argument1Type = ArgumentType.VARIABLE;
+			}
 			
 		} else {
 			logger.info("atom does not have an argument1.");
@@ -564,10 +581,11 @@ public class SourceLoader {
 			argument2Id = node.asResource().getLocalName();
 			logger.debug("The atom argument2 is: " + argument2Id);
 			
-			if (isInstanceOfTheClass(node.asResource(), attribute))
+			if (isInstanceOfTheClass(node.asResource(), attribute)){
 				argument2Type = ArgumentType.ATTRIBUTE;
-			else if (isInstanceOfTheClass(node.asResource(), variable))
+			}else if (isInstanceOfTheClass(node.asResource(), variable)){
 				argument2Type = ArgumentType.VARIABLE;
+			}
 			
 		} else {
 			logger.info("atom does not have an argument2.");
@@ -586,25 +604,31 @@ public class SourceLoader {
 	private static boolean isInstanceOfTheClass(Resource resource, Resource class_resource) {
 		Property type_property = ResourceFactory.createProperty(Namespaces.RDF + "type");
 		
-		if (resource == null || !resource.isResource())
+		if (resource == null || !resource.isResource()){
 			return true;
+		}
 		
-		if (resource.hasProperty(type_property, class_resource))
+		if (resource.hasProperty(type_property, class_resource)){
 			return true;
-		else
+		}else{
 			return false;
+		}
 	}
 	
 	private static void testGetSourceByUri() {
 		String uri = "http://isi.edu/integration/karma/sources/AEEA5A9A-744C-8096-B372-836ACC820D5A#";
 //		String uri = "http://isi.edu/integration/karma/sources/940466A8-8733-47B1-2597-11DC112F0437F#";
 		Source source = SourceLoader.getSourceByUri(uri);
-		if (source != null) source.print();
+		if (source != null){
+			source.print();
+		}
 	}
 	private static void testGetAllSources() {
 		List<Source> sourceList = getAllSourcesComplete(null);
 		for (Source s : sourceList) {
-			if (s != null) s.print();
+			if (s != null){
+				s.print();
+			}
 		}
 	}
 	private static void testGetSourcesByIOPattern() {
@@ -634,20 +658,25 @@ public class SourceLoader {
 		Map<Source, Map<String, String>> sourcesAndMappings = 
 			getSourcesByIOPattern(semanticModel, null);
 
-		if (sourcesAndMappings == null)
+		if (sourcesAndMappings == null){
 			return;
+		}
 		
 		for (Source s : sourcesAndMappings.keySet()) {
-			if (s != null) s.print();
+			if (s != null){
+				s.print();
+			}
 		}
 		
 		System.out.println("Mappings from matched source to model arguments:");
 		for (Source s : sourcesAndMappings.keySet()) {
 			System.out.println("Source: " + s.getId());
-			if (sourcesAndMappings.get(s) == null)
+			if (sourcesAndMappings.get(s) == null){
 				continue;
-			for (String str : sourcesAndMappings.get(s).keySet())
+			}
+			for (String str : sourcesAndMappings.get(s).keySet()){
 				System.out.println(str + "-------" + sourcesAndMappings.get(s).get(str));
+			}
 		}
 
 	}
@@ -658,10 +687,18 @@ public class SourceLoader {
 	public static void main(String[] args) {
 
 		boolean test1 = true, test2 = false, test3 = false, test4 = false;
-		if (test1) testGetSourceByUri();
-		if (test2) testDeleteSourceByUri();
-		if (test3) testGetSourcesByIOPattern();
-		if (test4) testGetAllSources();
+		if (test1){
+			testGetSourceByUri();
+		}
+		if (test2){
+			testDeleteSourceByUri();
+		}
+		if (test3){
+			testGetSourcesByIOPattern();
+		}
+		if (test4){
+			testGetAllSources();
+		}
 
 
 	}

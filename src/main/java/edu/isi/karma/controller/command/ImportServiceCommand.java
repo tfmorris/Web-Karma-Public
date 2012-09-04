@@ -77,10 +77,12 @@ public class ImportServiceCommand extends Command {
 		super(id);
 		this.ServiceUrl=ServiceUrl;
 		this.sourceName=sourceName;
-		if(interactionType.equals("GetSources"))
+		if(interactionType.equals("GetSources")){
 			this.interactionType=InteractionType.GetSources;
-		if(interactionType.equals("ImportSource"))
+		}
+		if(interactionType.equals("ImportSource")){
 			this.interactionType=InteractionType.ImportSource;
+		}
 	}
 
 	@Override
@@ -95,9 +97,11 @@ public class ImportServiceCommand extends Command {
 
 	@Override
 	public String getDescription() {
-		if(sourceName==null)
+		if(sourceName==null){
 			return "";
-		else return sourceName;
+		}else{
+			return sourceName;
+		}
 	}
 
 	@Override

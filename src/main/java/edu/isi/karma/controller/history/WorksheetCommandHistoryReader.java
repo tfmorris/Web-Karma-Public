@@ -99,9 +99,9 @@ public class WorksheetCommandHistoryReader {
 				if(comm != null){
 					logger.info("Executing command: " + commObject.get(HistoryArguments.commandName.name()));
 					vWorkspace.getWorkspace().getCommandHistory().doCommand(comm, vWorkspace);
-				}
-				else
+				}else{
 					logger.error("Error occured while creating command (Could not create Command object): " + commObject.get(HistoryArguments.commandName.name()));
+				}
 			}
 		}
 	}
@@ -155,8 +155,9 @@ public class WorksheetCommandHistoryReader {
 				JSONArray tags = commObject.getJSONArray(HistoryArguments.tags.name());
 				for (int j=0; j< tags.length(); j++) {
 					String tag2 = tags.getString(j);
-					if(tag2.equals(tag.name()))
+					if(tag2.equals(tag.name())){
 						commandsJSON.add(commObject.toString());
+					}
 				}
 			}
 		} catch (FileNotFoundException e) {

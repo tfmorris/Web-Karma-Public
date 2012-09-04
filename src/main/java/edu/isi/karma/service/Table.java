@@ -48,12 +48,16 @@ public class Table {
 	}
 	
 	public int getRowsCount() {
-		if (this.values == null) return 0;
+		if (this.values == null){
+			return 0;
+		}
 		return this.values.size();
 	}
 	
 	public int getColumnsCount() {
-		if (this.headers == null) return 0;
+		if (this.headers == null){
+			return 0;
+		}
 		return this.headers.size();
 	}
 	
@@ -142,8 +146,9 @@ public class Table {
 	
     public static Table union(List<Table> srcTables) {
     	
-    	if (srcTables == null)
-    		return null;
+    	if (srcTables == null){
+			return null;
+		}
     	
     	Table resultTable = new Table();
     	
@@ -183,8 +188,9 @@ public class Table {
 			
 			rawAttributes = srcAttributes.get(i);
 			rawAttributeIDs.clear();
-			for (Attribute p : rawAttributes)
+			for (Attribute p : rawAttributes){
 				rawAttributeIDs.add(p.getId());
+			}
 			
 //			logger.debug("table " + i);
 			for (int j = 0; j < srcValues.get(i).size(); j++) {
@@ -196,11 +202,12 @@ public class Table {
 				for (int k = 0; k < resultAttributes.size(); k++) {
 //					logger.debug("\t\t column " + k);
 					int index = rawAttributeIDs.indexOf(resultAttributes.get(k).getId());
-					if (index == -1)
+					if (index == -1){
 						singleValue = null;
 //						singleValue = "";
-					else
+					}else{
 						singleValue = rawValues.get(index);
+					}
 					populatedValues.add(singleValue);
 				}
 				
@@ -223,16 +230,23 @@ public class Table {
 
 	public String asCSV(Character separator, Character quotechar, Character endlinechar) {
 		String csv = "";
-		if (separator == null) separator = ',';
-		if (quotechar == null) quotechar = '"';
-		if (endlinechar == null) endlinechar = '\n';
+		if (separator == null){
+			separator = ',';
+		}
+		if (quotechar == null){
+			quotechar = '"';
+		}
+		if (endlinechar == null){
+			endlinechar = '\n';
+		}
 		
 		try {
 			
 			if (this.headers != null && this.headers.size() > 0) {
 				for (int i = 0; i < this.headers.size(); i++) {
-					if (i != 0)
+					if (i != 0){
 						csv += separator.charValue();
+					}
 					csv += quotechar + this.headers.get(i).getName() + quotechar;
 				}
 				csv += endlinechar;
@@ -247,8 +261,9 @@ public class Table {
 			
 			for (int i = 0; i < this.values.size(); i++) {
 				for (int j = 0; j < this.values.get(i).size(); j++) {
-					if (j != 0)
+					if (j != 0){
 						csv += separator;
+					}
 					csv += quotechar + values.get(i).get(j) + quotechar;
 				}
 				csv += endlinechar;

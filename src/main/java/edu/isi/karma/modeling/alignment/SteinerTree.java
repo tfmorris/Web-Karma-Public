@@ -66,11 +66,13 @@ public class SteinerTree {
 			
 			for (int j = 0; j < steinerNodes.size(); j++) {
 				
-				if (i == j)
+				if (i == j){
 					continue;
+				}
 				
-				if (g.containsEdge(steinerNodes.get(i), steinerNodes.get(j)))
+				if (g.containsEdge(steinerNodes.get(i), steinerNodes.get(j))){
 					continue;
+				}
 				
 				String id = "e" + String.valueOf(i) + String.valueOf(j);
 				LabeledWeightedEdge e = new LabeledWeightedEdge(id, new URI(id, null, null), null);
@@ -103,8 +105,9 @@ public class SteinerTree {
 		
 		List<LabeledWeightedEdge> edgesSortedByLabel = new ArrayList<LabeledWeightedEdge>();
 		
-		for (LabeledWeightedEdge e : edges) 
+		for (LabeledWeightedEdge e : edges){
 			edgesSortedByLabel.add(e);
+		}
 		
 		Collections.sort(edgesSortedByLabel, new EdgeComparatorByLabel());
 		
@@ -151,22 +154,26 @@ public class SteinerTree {
 			path = new DijkstraShortestPath<Vertex, LabeledWeightedEdge>(this.graph, source, target);
 			List<LabeledWeightedEdge> pathEdges = path.getPathEdgeList();
 			
-			if (pathEdges == null)
+			if (pathEdges == null){
 				continue;
+			}
 			
 			for (int i = 0; i < pathEdges.size(); i++) {
 				
-				if (g3.edgeSet().contains(pathEdges.get(i)))
+				if (g3.edgeSet().contains(pathEdges.get(i))){
 					continue;
+				}
 				
 				source = pathEdges.get(i).getSource();
 				target = pathEdges.get(i).getTarget();
 				
-				if (!g3.vertexSet().contains(source) )
+				if (!g3.vertexSet().contains(source) ){
 					g3.addVertex(source);
+				}
 
-				if (!g3.vertexSet().contains(target) )
+				if (!g3.vertexSet().contains(target) ){
 					g3.addVertex(target);
+				}
 
 				g3.addEdge(source, target, pathEdges.get(i));
 			}
@@ -211,8 +218,9 @@ public class SteinerTree {
 				target = this.graph.getEdgeTarget(e);
 				
 				// this should not happen, but just in case of ...
-				if (target.equals(source)) 
+				if (target.equals(source)){
 					target = e.getSource();
+				}
 				
 				g5.removeVertex(source);
 				source = target;

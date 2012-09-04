@@ -112,10 +112,11 @@ public class GetAlternativeLinksCommand extends Command {
 						edgeObj.put(JsonKeys.edgeId.name(), edge.getID());
 						edgeObj.put(JsonKeys.edgeLabel.name(), edgeLabel);
 						edgeObj.put(JsonKeys.edgeSource.name(),edgeSourceLabel);
-						if(currentLink != null && edge.getID().equals(currentLink.getID()))
+						if(currentLink != null && edge.getID().equals(currentLink.getID())){
 							edgeObj.put(JsonKeys.selected.name(), true);
-						else
+						}else{
 							edgeObj.put(JsonKeys.selected.name(), false);
+						}
 
 						edgesArray.put(edgeObj);
 					}

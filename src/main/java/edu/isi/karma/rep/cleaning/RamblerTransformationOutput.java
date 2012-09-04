@@ -66,8 +66,9 @@ public class RamblerTransformationOutput implements TransformationOutput {
 			List<String> xr = new ArrayList<String>();
 			for(int t = 0; t< rules.length; t++)
 			{
-				if(rules[t].length()!=0)
+				if(rules[t].length()!=0){
 					xr.add(rules[t]);
+				}
 			}
 			RamblerTransformation r = new RamblerTransformation(xr);
 			transformations.put(r.signature, r);

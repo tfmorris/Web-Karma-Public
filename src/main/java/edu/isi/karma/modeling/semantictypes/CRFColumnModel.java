@@ -80,16 +80,18 @@ public class CRFColumnModel implements Jsonizable {
 			if(label.contains("|")){
 				URI domainURI = ontMgr.getURIFromString(label.split("\\|")[0]);
 				URI typeURI = ontMgr.getURIFromString(label.split("\\|")[1]);
-				if(domainURI == null || typeURI == null)
+				if(domainURI == null || typeURI == null){
 					continue;
+				}
 				oj.put(SemanticTypesUpdate.JsonKeys.DisplayDomainLabel.name(), domainURI.getLocalNameWithPrefixIfAvailable());
 				oj.put(SemanticTypesUpdate.JsonKeys.Domain.name(), label.split("\\|")[0]);
 				oj.put(SemanticTypesUpdate.JsonKeys.DisplayLabel.name(), typeURI.getLocalNameWithPrefixIfAvailable());
 				oj.put(SemanticTypesUpdate.JsonKeys.FullType.name(), label.split("\\|")[1]);
 			} else {
 				URI typeURI = ontMgr.getURIFromString(label);
-				if(typeURI == null)
+				if(typeURI == null){
 					continue;
+				}
 				oj.put(SemanticTypesUpdate.JsonKeys.FullType.name(), label);
 				oj.put(SemanticTypesUpdate.JsonKeys.DisplayLabel.name(), typeURI.getLocalNameWithPrefixIfAvailable());
 				oj.put(SemanticTypesUpdate.JsonKeys.DisplayDomainLabel.name(), "");

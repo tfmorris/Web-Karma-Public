@@ -80,8 +80,9 @@ public class OntologyClassHierarchyUpdate extends AbstractUpdate {
 						try {
 							while (superClasses.hasNext()) {
 								OntClass clss = superClasses.next();
-								if (!clss.isAnon() && !clss.getURI().equals("http://www.w3.org/2000/01/rdf-schema#Resource"))
+								if (!clss.isAnon() && !clss.getURI().equals("http://www.w3.org/2000/01/rdf-schema#Resource")){
 									flag = true;
+								}
 							}
 						} catch (ConversionException e) {
 							logger.debug(e.getMessage());
@@ -100,10 +101,11 @@ public class OntologyClassHierarchyUpdate extends AbstractUpdate {
 					}
 	
 					String pr = prefixMap.get(cls.getNameSpace());
-					if(pr != null && !pr.equals(""))
+					if(pr != null && !pr.equals("")){
 						classObject.put(JsonKeys.data.name(), pr + ":" + cls.getLocalName());
-					else
+					}else{
 						classObject.put(JsonKeys.data.name(), cls.getLocalName());
+					}
 					classesAdded.add(cls.getURI());
 	
 					JSONObject metadataObject = new JSONObject();
@@ -139,10 +141,11 @@ public class OntologyClassHierarchyUpdate extends AbstractUpdate {
 
 			JSONObject classObject = new JSONObject();
 			String pr = prefixMap.get(subclass.getNameSpace());
-			if (pr != null && !pr.equals(""))
+			if (pr != null && !pr.equals("")){
 				classObject.put(JsonKeys.data.name(), pr + ":" + subclass.getLocalName());
-			else
+			}else{
 				classObject.put(JsonKeys.data.name(), subclass.getLocalName());
+			}
 			JSONObject metadataObject = new JSONObject();
 			metadataObject.put(JsonKeys.URI.name(), subclass.getURI());
 			classObject.put(JsonKeys.metadata.name(), metadataObject);

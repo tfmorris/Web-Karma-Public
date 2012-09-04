@@ -29,12 +29,12 @@ import edu.isi.mediator.gav.main.MediatorException;
  *
  */
 public class FunctionTerm extends Term{
-	
+
 	/**
 	 * the function as {@link edu.isi.mediator.gav.domain.FunctionPredicate}
 	 */
 	private FunctionPredicate function;
-	
+
 	/**
 	 * Constructs an empty FunctionTerm
 	 */
@@ -57,6 +57,7 @@ public class FunctionTerm extends Term{
 	/* (non-Javadoc)
 	 * @see edu.isi.mediator.gav.domain.Term#clone()
 	 */
+	@Override
 	public FunctionTerm clone(){
 		FunctionTerm t = new FunctionTerm();
 		t.copy(this);
@@ -68,6 +69,7 @@ public class FunctionTerm extends Term{
 	 * @see edu.isi.mediator.gav.domain.Term#getFreeVar()
 	 * Always returns null.
 	 */
+	@Override
 	public String getFreeVar(){
 		return null;
 	}
@@ -79,9 +81,9 @@ public class FunctionTerm extends Term{
 	 * @throws MediatorException
 	 */
 	public void setFunction(FunctionPredicate p) throws MediatorException{
-		if(function==null)
+		if(function==null){
 			function=p;
-		else{
+		}else{
 			//a variable can be assigned only to one function
 			throw new MediatorException("A variable can be assigned only to one function var=" + var);
 		}
@@ -90,6 +92,7 @@ public class FunctionTerm extends Term{
 	 * @see edu.isi.mediator.gav.domain.Term#getFunction()
 	 * Returns the function.
 	 */
+	@Override
 	public FunctionPredicate getFunction(){
 		return function;
 	}
@@ -102,7 +105,7 @@ public class FunctionTerm extends Term{
 	public String getFunctionForSQL() throws MediatorException{
 		return function.getFunctionForSQL();
 	}
-	
+
 	/**
 	 * Returns true if the output of this function is a number.
 	 * @return
@@ -111,7 +114,7 @@ public class FunctionTerm extends Term{
 	public boolean outputIsNumber(){
 		return function.outputIsNumber();
 	}
-	
+
 	/**
 	 * Returns true if the functions in both terms are equal.
 	 * @param t
@@ -119,19 +122,22 @@ public class FunctionTerm extends Term{
 	 * @return
 	 * 		true if the functions in both terms are equal, false otherwise.
 	 */
+	@Override
 	public boolean equals(Term t){
 		//System.out.println("Equal term : " + this + " and " + t);
-	    return t instanceof FunctionTerm && function.equals(((FunctionTerm)t).function);
+		return t instanceof FunctionTerm && function.equals(((FunctionTerm)t).function);
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see edu.isi.mediator.gav.domain.Term#needsBinding(boolean)
 	 * Returns true if "b" is true, otherwise 
 	 * returns true if the {@link edu.isi.mediator.gav.domain.FunctionPredicate} needs binding and false otherwise. 
 	 */
+	@Override
 	public boolean needsBinding(boolean b){
-		if(b==true) return true;
-		else{
+		if(b==true){
+			return true;
+		}else{
 			//if this function needs bindings => return true, else false
 			return function.needsBinding();
 		}
@@ -141,6 +147,7 @@ public class FunctionTerm extends Term{
 	 * @see edu.isi.mediator.gav.domain.Term#unify(edu.isi.mediator.gav.domain.Binding)
 	 * Also unify the vars within the FunctionPredicate,
 	 */
+	@Override
 	public Term unify(Binding binding){
 		//unify here; there might be vars inside the function that need to be unified
 		function.unify(binding);
@@ -150,12 +157,15 @@ public class FunctionTerm extends Term{
 	/* (non-Javadoc)
 	 * @see edu.isi.mediator.gav.domain.Term#toString()
 	 */
+	@Override
 	public String toString(){
 		String s = "";
-		if(var!=null)
+		if(var!=null){
 			s += var + ":";
-		if(queryName!=null)
+		}
+		if(queryName!=null){
 			s += queryName + ":";
+		}
 		s+=function.toString();
 		return s;
 	}

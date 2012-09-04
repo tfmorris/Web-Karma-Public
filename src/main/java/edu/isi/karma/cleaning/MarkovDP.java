@@ -113,8 +113,9 @@ public class MarkovDP {
 			{
 				s2 += t.text;
 			}
-			if(s1.compareTo(s2)!=0)
+			if(s1.compareTo(s2)!=0){
 				return false;
+			}
 		}
 		return true;
 	}
@@ -192,8 +193,9 @@ public class MarkovDP {
 			search(s, p, 0, dpth);
 			policies.add(p);
 			MDPState newS = s.genNewState(p.rule, i+1);
-			if(newS == null)
+			if(newS == null){
 				break;
+			}
 			states.add(s);
 			s = newS;
 		}
@@ -225,8 +227,9 @@ public class MarkovDP {
 				}
 				i++;
 			}
-			if(result.size()==0)
+			if(result.size()==0){
 				return tmpresult;
+			}
 			return result;
 		}
 		catch(Exception ex)
@@ -265,8 +268,9 @@ public class MarkovDP {
 			//crule = "del  anytoks    from_beginning   1   from_beginning  first    Number";
 			//System.out.println(""+crule);
 			MDPState newS = s.genNewState(crule, actualInd);
-			if(newS == null)
+			if(newS == null){
 				continue;
+			}
 			MDPState in = isInhistory(newS);
 			if(in != null)
 			{
@@ -328,9 +332,9 @@ public class MarkovDP {
 		for(int i = 0;i<a.size();i++)
 		{
 			int leng = a.get(i);
-			if(length2Num.containsKey(leng))
+			if(length2Num.containsKey(leng)){
 				length2Num.get(leng).add(i);
-			else
+			}else
 			{	
 				List<Integer> tmp = new ArrayList<Integer>();
 				tmp.add(i);
@@ -546,13 +550,13 @@ class MDPState{
 	}
 	public boolean equals(Object other) 
 	{
-		MDPState e = (MDPState)other;
-		if(e.index == this.index && isObsequal(e.obs))
-		{
-			return true;
+		if(other instanceof MDPState){
+			MDPState e = (MDPState) other;
+			if(e.index == this.index && isObsequal(e.obs)){
+				return true;
+			}
 		}
 		return false;
-			
 	}
 	public int hashCode()
 	{
@@ -580,8 +584,9 @@ class MDPState{
 		for(int i = 0; i<obs.size(); i++)
 		{
 			List<TNode> nt = RuleUtil.applyRule(rule, new ArrayList<TNode>(this.obs.get(i)));
-			if(nt == null)
+			if(nt == null){
 				return null;
+			}
 			newState.obs.add(nt);
 		}
 		return newState;

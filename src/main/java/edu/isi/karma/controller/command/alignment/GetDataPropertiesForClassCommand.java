@@ -93,8 +93,9 @@ public class GetDataPropertiesForClassCommand extends Command {
 						JSONObject classObject = new JSONObject();
 
 						URI domainURI = ontMgr.getURIFromString(domain);
-						if (domainURI == null)
+						if (domainURI == null){
 							continue;
+						}
 						
 						classObject.put(JsonKeys.data.name(), domainURI.getLocalNameWithPrefixIfAvailable());
 						JSONObject metadataObject = new JSONObject();

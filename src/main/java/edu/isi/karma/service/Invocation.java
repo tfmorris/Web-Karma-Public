@@ -73,8 +73,9 @@ public class Invocation {
 
 	public Table getJointInputAndOutput() {
 		joinInputAndOutput();
-		for (int i = 0; i < this.jointInputAndOutput.getValues().size(); i++)
+		for (int i = 0; i < this.jointInputAndOutput.getValues().size(); i++){
 			this.jointInputAndOutput.getRowIds().add(this.requestId);
+		}
 		return jointInputAndOutput;
 	}
 
@@ -85,8 +86,9 @@ public class Invocation {
 	}
 	
 	private static String getId(String name, HashMap<String, Integer> nameCounter) {
-		if (nameCounter == null)
+		if (nameCounter == null){
 			return null;
+		}
 
 		Integer count = nameCounter.get(name);
 		if (count == null) {
@@ -206,15 +208,17 @@ public class Invocation {
 		jointInputAndOutput = new Table(this.response.getTable());
 		
 		List<String> inputValues = new ArrayList<String>();
-		if (this.request.getAttributes() != null)
-		for (int j = this.request.getAttributes().size() - 1; j >= 0; j--) {
-			
-			Attribute p = this.request.getAttributes().get(j);
-			if (p != null && p.getName() != null && p.getName().toString().trim().length() > 0) {
-				jointInputAndOutput.getHeaders().add(0, p);
-				inputValues.add(0, p.getValue());
-				for (int k = 0; k < this.response.getTable().getValues().size(); k++)
-					this.response.getTable().getValues().get(k).add(0, p.getValue());
+		if (this.request.getAttributes() != null){
+			for (int j = this.request.getAttributes().size() - 1; j >= 0; j--) {
+				
+				Attribute p = this.request.getAttributes().get(j);
+				if (p != null && p.getName() != null && p.getName().toString().trim().length() > 0) {
+					jointInputAndOutput.getHeaders().add(0, p);
+					inputValues.add(0, p.getValue());
+					for (int k = 0; k < this.response.getTable().getValues().size(); k++){
+						this.response.getTable().getValues().get(k).add(0, p.getValue());
+					}
+				}
 			}
 		}
 		
@@ -226,8 +230,9 @@ public class Invocation {
 
 		// Include the request URLs in the invocation table
 		jointInputAndOutput.getHeaders().add(0, new Attribute(REQUEST_COLUMN_NAME, REQUEST_COLUMN_NAME,IOType.NONE));
-		for (int k = 0; k < jointInputAndOutput.getValues().size(); k++)
+		for (int k = 0; k < jointInputAndOutput.getValues().size(); k++){
 			jointInputAndOutput.getValues().get(k).add(0, this.request.getUrl().toString());
+		}
 		
 	}
 }

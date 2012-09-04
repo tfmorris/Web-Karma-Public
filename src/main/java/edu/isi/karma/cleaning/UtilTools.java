@@ -162,9 +162,9 @@ public class UtilTools {
 			if(rank < 0)
 			{
 				return -1;
-			}
-			else
+			}else{
 				return rank;
+			}
 		}
 		catch(Exception ex)
 		{
@@ -233,9 +233,9 @@ class DoubleCompare implements Comparator<ScoreObj>
 		else if(a1.score<a2.score)
 		{
 			return 1;
-		}
-		else
+		}else{
 			return 0;
+		}
 	}
 }
 

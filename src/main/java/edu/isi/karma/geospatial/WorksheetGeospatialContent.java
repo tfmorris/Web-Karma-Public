@@ -137,8 +137,9 @@ public class WorksheetGeospatialContent {
 					coordsList.add(coord);
 				}
 
-				if (coordsList.size() == 0)
+				if (coordsList.size() == 0){
 					continue;
+				}
 
 				LineString line = new LineString(coordsList);
 				Collection<Node> nodes = row.getNodes();
@@ -205,8 +206,9 @@ public class WorksheetGeospatialContent {
 				}
 
 				if (lng == null || lng.trim().equals("") || lat == null
-						|| lat.trim().equals(""))
+						|| lat.trim().equals("")){
 					continue;
+				}
 
 				double lngF = Double.parseDouble(lng.trim());
 				double latF = Double.parseDouble(lat.trim());
@@ -254,10 +256,11 @@ public class WorksheetGeospatialContent {
 
 		Style style = folder.createAndAddStyle().withId("karma");
 		
-		if(randomCounter++%2 == 0)
+		if(randomCounter++%2 == 0){
 			style.createAndSetIconStyle().withScale(1.399999976158142).withIcon(new Icon().withHref("http://maps.google.com/mapfiles/ms/icons/blue-pushpin.png"));
-		else
+		}else{
 			style.createAndSetIconStyle().withScale(1.399999976158142).withIcon(new Icon().withHref("http://maps.google.com/mapfiles/ms/icons/red-pushpin.png"));
+		}
 
 		for (Point point : points) {
 			folder.createAndAddPlacemark()
@@ -286,8 +289,9 @@ public class WorksheetGeospatialContent {
 	}
 
 	public boolean hasNoGeospatialData() {
-		if (points.size() == 0 && lines.size() == 0)
+		if (points.size() == 0 && lines.size() == 0){
 			return true;
+		}
 		return false;
 	}
 }

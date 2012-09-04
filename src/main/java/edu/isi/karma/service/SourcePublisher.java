@@ -90,20 +90,23 @@ public class SourcePublisher {
 		//TODO: how to see if a model of the same source exists or not
 		// maybe we can use a combination of source name, address, ...
 		
-		if (this.model == null)
+		if (this.model == null){
 			model = generateModel();
+		}
 		
 		// update the repository active model
 		Repository.Instance().addModel(this.model, source.getUri());
 
 		// write the model to the file
-		if (writeToFile)
+		if (writeToFile){
 			writeToFile(lang);
+		}
 	}
 	
 	public void writeToFile(String lang) throws FileNotFoundException {
-		if (this.model == null)
+		if (this.model == null){
 			model = generateModel();
+		}
 		
 		String source_desc_file = Repository.Instance().SOURCE_REPOSITORY_DIR + 
 		 							this.source.getName() + "_" + this.source.getId() +
@@ -132,14 +135,16 @@ public class SourcePublisher {
 
 		Resource my_source = model.createResource(baseNS + "");
 		my_source.addProperty(rdf_type, source_resource);
-		if (this.source.getName().length() > 0)
+		if (this.source.getName().length() > 0){
 			my_source.addProperty(has_name, this.source.getName());
+		}
 
-		if (this.source.getVariables() != null)
-		for (int i = 0; i < this.source.getVariables().size(); i++) {
-			Resource my_variable = model.createResource(baseNS + this.source.getVariables().get(i).toString());
-			my_variable.addProperty(rdf_type, variavle_resource);
-			my_source.addProperty(has_variable, my_variable);
+		if (this.source.getVariables() != null){
+			for (int i = 0; i < this.source.getVariables().size(); i++) {
+				Resource my_variable = model.createResource(baseNS + this.source.getVariables().get(i).toString());
+				my_variable.addProperty(rdf_type, variavle_resource);
+				my_source.addProperty(has_variable, my_variable);
+			}
 		}
 
 		if (this.source.getAttributes() != null) {
@@ -163,8 +168,9 @@ public class SourcePublisher {
 		
 		// Add transformations
 		Property has_columnTransformation = model.createProperty(Namespaces.KARMA, "hasColumnTransformation");
-		for(String commJson : transformationCommandsJSON)
+		for(String commJson : transformationCommandsJSON){
 			my_source.addProperty(has_columnTransformation, commJson);
+		}
 		
 		// Add source information if any present
 		if(sourceInfo != null) {
@@ -214,8 +220,9 @@ public class SourcePublisher {
 					Resource r = model.createResource();
 					r.addProperty(rdf_type, class_atom_resource);
 					
-					if (classAtom.getClassPredicate().getPrefix() != null && classAtom.getClassPredicate().getNs() != null)
+					if (classAtom.getClassPredicate().getPrefix() != null && classAtom.getClassPredicate().getNs() != null){
 						model.setNsPrefix(classAtom.getClassPredicate().getPrefix(), classAtom.getClassPredicate().getNs());
+					}
 					Resource className = model.createResource(classAtom.getClassPredicate().getUriString());
 					r.addProperty(class_predicate, className);
 					
@@ -230,8 +237,9 @@ public class SourcePublisher {
 					Resource r = model.createResource();
 					r.addProperty(rdf_type, individual_property_atom_resource);
 					
-					if (propertyAtom.getPropertyPredicate().getPrefix() != null && propertyAtom.getPropertyPredicate().getNs() != null)
+					if (propertyAtom.getPropertyPredicate().getPrefix() != null && propertyAtom.getPropertyPredicate().getNs() != null){
 						model.setNsPrefix(propertyAtom.getPropertyPredicate().getPrefix(), propertyAtom.getPropertyPredicate().getNs());
+					}
 					Resource propertyName = model.createResource(propertyAtom.getPropertyPredicate().getUriString());
 					r.addProperty(property_predicate, propertyName);
 					

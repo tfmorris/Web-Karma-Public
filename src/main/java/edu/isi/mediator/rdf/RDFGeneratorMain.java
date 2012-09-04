@@ -94,8 +94,9 @@ public class RDFGeneratorMain {
 				String line = null;
 				while ((line = buff.readLine()) != null) {
 					//System.out.println("line="+line);
-					if (line.startsWith("#") || line.trim().isEmpty())
+					if (line.startsWith("#") || line.trim().isEmpty()){
 						continue;
+					}
 					int ind = line.indexOf("=");
 					if(ind<=0) {
 						buff.close();
@@ -120,13 +121,14 @@ public class RDFGeneratorMain {
 						accessDb = val;
 						inputsUsed++;
 					}
-					else if (name.equals("SOURCE_DESC"))
+					else if (name.equals("SOURCE_DESC")){
 						ruleFile = val;
-					else if (name.equals("OUTPUT_FILE")){
-						if(val.toUpperCase().equals("STDOUT"))
+					}else if (name.equals("OUTPUT_FILE")){
+						if(val.toUpperCase().equals("STDOUT")){
 							outputFile=null;
-						else
+						}else{
 							outputFile=val;
+						}
 					}
 					buff.close();
 				}
@@ -137,10 +139,12 @@ public class RDFGeneratorMain {
 			if(ruleFile==null){
 				throw new MediatorException("Settings file is missiong SOURCE_DESC.");
 			}
-			if(inputsUsed==0)
+			if(inputsUsed==0){
 				throw new MediatorException("Settings file should contain either INPUT_FILE, CONNECT_STR or ACCESS_DB");
-			if(inputsUsed>1)
+			}
+			if(inputsUsed>1){
 				throw new MediatorException("Settings file should contain only ONE of INPUT_FILE, CONNECT_STR or ACCESS_DB.");
+			}
 			if(connectStr!=null && dbDriver==null){
 				throw new MediatorException("Settings file should contain DB_DRIVER.");
 			}

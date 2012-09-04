@@ -60,8 +60,9 @@ public class ServiceLoader {
 		
 		String uri = getServiceUriByServiceAddress(address);
 		Model m = Repository.Instance().getNamedModel(uri);
-		if (m == null)
+		if (m == null){
 			return null;
+		}
 
 		Service service = getServiceFromJenaModel(m);
 		return service;
@@ -77,12 +78,14 @@ public class ServiceLoader {
 		
 		try {
 		if (f.exists()) {
-			if (!f.delete())
+			if (!f.delete()){
 				logger.debug("The file " + fileName + " cannot be deleted from " + dir);
-			else
+			}else{
 				logger.debug("The file " + fileName + " has been deleted from " + dir);
-		} else
+			}
+		}else{
 			logger.debug("The file " + fileName + " does not exist in " + dir);
+		}
 		} catch (Throwable t) {
 			logger.debug("cannot delete the file " + fileName + " from " + dir + " because " + t.getMessage());
 		}
@@ -91,8 +94,9 @@ public class ServiceLoader {
 	public static Service getServiceByUri(String uri) {
 		
 		Model m = Repository.Instance().getNamedModel(uri);
-		if (m == null)
+		if (m == null){
 			return null;
+		}
 
 		Service service = getServiceFromJenaModel(m);
 		return service;
@@ -101,8 +105,9 @@ public class ServiceLoader {
 	public static Model getServiceJenaModelByUri(String uri) {
 		
 		Model m = Repository.Instance().getNamedModel(uri);
-		if (m == null)
+		if (m == null){
 			return null;
+		}
 
 		return m;
 	}
@@ -134,7 +139,9 @@ public class ServiceLoader {
 			"      } \n";
 		
 		if (serviceLimit != null) {
-			if (serviceLimit.intValue() < 0) serviceLimit = DEFAULT_SERVICE_RESULTS_SIZE;
+			if (serviceLimit.intValue() < 0){
+				serviceLimit = DEFAULT_SERVICE_RESULTS_SIZE;
+			}
 			queryString += "LIMIT " + String.valueOf(serviceLimit.intValue() + "\n");
 		}
 		
@@ -147,8 +154,9 @@ public class ServiceLoader {
 		try {
 			ResultSet results = qexec.execSelect() ;
 			
-			if (!results.hasNext())
+			if (!results.hasNext()){
 				logger.info("query does not return any answer.");
+			}
 
 //			ResultSetFormatter.out(System.out, results, query) ;
 			 
@@ -170,15 +178,20 @@ public class ServiceLoader {
 
 				logger.debug("service uri: " + service_uri);
 				logger.debug("service id: " + service_id);
-				if (name != null && name.isLiteral()) service_name = name.asLiteral().getString();
+				if (name != null && name.isLiteral()){
+					service_name = name.asLiteral().getString();
+				}
 				logger.debug("service name: " + service_name);
-				if (address != null && address.isLiteral()) service_address = address.asLiteral().getString();
+				if (address != null && address.isLiteral()){
+					service_address = address.asLiteral().getString();
+				}
 				logger.debug("service address: " + service_address);
 				
-				if (service_id.trim().length() > 0)
+				if (service_id.trim().length() > 0){
 					serviceList.add(new Service(service_id, service_name, service_address));
-				else
+				}else{
 					logger.info("length of service id is zero.");
+				}
 			}
 			
 			return serviceList;
@@ -230,13 +243,15 @@ public class ServiceLoader {
 		Map<String, Map<String, String>> serviceIdsAndMappings = 
 			semanticModel.findInServiceInputs(Repository.Instance().getModel(), serviceLimit);
 
-		if (serviceIdsAndMappings == null)
+		if (serviceIdsAndMappings == null){
 			return null;
+		}
 		
 		for (String serviceId : serviceIdsAndMappings.keySet()) {
 			Model m = Repository.Instance().getNamedModel(serviceId);
-			if (m != null)
+			if (m != null){
 				servicesAndMappings.put(getServiceFromJenaModel(m), serviceIdsAndMappings.get(serviceId));
+			}
 		}
 		
 		return servicesAndMappings;
@@ -266,13 +281,15 @@ public class ServiceLoader {
 		Map<String, Map<String, String>> serviceIdsAndMappings = 
 			semanticModel.findInServiceOutputs(Repository.Instance().getModel(), serviceLimit);
 		
-		if (serviceIdsAndMappings == null)
+		if (serviceIdsAndMappings == null){
 			return null;
+		}
 		
 		for (String serviceId : serviceIdsAndMappings.keySet()) {
 			Model m = Repository.Instance().getNamedModel(serviceId);
-			if (m != null)
+			if (m != null){
 				servicesAndMappings.put(getServiceFromJenaModel(m), serviceIdsAndMappings.get(serviceId));
+			}
 		}
 		
 		return servicesAndMappings;
@@ -301,14 +318,16 @@ public class ServiceLoader {
 			
 			edu.isi.karma.service.Model m = service.getInputModel();
 			
-			if (m == null)
+			if (m == null){
 				continue;
+			}
 			
 			Map<String, Map<String, String>> serviceIdsAndMappings =
 				m.findInJenaModel(jenaModel, null);
 			
-			if (serviceIdsAndMappings == null)
+			if (serviceIdsAndMappings == null){
 				continue;
+			}
 			
 			Iterator<String> itr = serviceIdsAndMappings.keySet().iterator();
 			if (itr.hasNext()) {
@@ -343,14 +362,16 @@ public class ServiceLoader {
 			
 			edu.isi.karma.service.Model m = service.getOutputModel();
 			
-			if (m == null)
+			if (m == null){
 				continue;
+			}
 			
 			Map<String, Map<String, String>> serviceIdsAndMappings =
 				m.findInJenaModel(jenaModel, null);
 			
-			if (serviceIdsAndMappings == null)
+			if (serviceIdsAndMappings == null){
 				continue;
+			}
 			
 			Iterator<String> itr = serviceIdsAndMappings.keySet().iterator();
 			if (itr.hasNext()) {
@@ -385,8 +406,9 @@ public class ServiceLoader {
 		try {
 			ResultSet results = qexec.execSelect() ;
 			
-			if (!results.hasNext())
+			if (!results.hasNext()){
 				logger.info("query does not return any answer.");
+			}
 
 //			ResultSetFormatter.out(System.out, results, query) ;
 			 
@@ -448,24 +470,27 @@ public class ServiceLoader {
 		if (nodeIterator.hasNext() && (node = nodeIterator.next()).isLiteral()) {
 			service_name = node.asLiteral().getString();
 			logger.debug("service name: " + service_name);
-		} else
+		}else{
 			logger.debug("service does not have a name.");
+		}
 		
 		// service address
 		nodeIterator = model.listObjectsOfProperty(service_resource, has_address_property);
 		if (nodeIterator.hasNext() && (node = nodeIterator.next()).isLiteral()) {
 			service_address = node.asLiteral().getString();
 			logger.debug("service address: " + service_address);
-		} else
+		}else{
 			logger.debug("service does not have an address.");
+		}
 
 		// service method
 		nodeIterator = model.listObjectsOfProperty(service_resource, has_method_property);
 		if (nodeIterator.hasNext() && (node = nodeIterator.next()).isLiteral()) {
 			service_method = node.asLiteral().getString();
 			logger.debug("service method: " + service_method);
-		} else
+		}else{
 			logger.debug("service does not have a method.");
+		}
 
 		List<String> variables = null;
 		List<Attribute> inputAttributes = null;
@@ -481,16 +506,18 @@ public class ServiceLoader {
 		if (nodeIterator.hasNext() && (node = nodeIterator.next()).isResource()) {
 			inputAttributes = getAttributes(model, node.asResource(), IOType.INPUT);
 			inputModel = getSemanticModel(model, node.asResource());
-		} else
+		}else{
 			logger.debug("service does not have an input.");
+		}
 		
 		// service output
 		nodeIterator = model.listObjectsOfProperty(service_resource, has_output_property);
 		if (nodeIterator.hasNext() && (node = nodeIterator.next()).isResource()) {
 			outputAttributes = getAttributes(model, node.asResource(), IOType.OUTPUT );
 			outputModel = getSemanticModel(model, node.asResource());
-		} else
+		}else{
 			logger.info("service does not have an output.");
+		}
 		
 		Service service = new Service(service_id, service_name, service_address);
 		service.setMethod(service_method);
@@ -605,22 +632,25 @@ public class ServiceLoader {
 		if (nodeIterator.hasNext() && (node = nodeIterator.next()).isLiteral()) {
 			att_name = node.asLiteral().getString();
 			logger.debug("attribute name: " + att_name);
-		} else
+		}else{
 			logger.debug("attribute does not have a name.");
+		}
 		
 		// attribute grounded In
 		nodeIterator = model.listObjectsOfProperty(att_resource, is_gounded_in_property);
 		if (nodeIterator.hasNext() && (node = nodeIterator.next()).isLiteral()) {
 			att_groundedIn = node.asLiteral().getString();
 			logger.debug("attribute grounded in: " + att_groundedIn);
-		} else
+		}else{
 			logger.debug("attribute does not have agroundedIn value.");
+		}
 
 		Attribute att = null;
-		if (att_groundedIn.length() > 0)
+		if (att_groundedIn.length() > 0){
 			att = new Attribute(att_id, att_resource.getNameSpace(), att_name, ioType, requirement, att_groundedIn );
-		else
+		}else{
 			att = new Attribute(att_id, att_resource.getNameSpace(), att_name, ioType, requirement);
+		}
 		
 		return att;
 
@@ -732,10 +762,11 @@ public class ServiceLoader {
 			argument1Id = node.asResource().getLocalName();
 			logger.debug("The atom argument1 is: " + argument1Id);
 			
-			if (isInstanceOfTheClass(node.asResource(), attribute))
+			if (isInstanceOfTheClass(node.asResource(), attribute)){
 				argument1Type = ArgumentType.ATTRIBUTE;
-			else if (isInstanceOfTheClass(node.asResource(), variable))
+			}else if (isInstanceOfTheClass(node.asResource(), variable)){
 				argument1Type = ArgumentType.VARIABLE;
+			}
 			
 		} else {
 			logger.info("atom does not have an argument1.");
@@ -791,10 +822,11 @@ public class ServiceLoader {
 			argument1Id = node.asResource().getLocalName();
 			logger.debug("The atom argument1 is: " + argument1Id);
 			
-			if (isInstanceOfTheClass(node.asResource(), attribute))
+			if (isInstanceOfTheClass(node.asResource(), attribute)){
 				argument1Type = ArgumentType.ATTRIBUTE;
-			else if (isInstanceOfTheClass(node.asResource(), variable))
+			}else if (isInstanceOfTheClass(node.asResource(), variable)){
 				argument1Type = ArgumentType.VARIABLE;
+			}
 			
 		} else {
 			logger.info("atom does not have an argument1.");
@@ -807,10 +839,11 @@ public class ServiceLoader {
 			argument2Id = node.asResource().getLocalName();
 			logger.debug("The atom argument2 is: " + argument2Id);
 			
-			if (isInstanceOfTheClass(node.asResource(), attribute))
+			if (isInstanceOfTheClass(node.asResource(), attribute)){
 				argument2Type = ArgumentType.ATTRIBUTE;
-			else if (isInstanceOfTheClass(node.asResource(), variable))
+			}else if (isInstanceOfTheClass(node.asResource(), variable)){
 				argument2Type = ArgumentType.VARIABLE;
+			}
 			
 		} else {
 			logger.info("atom does not have an argument2.");
@@ -829,13 +862,15 @@ public class ServiceLoader {
 	private static boolean isInstanceOfTheClass(Resource resource, Resource class_resource) {
 		Property type_property = ResourceFactory.createProperty(Namespaces.RDF + "type");
 		
-		if (resource == null || !resource.isResource())
+		if (resource == null || !resource.isResource()){
 			return true;
+		}
 		
-		if (resource.hasProperty(type_property, class_resource))
+		if (resource.hasProperty(type_property, class_resource)){
 			return true;
-		else
+		}else{
 			return false;
+		}
 	}
 	
 	private static void testGetServiceByUri() {
@@ -851,12 +886,16 @@ public class ServiceLoader {
 	private static void testGetServiceByAddress() {
 		String address = "http://api.geonames.org/";
 		Service service = ServiceLoader.getServiceByAddress(address);
-		if (service != null) service.print();
+		if (service != null){
+			service.print();
+		}
 	}
 	private static void testGetAllServices() {
 		List<Service> serviceList = getAllServicesComplete(null);
 		for (Service s : serviceList) {
-			if (s != null) s.print();
+			if (s != null){
+				s.print();
+			}
 		}
 	}
 	private static void testGetServicesByIOPattern() {
@@ -891,20 +930,26 @@ public class ServiceLoader {
 //		Map<Service, Map<String, String>> servicesAndMappings = 
 //			getServicesByIOPattern(semanticModel, IOType.INPUT, null);
 
-		if (servicesAndMappings == null)
+		if (servicesAndMappings == null){
 			return;
+		}
 		
 		for (Service s : servicesAndMappings.keySet()) {
-			if (s != null) System.out.println((s.getUri())); //s.print();
+			if (s != null)
+			 {
+				System.out.println((s.getUri())); //s.print();
+			}
 		}
 		
 		System.out.println("Mappings from matched source to model arguments:");
 		for (Service s : servicesAndMappings.keySet()) {
 			System.out.println("Service: " + s.getId());
-			if (servicesAndMappings.get(s) == null)
+			if (servicesAndMappings.get(s) == null){
 				continue;
-			for (String str : servicesAndMappings.get(s).keySet())
+			}
+			for (String str : servicesAndMappings.get(s).keySet()){
 				System.out.println(str + "-------" + servicesAndMappings.get(s).get(str));
+			}
 		}
 
 	}
@@ -917,11 +962,21 @@ public class ServiceLoader {
 //		ServiceBuilder.main(new String[0]);
 
 		boolean test1 = true, test2 = false, test3 = false, test4 = false, test5 = false;
-		if (test1) testGetServiceByUri();
-		if (test2) testGetServiceByAddress();
-		if (test3) testGetServicesByIOPattern();
-		if (test4) testGetAllServices();
-		if (test5) testDeleteServiceByUri();
+		if (test1){
+			testGetServiceByUri();
+		}
+		if (test2){
+			testGetServiceByAddress();
+		}
+		if (test3){
+			testGetServicesByIOPattern();
+		}
+		if (test4){
+			testGetAllServices();
+		}
+		if (test5){
+			testDeleteServiceByUri();
+		}
 
 	}
 

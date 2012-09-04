@@ -126,8 +126,9 @@ public class Service {
 	}
 
 	public String getOperationName() {
-		if (operationName == null)
+		if (operationName == null){
 			this.operationName = URLManager.getOperationName(this.urlExample);
+		}
 		
 		return operationName;
 	}
@@ -157,8 +158,9 @@ public class Service {
 		String address = this.getAddress();
 		String populatedAddress = address;
 		
-		if (missingAttributes == null)
+		if (missingAttributes == null){
 			missingAttributes = new ArrayList<Attribute>();
+		}
 		
 		for (Attribute att : this.inputAttributes) {
 			
@@ -230,12 +232,16 @@ public class Service {
 	}
 
 	public void setInputAttributes(List<Attribute> inputAttributes) {
-		if (inputAttributes != null)
-			for (Attribute att : inputAttributes)
+		if (inputAttributes != null){
+			for (Attribute att : inputAttributes){
 				att.setBaseUri(this.getUri());
-		if (inputAttributes != null)
-			for (Attribute att : inputAttributes)
+			}
+		}
+		if (inputAttributes != null){
+			for (Attribute att : inputAttributes){
 				attIdToAttMap.put(att.getId(), att);
+			}
+		}
 		this.inputAttributes = inputAttributes;
 	}
 
@@ -244,12 +250,16 @@ public class Service {
 	}
 
 	public void setOutputAttributes(List<Attribute> outputAttributes) {
-		if (outputAttributes != null)
-			for (Attribute att : outputAttributes)
+		if (outputAttributes != null){
+			for (Attribute att : outputAttributes){
 				att.setBaseUri(this.getUri());
-		if (outputAttributes != null)
-			for (Attribute att : outputAttributes)
+			}
+		}
+		if (outputAttributes != null){
+			for (Attribute att : outputAttributes){
 				attIdToAttMap.put(att.getId(), att);
+			}
+		}
 		this.outputAttributes = outputAttributes;
 	}
 
@@ -258,8 +268,9 @@ public class Service {
 	}
 
 	public void setInputModel(Model inputModel) {
-		if (inputModel != null)
+		if (inputModel != null){
 			inputModel.setBaseUri(this.getUri());
+		}
 		this.inputModel = inputModel;
 	}
 	
@@ -268,8 +279,9 @@ public class Service {
 	}
 
 	public void setOutputModel(Model outputModel) {
-		if (inputModel != null)
+		if (inputModel != null){
 			outputModel.setBaseUri(this.getUri());
+		}
 		this.outputModel = outputModel;
 	}
 	
@@ -282,8 +294,9 @@ public class Service {
 	}
 
 	public String getAddress() {
-		if (address == null)
+		if (address == null){
 			doGrounding();
+		}
 		
 		return address;
 	}
@@ -297,23 +310,29 @@ public class Service {
 	}
 
 	public Attribute getInputAttributeByName(String name) {
-		if (this.inputAttributes == null)
+		if (this.inputAttributes == null){
 			return null;
+		}
 		
-		for (Attribute att : this.inputAttributes)
-			if (att.getName().equalsIgnoreCase(name))
+		for (Attribute att : this.inputAttributes){
+			if (att.getName().equalsIgnoreCase(name)){
 				return att;
+			}
+		}
 		
 		return null;
 	}
 	
 	public Attribute getOutputAttributeByName(String name) {
-		if (this.outputAttributes == null)
+		if (this.outputAttributes == null){
 			return null;
+		}
 		
-		for (Attribute att : this.outputAttributes)
-			if (att.getName().equalsIgnoreCase(name))
+		for (Attribute att : this.outputAttributes){
+			if (att.getName().equalsIgnoreCase(name)){
 				return att;
+			}
+		}
 		
 		return null;
 	}
@@ -345,10 +364,12 @@ public class Service {
 			String groundVar = "p" + String.valueOf(i+1);
 			int index = str.indexOf(name);
 			String temp = str.substring(index);
-			if (temp.indexOf("&") != -1)
+			if (temp.indexOf("&") != -1){
 				temp = temp.substring(0, temp.indexOf("&"));
-			if (temp.indexOf("=") != -1)
+			}
+			if (temp.indexOf("=") != -1){
 				temp = temp.substring(temp.indexOf("=") + 1);
+			}
 			
 			str = str.replaceFirst(temp.trim(), "{" + groundVar + "}");
 			this.inputAttributes.get(i).setGroundedIn(groundVar);
@@ -359,8 +380,9 @@ public class Service {
 	
 	public void updateModel(DirectedWeightedMultigraph<Vertex, LabeledWeightedEdge> treeModel) {
 		
-		if (treeModel == null)
+		if (treeModel == null){
 			return;
+		}
 		
 		List<Vertex> inputAttributesNodes = new ArrayList<Vertex>();
 		List<Vertex> outputAttributesNodes = new ArrayList<Vertex>();
@@ -422,8 +444,9 @@ public class Service {
 			List<Vertex> inputNodes, List<String> inputModelVertexes, List<String> inputModelEdges,
 			HashMap<String, Argument> vertexIdToArgument) {
 
-		if (treeModel == null)
+		if (treeModel == null){
 			return null;
+		}
 				
 		logger.debug("compute the steiner tree from the alignment tree with input nodes as steiner nodes ...");
 		UndirectedGraph<Vertex, LabeledWeightedEdge> undirectedGraph = 
@@ -437,11 +460,13 @@ public class Service {
 			
 			inputModelVertexes.add(v.getID());
 			
-			if (v.getNodeType() == NodeType.DataProperty)
+			if (v.getNodeType() == NodeType.DataProperty){
 				continue;
+			}
 			
-			if (vertexIdToArgument.get(v.getID()) == null)
+			if (vertexIdToArgument.get(v.getID()) == null){
 				continue;
+			}
 			
 			URI classPredicate = new URI(v.getUriString(), v.getNs(), v.getPrefix());
 
@@ -454,8 +479,9 @@ public class Service {
 			inputModelEdges.add(e.getID());
 			
 			if (vertexIdToArgument.get(e.getSource().getID()) == null || 
-					vertexIdToArgument.get(e.getTarget().getID()) == null)
+					vertexIdToArgument.get(e.getTarget().getID()) == null){
 				continue;
+			}
 			
 			URI propertyPredicate = new URI(e.getUriString(), e.getNs(), e.getPrefix());
 
@@ -472,21 +498,25 @@ public class Service {
 			List<String> inputModelVertexes, List<String> inputModelEdges,
 			HashMap<String, Argument> vertexIdToArgument) {
 
-		if (treeModel == null)
+		if (treeModel == null){
 			return null;
+		}
 
 		Model m = new Model("outputModel");
 		
 		for (Vertex v : treeModel.vertexSet()) {
 			
-			if (inputModelVertexes.indexOf(v.getID()) != -1)
+			if (inputModelVertexes.indexOf(v.getID()) != -1){
 				continue;
+			}
 			
-			if (v.getNodeType() == NodeType.DataProperty)
+			if (v.getNodeType() == NodeType.DataProperty){
 				continue;
+			}
 			
-			if (vertexIdToArgument.get(v.getID()) == null)
+			if (vertexIdToArgument.get(v.getID()) == null){
 				continue;
+			}
 			
 			
 			URI classPredicate = new URI(v.getUriString(), v.getNs(), v.getPrefix());
@@ -497,12 +527,14 @@ public class Service {
 		
 		for (LabeledWeightedEdge e : treeModel.edgeSet()) {
 			
-			if (inputModelEdges.indexOf(e.getID()) != -1)
+			if (inputModelEdges.indexOf(e.getID()) != -1){
 				continue;
+			}
 			
 			if (vertexIdToArgument.get(e.getSource().getID()) == null || 
-					vertexIdToArgument.get(e.getTarget().getID()) == null)
+					vertexIdToArgument.get(e.getTarget().getID()) == null){
 				continue;
+			}
 			
 			URI propertyPredicate = new URI(e.getUriString(), e.getNs(), e.getPrefix());
 
@@ -517,12 +549,16 @@ public class Service {
 	}
 
 	public void buildHNodeId2AttributeMapping() {
-		for (Attribute att : getInputAttributes()) 
-			if (att.gethNodeId() != null)
+		for (Attribute att : getInputAttributes()){
+			if (att.gethNodeId() != null){
 				this.hNodeIdToAttribute.put(att.gethNodeId(), att);
-		for (Attribute att : getOutputAttributes()) 
-			if (att.gethNodeId() != null)
+			}
+		}
+		for (Attribute att : getOutputAttributes()){
+			if (att.gethNodeId() != null){
 				this.hNodeIdToAttribute.put(att.gethNodeId(), att);
+			}
+		}
 	}
 	
 	public String getInfo() {
@@ -543,15 +579,18 @@ public class Service {
 		System.out.println("********************************************");
 		System.out.println("Variables: ");
 		if (this.variables != null) {
-			for (String v : this.variables)
+			for (String v : this.variables){
 				System.out.print(v + ", ");
+			}
 			System.out.println();
 		}
 		System.out.println("********************************************");
 		System.out.println("Input Attributes: ");
-		if (this.inputAttributes != null)
-			for (Attribute p : this.inputAttributes)
+		if (this.inputAttributes != null){
+			for (Attribute p : this.inputAttributes){
 				p.print();
+			}
+		}
 		System.out.println("********************************************");
 		System.out.println("Input Model: ");
 		if (this.inputModel != null) {
@@ -560,9 +599,11 @@ public class Service {
 		}
 		System.out.println("********************************************");
 		System.out.println("Output Attributes: ");
-		if (this.outputAttributes != null)
-			for (Attribute p : getOutputAttributes())
+		if (this.outputAttributes != null){
+			for (Attribute p : getOutputAttributes()){
 				p.print();
+			}
+		}
 		System.out.println("********************************************");
 		System.out.println("Output Model: ");
 		if (this.outputModel != null) {

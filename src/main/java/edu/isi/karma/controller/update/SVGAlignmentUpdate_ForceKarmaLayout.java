@@ -95,8 +95,9 @@ public class SVGAlignmentUpdate_ForceKarmaLayout extends AbstractUpdate {
 						
 					vertObj.put(JsonKeys.height.name(), height);
 					JSONArray hNodeIdsCoveredByVertex = new JSONArray();
-					for(Vertex v : nodesWithSemTypesCovered)
+					for(Vertex v : nodesWithSemTypesCovered){
 						hNodeIdsCoveredByVertex.put(v.getSemanticType().getHNodeId());
+					}
 					vertObj.put(JsonKeys.hNodesCovered.name(), hNodeIdsCoveredByVertex);
 					
 					// Add the semantic type information if required.
@@ -164,8 +165,9 @@ public class SVGAlignmentUpdate_ForceKarmaLayout extends AbstractUpdate {
 					
 					if(target.getSemanticType() != null && outEdges.isEmpty()) {
 						linkObj.put(JsonKeys.linkType.name(), JsonValues.holderLink.name());
-						if(target.getSemanticType().isPartOfKey())
+						if(target.getSemanticType().isPartOfKey()){
 							linkObj.put(JsonKeys.label.name(), edge.getLocalLabel()+"*");
+						}
 					}
 						
 					linksArr.put(linkObj);

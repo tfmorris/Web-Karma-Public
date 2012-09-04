@@ -173,10 +173,11 @@ public class OntologyCache {
 			}
 
 			temp  = propertyDirectDomains.get(op.getURI());
-			if (temp == null)
+			if (temp == null){
 				propertyDirectDomains.put(op.getURI(), ontologyManager.getResourcesURIs(directDomains));
-			else 
+			}else{
 				temp.addAll(ontologyManager.getResourcesURIs(directDomains));
+			}
 			
 			for (int i = 0; i < directDomains.size(); i++) {
 				temp = directOutObjectProperties.get(directDomains.get(i).getURI());
@@ -193,10 +194,11 @@ public class OntologyCache {
 			}
 
 			temp  = propertyIndirectDomains.get(op.getURI());
-			if (temp == null)
+			if (temp == null){
 				propertyIndirectDomains.put(op.getURI(), ontologyManager.getResourcesURIs(allDomains));
-			else 
+			}else{
 				temp.addAll(ontologyManager.getResourcesURIs(allDomains));
+			}
 			
 			for (int i = 0; i < allDomains.size(); i++) {
 				temp = indirectOutObjectProperties.get(allDomains.get(i).getURI());
@@ -215,10 +217,11 @@ public class OntologyCache {
 			}
 
 			temp  = propertyDirectRanges.get(op.getURI());
-			if (temp == null)
+			if (temp == null){
 				propertyDirectRanges.put(op.getURI(), ontologyManager.getResourcesURIs(directRanges));
-			else 
+			}else{
 				temp.addAll(ontologyManager.getResourcesURIs(directRanges));
+			}
 			
 			for (int i = 0; i < directRanges.size(); i++) {
 				temp = directInObjectProperties.get(directRanges.get(i).getURI());
@@ -235,10 +238,11 @@ public class OntologyCache {
 			}
 			
 			temp  = propertyIndirectRanges.get(op.getURI());
-			if (temp == null)
+			if (temp == null){
 				propertyIndirectRanges.put(op.getURI(), ontologyManager.getResourcesURIs(allRanges));
-			else 
+			}else{
 				temp.addAll(ontologyManager.getResourcesURIs(allRanges));
+			}
 			
 			for (int i = 0; i < allRanges.size(); i++) {
 				temp = indirectInObjectProperties.get(allRanges.get(i).getURI());
@@ -257,8 +261,9 @@ public class OntologyCache {
 						temp = new ArrayList<String>();
 						directDomainRangeProperties.put(directDomains.get(i).toString() + directRanges.get(j).toString(), temp);
 					}
-					if (temp.indexOf(op.getURI()) == -1)
+					if (temp.indexOf(op.getURI()) == -1){
 						temp.add(op.getURI());
+					}
 				}
 			}
 			
@@ -270,8 +275,9 @@ public class OntologyCache {
 						temp = new ArrayList<String>();
 						indirectDomainRangeProperties.put(allDomains.get(i).toString() + allRanges.get(j).toString(), temp);
 					}
-					if (temp.indexOf(op.getURI()) == -1)
+					if (temp.indexOf(op.getURI()) == -1){
 						temp.add(op.getURI());
+					}
 				}
 			}
 
@@ -314,10 +320,11 @@ public class OntologyCache {
 			}
 
 			temp  = propertyDirectDomains.get(dp.getURI());
-			if (temp == null)
+			if (temp == null){
 				propertyDirectDomains.put(dp.getURI(), ontologyManager.getResourcesURIs(directDomains));
-			else 
+			}else{
 				temp.addAll(ontologyManager.getResourcesURIs(directDomains));
+			}
 			
 			for (int i = 0; i < directDomains.size(); i++) {
 				temp = directOutDataProperties.get(directDomains.get(i).getURI());
@@ -334,10 +341,11 @@ public class OntologyCache {
 			}
 
 			temp  = propertyIndirectDomains.get(dp.getURI());
-			if (temp == null)
+			if (temp == null){
 				propertyIndirectDomains.put(dp.getURI(), ontologyManager.getResourcesURIs(allDomains));
-			else 
+			}else{
 				temp.addAll(ontologyManager.getResourcesURIs(allDomains));
+			}
 			
 			for (int i = 0; i < allDomains.size(); i++) {
 				temp = indirectOutDataProperties.get(allDomains.get(i).getURI());
@@ -356,10 +364,11 @@ public class OntologyCache {
 			}
 
 			temp  = propertyDirectRanges.get(dp.getURI());
-			if (temp == null)
+			if (temp == null){
 				propertyDirectRanges.put(dp.getURI(), ontologyManager.getResourcesURIs(directRanges));
-			else 
+			}else{
 				temp.addAll(ontologyManager.getResourcesURIs(directRanges));
+			}
 			
 			for (int i = 0; i < directRanges.size(); i++) {
 				allRanges.add(directRanges.get(i));
@@ -367,10 +376,11 @@ public class OntologyCache {
 			}
 			
 			temp  = propertyIndirectRanges.get(dp.getURI());
-			if (temp == null)
+			if (temp == null){
 				propertyIndirectRanges.put(dp.getURI(), ontologyManager.getResourcesURIs(allRanges));
-			else 
+			}else{
 				temp.addAll(ontologyManager.getResourcesURIs(allRanges));
+			}
 			
 		}		
 	}
@@ -386,12 +396,21 @@ public class OntologyCache {
 
 		// collect all the existing classes
 		List<String> classes = new ArrayList<String>();
-		for (String s : indirectOutDataProperties.keySet()) 
-			if (classes.indexOf(s) == -1) classes.add(s);
-		for (String s : indirectOutObjectProperties.keySet()) 
-			if (classes.indexOf(s) == -1) classes.add(s);
-		for (String s : indirectInObjectProperties.keySet()) 
-			if (classes.indexOf(s) == -1) classes.add(s);
+		for (String s : indirectOutDataProperties.keySet()){
+			if (classes.indexOf(s) == -1){
+				classes.add(s);
+			}
+		}
+		for (String s : indirectOutObjectProperties.keySet()){
+			if (classes.indexOf(s) == -1){
+				classes.add(s);
+			}
+		}
+		for (String s : indirectInObjectProperties.keySet()){
+			if (classes.indexOf(s) == -1){
+				classes.add(s);
+			}
+		}
 		
 		// add label and comment property to the properties of all the classes
 		for (String s : classes) {
@@ -410,9 +429,11 @@ public class OntologyCache {
 			temp = new ArrayList<String>();
 			propertyIndirectDomains.put(labelUri, temp);
 		}
-		for (String s : classes)
-			if (temp.indexOf(s) == -1)
+		for (String s : classes){
+			if (temp.indexOf(s) == -1){
 				temp.add(s);
+			}
+		}
 		
 		// add comment to properties hashmap
 		temp = propertyIndirectDomains.get(commentUri);
@@ -420,9 +441,11 @@ public class OntologyCache {
 			temp = new ArrayList<String>();
 			propertyIndirectDomains.put(commentUri, temp);
 		}
-		for (String s : classes)
-			if (temp.indexOf(s) == -1)
+		for (String s : classes){
+			if (temp.indexOf(s) == -1){
 				temp.add(s);
+			}
+		}
 
 	}
 	
@@ -442,11 +465,14 @@ public class OntologyCache {
 			List<String> allDomains = new ArrayList<String>();
 			for (String superP : superProperties) {
 				List<String> domains = null;
-				if (inheritance)
+				if (inheritance){
 					domains = propertyIndirectDomains.get(superP);
-				else
+				}else{
 					domains = propertyDirectDomains.get(superP);
-				if (domains == null) continue;
+				}
+				if (domains == null){
+					continue;
+				}
 				allDomains.addAll(domains);
 			}
 
@@ -457,32 +483,40 @@ public class OntologyCache {
 			}
 			
 			for (String d : allDomains) {
-				if (indirectDomains.indexOf(d) == -1)
+				if (indirectDomains.indexOf(d) == -1){
 					indirectDomains.add(d);
+				}
 			}
 			
-			if (ontologyManager.isObjectProperty(p)) 
+			if (ontologyManager.isObjectProperty(p)){
 				for (String d : allDomains) {
 					temp = indirectOutObjectProperties.get(d);
-					if (temp != null && temp.indexOf(p) == -1)
+					if (temp != null && temp.indexOf(p) == -1){
 						temp.add(p);
+					}
 				}
+			}
 
-			if (ontologyManager.isDataProperty(p)) 
+			if (ontologyManager.isDataProperty(p)){
 				for (String d : allDomains) {
 					temp = indirectOutDataProperties.get(d);
-					if (temp != null && temp.indexOf(p) == -1)
+					if (temp != null && temp.indexOf(p) == -1){
 						temp.add(p);
+					}
 				}
+			}
 
 			List<String> allRanges = new ArrayList<String>();
 			for (String superP : superProperties) {
 				List<String> ranges = null;
-				if (inheritance)
+				if (inheritance){
 					ranges = propertyIndirectRanges.get(superP);
-				else
+				}else{
 					ranges = propertyDirectRanges.get(superP);
-				if (ranges == null) continue;
+				}
+				if (ranges == null){
+					continue;
+				}
 				allRanges.addAll(ranges);
 			}
 
@@ -493,16 +527,19 @@ public class OntologyCache {
 			}
 			
 			for (String r : allRanges) {
-				if (indirectRanges.indexOf(r) == -1)
+				if (indirectRanges.indexOf(r) == -1){
 					indirectRanges.add(r);
+				}
 			}
 			
-			if (ontologyManager.isObjectProperty(p)) 
+			if (ontologyManager.isObjectProperty(p)){
 				for (String r : allRanges) {
 					temp = indirectInObjectProperties.get(r);
-					if (temp != null && temp.indexOf(p) == -1)
+					if (temp != null && temp.indexOf(p) == -1){
 						temp.add(p);
+					}
 				}
+			}
 				
 			allDomains.addAll(indirectDomains);
 			allRanges.addAll(indirectRanges);
@@ -515,8 +552,9 @@ public class OntologyCache {
 						temp = new ArrayList<String>();
 						indirectDomainRangeProperties.put(allDomains.get(i).toString() + allRanges.get(j).toString(), temp);
 					}
-					if (temp.indexOf(p) == -1)
+					if (temp.indexOf(p) == -1){
 						temp.add(p);
+					}
 				}
 			}
 		}

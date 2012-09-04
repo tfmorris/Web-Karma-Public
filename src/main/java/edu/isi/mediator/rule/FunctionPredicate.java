@@ -115,12 +115,14 @@ public class FunctionPredicate extends RelationPredicate{
     	ArrayList<Term> terms = getTerms();
     	for(int k=0; k<terms.size(); k++){
     		Term t = terms.get(k);
-    		if(k!=0) actualName += ",";
-    		if(t instanceof FunctionTerm)
+    		if(k!=0){
+    			actualName += ",";
+    		}
+    		if(t instanceof FunctionTerm){
     			actualName += ((FunctionTerm)t).getFunctionForSQL();
-    		else if(t instanceof ConstTerm){
+    		}else if(t instanceof ConstTerm){
     			boolean isNumber = getSourceAttributeType(k);
-				actualName += t.getSqlVal(isNumber);
+    			actualName += t.getSqlVal(isNumber);
     		}
     		else{
     			actualName += t.getVar();
@@ -240,8 +242,9 @@ public class FunctionPredicate extends RelationPredicate{
 			String varName = term.getVar();
 			//get its value
 			String varVal = values.get(varName);
-			if(varVal==null)
+			if(varVal==null){
 				throw new MediatorException("The values map does not contain variable: " + varName + " Map is:" + values);
+			}
 			
 			ConstTerm ct = new ConstTerm(varName, varVal);
 			func.terms.set(i,ct);

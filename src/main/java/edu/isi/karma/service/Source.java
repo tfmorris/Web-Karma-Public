@@ -96,13 +96,16 @@ public class Source {
 	
 	public void setAttributes(List<Attribute> attributes) {
 		
-		if (this.attributes != null)
+		if (this.attributes != null){
 			this.attributes.clear();
+		}
 		
-		for (Attribute att : attributes)
+		for (Attribute att : attributes){
 			att.setBaseUri(this.getUri());
-		for (Attribute att : attributes)
+		}
+		for (Attribute att : attributes){
 			attIdToAttMap.put(att.getId(), att);
+		}
 		
 		this.attributes = attributes;
 	}
@@ -112,8 +115,9 @@ public class Source {
 	}
 
 	public void setModel(Model model) {
-		if (model != null)
+		if (model != null){
 			model.setBaseUri(this.getUri());
+		}
 		this.model = model;
 	}
 
@@ -147,8 +151,9 @@ public class Source {
 	
 	private void updateModel(DirectedWeightedMultigraph<Vertex, LabeledWeightedEdge> treeModel) {
 		
-		if (treeModel == null)
+		if (treeModel == null){
 			return;
+		}
 		
 		Model m = new Model("model");
 		
@@ -178,11 +183,13 @@ public class Source {
 
 		for (Vertex v : treeModel.vertexSet()) {
 			
-			if (v.getNodeType() == NodeType.DataProperty)
+			if (v.getNodeType() == NodeType.DataProperty){
 				continue;
+			}
 			
-			if (vertexIdToArgument.get(v.getID()) == null)
+			if (vertexIdToArgument.get(v.getID()) == null){
 				continue;
+			}
 			
 			URI classPredicate = new URI(v.getUriString(), v.getNs(), v.getPrefix());
 
@@ -193,8 +200,9 @@ public class Source {
 		for (LabeledWeightedEdge e : treeModel.edgeSet()) {
 			
 			if (vertexIdToArgument.get(e.getSource().getID()) == null || 
-					vertexIdToArgument.get(e.getTarget().getID()) == null)
+					vertexIdToArgument.get(e.getTarget().getID()) == null){
 				continue;
+			}
 
 			URI propertyPredicate = new URI(e.getUriString(), e.getNs(), e.getPrefix());
 
@@ -223,8 +231,9 @@ public class Source {
 		System.out.println("Source: " + getInfo());
 		System.out.println("********************************************");
 		System.out.println("Attributes: ");
-		for (Attribute p : getAttributes())
+		for (Attribute p : getAttributes()){
 			p.print();
+		}
 		System.out.print("Model: ");
 		if (this.model != null) {
 			System.out.println(model.getUri());

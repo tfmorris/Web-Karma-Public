@@ -110,8 +110,9 @@ public class OntologyMapperTest {
 				String line = null;
 				while ((line = buff.readLine()) != null) {
 					//System.out.println("line="+line);
-					if (line.startsWith("#") || line.trim().isEmpty())
+					if (line.startsWith("#") || line.trim().isEmpty()){
 						continue;
+					}
 					int ind = line.indexOf("=");
 					if(ind<=0) {
 						buff.close();
@@ -131,10 +132,11 @@ public class OntologyMapperTest {
 						modelName = val;
 					}
 					else if (name.equals("OUTPUT_FILE")){
-						if(val.toUpperCase().equals("STDOUT"))
+						if(val.toUpperCase().equals("STDOUT")){
 							outputFile=null;
-						else
+						}else{
 							outputFile=val;
+						}
 					}
 				}
 				buff.close();

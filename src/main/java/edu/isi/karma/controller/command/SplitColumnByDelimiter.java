@@ -68,11 +68,11 @@ public class SplitColumnByDelimiter {
 		
 		// Convert the delimiter into character primitive type
 		char delimiterChar = ',';
-		if (delimiter.equalsIgnoreCase("space"))
+		if (delimiter.equalsIgnoreCase("space")){
 			delimiterChar = ' ';
-		else if (delimiter.equalsIgnoreCase("tab"))
+		}else if (delimiter.equalsIgnoreCase("tab")){
 			delimiterChar = '\t';
-		else {
+		}else {
 			delimiterChar = new Character(delimiter.charAt(0));
 		}
 
@@ -87,10 +87,12 @@ public class SplitColumnByDelimiter {
 
 		for (Node node : nodes) {
 			String originalVal = node.getValue().asString();
-			if(oldNodeValueMap != null)
+			if(oldNodeValueMap != null){
 				oldNodeValueMap.put(node, node.getValue());
-			if(oldNodeStatusMap != null)
+			}
+			if(oldNodeStatusMap != null){
 				oldNodeStatusMap.put(node, node.getStatus());
+			}
 
 			if (originalVal != null && !originalVal.equals("")) {
 				// Split the values
@@ -99,8 +101,9 @@ public class SplitColumnByDelimiter {
 				try {
 					String[] rowValues = reader.readNext();
 					reader.close();
-					if (rowValues == null || rowValues.length == 0)
+					if (rowValues == null || rowValues.length == 0){
 						continue;
+					}
 
 					// Get the nested table for the node
 					Table table = node.getNestedTable();

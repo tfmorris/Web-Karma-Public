@@ -28,25 +28,30 @@ import org.jgrapht.graph.DirectedWeightedMultigraph;
 public class GraphUtil {
 
 	private static String getNodeTypeString(Vertex vertex) {
-    	if (vertex.getNodeType() == NodeType.Class)
-    		return "Class";
-    	else if (vertex.getNodeType() == NodeType.DataProperty)
-    		return "DataProperty";
-    	else
-    		return null;
+    	if (vertex.getNodeType() == NodeType.Class){
+			return "Class";
+		}else if (vertex.getNodeType() == NodeType.DataProperty){
+			return "DataProperty";
+		}else{
+			return null;
+		}
 	}
 
 	private static String getLinkTypeString(LabeledWeightedEdge link) {
-    	if (link.getLinkType() == LinkType.ObjectProperty)
-    		return "ObjectProperty";
-    	if (link.getLinkType() == LinkType.DataProperty)
-    		return "DataProperty";
-    	if (link.getLinkType() == LinkType.HasSubClass)
-    		return "HasSubClass";
-    	if (link.getLinkType() == LinkType.None)
-    		return "None";
-    	else
-    		return null;
+    	if (link.getLinkType() == LinkType.ObjectProperty){
+			return "ObjectProperty";
+		}
+    	if (link.getLinkType() == LinkType.DataProperty){
+			return "DataProperty";
+		}
+    	if (link.getLinkType() == LinkType.HasSubClass){
+			return "HasSubClass";
+		}
+    	if (link.getLinkType() == LinkType.None){
+			return "None";
+		}else{
+			return null;
+		}
 	}
 	
 	public static void printVertex(Vertex vertex) {
@@ -65,8 +70,9 @@ public class GraphUtil {
 		// FIXME
 		if (edge.isInverse()) {
 			System.out.print( "inverseOf(" + edge.getLocalID() + ")" );
-		} else 
+		}else{
 			System.out.print( edge.getLocalID());
+		}
 //    	System.out.print( edge.getID());
     	System.out.print(", ");
     	System.out.print(edge.getUriString());
@@ -84,11 +90,13 @@ public class GraphUtil {
 		
 		DirectedGraph<Vertex, LabeledWeightedEdge> g = new DirectedWeightedMultigraph<Vertex, LabeledWeightedEdge>(LabeledWeightedEdge.class);
 		
-		for (Vertex v : undirectedGraph.vertexSet())
+		for (Vertex v : undirectedGraph.vertexSet()){
 			g.addVertex(v);
+		}
 		
-		for (LabeledWeightedEdge e: undirectedGraph.edgeSet())
+		for (LabeledWeightedEdge e: undirectedGraph.edgeSet()){
 			g.addEdge(e.getSource(), e.getTarget(), e);
+		}
 		
 		return g;
 	}
@@ -123,8 +131,9 @@ public class GraphUtil {
 			System.out.print(")");
 			System.out.print(" - ");
 			System.out.print("(");
-			if (edge.isInverse())
+			if (edge.isInverse()){
 				System.out.print("invOf:");
+			}
 			System.out.print(edge.getLocalID());
 			System.out.print(")");
 			System.out.print(" - ");

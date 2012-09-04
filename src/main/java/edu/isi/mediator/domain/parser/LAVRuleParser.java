@@ -56,9 +56,9 @@ public class LAVRuleParser{
 			//there is only one source NS and that has prefix "s"
 			if(prefix.equals(RDFDomainModel.SOURCE_PREFIX)){
 				dm.addSourceNamespace(prefix, namespace);
-			}
-			else
+			}else{
 				dm.addOntologyNamespace(prefix, namespace);
+			}
 		}
 	}
 	
@@ -88,8 +88,9 @@ public class LAVRuleParser{
 	 * @throws MediatorException
 	 */
 	public LAVRule parseLAVRule(String rule) throws MediatorException{
-		if(!rule.startsWith("LAV_RULES:"))
+		if(!rule.startsWith("LAV_RULES:")){
 			rule = "LAV_RULES:" + rule;
+		}
 		
 		DomainParser dp = new DomainParser();
 		CommonTree t = dp.parse(rule);
@@ -137,9 +138,9 @@ public class LAVRuleParser{
 		if(r.isValid()){
 			// all vars in the head are in the body
 			return r;
-		}
-		else
+		}else{
 			return null;
+		}
 	}	
 
 }

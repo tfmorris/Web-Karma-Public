@@ -73,10 +73,11 @@ public class SetSemanticTypeCommand extends Command {
 
 	@Override
 	public String getDescription() {
-		if (newType.getDomain() == null)
+		if (newType.getDomain() == null){
 			return newType.getType().getLocalName();
-		else
+		}else{
 			return newType.getType().getLocalName() + " of " + newType.getDomain().getLocalName();
+		}
 	}
 
 	@Override

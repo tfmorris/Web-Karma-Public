@@ -44,27 +44,34 @@ public class NegativeDataGen {
 		r.setNewInput(x);
 		//randomly perform a ins operation
 		List<TNode> toks = new ArrayList<TNode>();
-		if(x.size() == 0)
+		if(x.size() == 0){
 			return r.vec;
+		}
 		int dpos = rd.nextInt(x.size());
-		if(y.size() == 0)
+		if(y.size() == 0){
 			return r.vec;
+		}
 		toks.add(y.get(rd.nextInt(y.size())));
 		r.ins(toks, dpos);
 		//randomly perform a mov operation
-		if(r.vec.size() == 0)
+		if(r.vec.size() == 0){
 			return r.vec;
+		}
 		toks.add(y.get(rd.nextInt(y.size())));
-		if(r.vec.size() == 0)
+		if(r.vec.size() == 0){
 			return r.vec;
+		}
 		int spos = rd.nextInt(r.vec.size());
-		if(spos == r.vec.size()-1)
+		if(spos == r.vec.size()-1){
 			spos = r.vec.size()-2;
+		}
 		int epos = rd.nextInt(2)+spos;
-		if(epos >= r.vec.size()-1)
+		if(epos >= r.vec.size()-1){
 			epos = r.vec.size()-1;
-		if(r.vec.size() == 0)
+		}
+		if(r.vec.size() == 0){
 			return r.vec;
+		}
 		int dpos1 = rd.nextInt(r.vec.size());
 		while(dpos1<=epos && dpos1 >= spos)
 		{
@@ -74,13 +81,16 @@ public class NegativeDataGen {
 		r.mov(null, dpos1, spos, epos);
 		System.out.println(""+r.vec);
 		//randomly perform a del operation
-		if(r.vec.size() == 0)
+		if(r.vec.size() == 0){
 			return r.vec;
+		}
 		int st = rd.nextInt(r.vec.size());
-		if(st == r.vec.size())
+		if(st == r.vec.size()){
 			st = r.vec.size()-2;
-		if(r.vec.size()-st <= 0)
+		}
+		if(r.vec.size()-st <= 0){
 			return r.vec;
+		}
 		int ed = rd.nextInt(r.vec.size()-st)+st;
 		r.det(1, null, st, ed);
 		return r.vec;

@@ -82,8 +82,9 @@ public class SemanticTypeUtil {
 		ArrayList<String> nodeValues = new ArrayList<String>();
 		for (Node n : nodes) {
 			String nodeValue = n.getValue().asString();
-			if (nodeValue != null && !nodeValue.equals(""))
+			if (nodeValue != null && !nodeValue.equals("")){
 				nodeValues.add(nodeValue);
+			}
 		}
 
 		// Shuffling the values so that we get randomly chosen values to train
@@ -92,8 +93,9 @@ public class SemanticTypeUtil {
 		if (nodeValues.size() > TRAINING_EXAMPLE_MAX_COUNT) {
 			ArrayList<String> subset = new ArrayList<String>();
 			// SubList method of ArrayList causes ClassCast exception
-			for (int i = 0; i < TRAINING_EXAMPLE_MAX_COUNT; i++)
+			for (int i = 0; i < TRAINING_EXAMPLE_MAX_COUNT; i++){
 				subset.add(nodeValues.get(i));
+			}
 			return subset;
 		}
 		return nodeValues;
@@ -130,8 +132,9 @@ public class SemanticTypeUtil {
 			boolean semanticTypeAdded = false;
 			ArrayList<String> trainingExamples = getTrainingExamples(worksheet,
 					path);
-			if (trainingExamples.size() == 0)
+			if (trainingExamples.size() == 0){
 				continue;
+			}
 
 			Map<ColumnFeature, Collection<String>> columnFeatures = new HashMap<ColumnFeature, Collection<String>>();
 
@@ -181,8 +184,9 @@ public class SemanticTypeUtil {
 				continue;
 			}
 			URI domainURI = null;
-			if (!domain.equals(""))
+			if (!domain.equals("")){
 				domainURI = ontMgr.getURIFromString(domain);
+			}
 			SemanticType semtype = new SemanticType(path.getLeaf().getId(),typeURI, domainURI, SemanticType.Origin.CRFModel,scores.get(0), false);
 
 			// Check if the user already provided a semantic type manually
@@ -203,8 +207,9 @@ public class SemanticTypeUtil {
 					// older one
 					if (!existingType.getType().equals(semtype.getType())
 							|| !existingType.getDomain().equals(
-									semtype.getDomain()))
+									semtype.getDomain())){
 						semanticTypesChangedOrAdded = true;
+					}
 				}
 			}
 
@@ -304,10 +309,11 @@ public class SemanticTypeUtil {
 	 * @return URI string with namespace removed
 	 */
 	public static String removeNamespace(String uri) {
-		if (uri.contains("#"))
+		if (uri.contains("#")){
 			uri = uri.split("#")[1];
-		else if (uri.contains("/"))
+		}else if (uri.contains("/")){
 			uri = uri.substring(uri.lastIndexOf("/") + 1);
+		}
 		return uri;
 	}
 

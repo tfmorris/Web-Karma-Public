@@ -114,7 +114,9 @@ public class RuleGenerator {
 			String x = s.trim();
 			String[] tokens = x.split(" ");
 			if(tokens.length!=epos-spos+1)
+			 {
 				continue; // only keep the 1 and n two options
+			}
 			boolean valid = true; 
 			for(int i = 0; i<tokens.length;i++)
 			{
@@ -476,8 +478,9 @@ public class RuleGenerator {
 	{
 		for(String x:rule)
 		{
-			if(nonterminals.containsKey(x))
+			if(nonterminals.containsKey(x)){
 				return true;
+			}
 		}
 		return false;
 	}

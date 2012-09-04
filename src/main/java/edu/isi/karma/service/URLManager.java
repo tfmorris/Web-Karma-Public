@@ -68,11 +68,14 @@ public class URLManager {
 		String firstEndpoint = "";
 		for (int i = 0; i < requestURLStrings.size(); i++) {
 			URL url = new URL(requestURLStrings.get(i).trim());
-			if (i == 0) firstEndpoint = getEndPoint(url);
+			if (i == 0){
+				firstEndpoint = getEndPoint(url);
+			}
 			
 			// only urls with the same endpoints will be added to the list.
-			if (!firstEndpoint.equalsIgnoreCase(getEndPoint(url)))
+			if (!firstEndpoint.equalsIgnoreCase(getEndPoint(url))){
 				throw new KarmaException("To model a service, all request examples should have the same endpoint.");
+			}
 			urls.add(url);
 		}
 		
@@ -87,8 +90,9 @@ public class URLManager {
 	 */
 	public static String getEndPoint(URL url) {
 		String endPoint = url.getHost() + url.getPath();
-		if (endPoint.endsWith("/"))
+		if (endPoint.endsWith("/")){
 			endPoint = endPoint.substring(0, endPoint.length() - 1);
+		}
 		return endPoint;
 	}
 	
@@ -117,10 +121,12 @@ public class URLManager {
 	 */
 	public static String getOperationName(URL url) {
 		String operationName = url.getPath();
-		if (operationName.indexOf("/") != -1) 
+		if (operationName.indexOf("/") != -1){
 			operationName = operationName.substring(operationName.lastIndexOf("/") + 1, operationName.length());
-		if (operationName.trim().length() == 0)
+		}
+		if (operationName.trim().length() == 0){
 			operationName = "";
+		}
 		return operationName;
 	}		
 	
@@ -135,19 +141,22 @@ public class URLManager {
 
 		address += getOperationName(url);
 		
-		if (url.getQuery() != null)
+		if (url.getQuery() != null){
 			address += "?" + url.getQuery().trim();
+		}
 		
 		return address;
 	}
 
 	private static boolean verifyAttributeExtraction(URL url, List<Attribute> attributeList) {
-		if (url.getQuery() == null && (attributeList == null || attributeList.size() == 0))
+		if (url.getQuery() == null && (attributeList == null || attributeList.size() == 0)){
 			return true;
+		}
 		
 		if (url.getQuery() != null && url.getQuery().trim().length() == 0 && 
-				(attributeList == null || attributeList.size() == 0))
+				(attributeList == null || attributeList.size() == 0)){
 			return true;
+		}
 		
 		String query = "";
 		for (Attribute p:attributeList) {
@@ -156,11 +165,13 @@ public class URLManager {
 			query += p.getValue().trim();
 			query += "&";
 		}
-		if (query.endsWith("&"))
+		if (query.endsWith("&")){
 			query = query.substring(0, query.length()-1);
+		}
 		
-		if (query.equalsIgnoreCase(url.getQuery()))
+		if (query.equalsIgnoreCase(url.getQuery())){
 			return true;
+		}
 		
 		return false;
 	}
@@ -193,7 +204,9 @@ public class URLManager {
 		                String value = "";
 		                if (pair.length > 1) {
 		                	for (int i = 1; i < pair.length; i++) {
-		                		if (i != 1) value += "=";
+		                		if (i != 1){
+									value += "=";
+								}
 		                		value += URLDecoder.decode(pair[i], "UTF-8");
 		                	}
 		                }
@@ -237,8 +250,9 @@ public class URLManager {
 	}
 
 	private static String getId(String name, HashMap<String, Integer> nameCounter) {
-		if (nameCounter == null)
+		if (nameCounter == null){
 			return null;
+		}
 
 		Integer count = nameCounter.get(name);
 		if (count == null) {
@@ -290,16 +304,19 @@ public class URLManager {
 
 			List<Attribute> attributeList = getQueryAttributes(urlList.get(i));
 			
-			for (int j = 0; j < attributeNames.size(); j++)
+			for (int j = 0; j < attributeNames.size(); j++){
 				allAttributes.get(i).add("");
+			}
 			
 			for (int j = 0; j < attributeList.size(); j++) {
 				p = attributeList.get(j);
 				key = p.getName();
 				index = attributeNames.indexOf(key);
-				if (p.getValue() != null && p.getValue().trim().length() > 0)
-					if (index != -1)
+				if (p.getValue() != null && p.getValue().trim().length() > 0){
+					if (index != -1){
 						allAttributes.get(i).set(index, p.getValue().trim());
+					}
+				}
 			}
 		}
 		return allAttributes;
@@ -329,10 +346,13 @@ public class URLManager {
 				p = attributeList.get(j);
 				key = p.getName();
 				index = attributeNames.indexOf(key);
-				if (p.getValue() != null && p.getValue().trim().length() > 0)
-					if (index != -1)
-						if (allAttributes.get(index).indexOf(p.getValue().trim()) == -1)
+				if (p.getValue() != null && p.getValue().trim().length() > 0){
+					if (index != -1){
+						if (allAttributes.get(index).indexOf(p.getValue().trim()) == -1){
 							allAttributes.get(index).add(p.getValue().trim());
+						}
+					}
+				}
 			}
 		}
 		return allAttributes;
@@ -365,16 +385,18 @@ public class URLManager {
 			
 			
 			for (int i = 0; i < attributeNames.size(); i++) {
-				if (i != 0)
+				if (i != 0){
 					csv += ",";
+				}
 				csv += "\"" + attributeNames.get(i) + "\"";
 			}
 			csv += "\n";
 
 			for (int i = 0; i < attributeValues.size(); i++) {
 				for (int j = 0; j < attributeValues.get(i).size(); j++) {
-					if (j != 0)
+					if (j != 0){
 						csv += ",";
+					}
 					csv += "\"" + attributeValues.get(i).get(j) + "\"";
 				}
 				csv += "\n";
@@ -405,17 +427,20 @@ public class URLManager {
 	public static String createApiLink(String apiEndPoint, List<String> attributeNames, List<String> attributeValues) {
 		String invocationURL = apiEndPoint.trim();
 			
-		if (!invocationURL.endsWith("?"))
+		if (!invocationURL.endsWith("?")){
 			invocationURL += "?";
+		}
 
 		String value = "";
 		for (int i = 0; i < attributeNames.size(); i++) {
 			value = attributeValues.get(i).trim();
 			
-			if (value == null || value.length() == 0 || value.equalsIgnoreCase(null))
+			if (value == null || value.length() == 0 || value.equalsIgnoreCase(null)){
 				continue;
-			if (!invocationURL.endsWith("?"))
+			}
+			if (!invocationURL.endsWith("?")){
 				invocationURL += "&";
+			}
 			
 			invocationURL += attributeNames.get(i);
 			invocationURL += "=";

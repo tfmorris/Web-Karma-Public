@@ -230,12 +230,14 @@ public class JsonManager {
     			}
     		}
     		if (count == ((ArrayValue)element.getValue()).getElements().size() ||
-    				((ArrayValue)element.getValue()).getElements().size() == 0)
-    			element.setFullPath(prefix.substring(1));
+    				((ArrayValue)element.getValue()).getElements().size() == 0){
+				element.setFullPath(prefix.substring(1));
+			}
     		for (int i = 0; i < ((ArrayValue)element.getValue()).getElements().size(); i++) {
     			Element e = ((ArrayValue)element.getValue()).getElements().get(i);
-    			if (e.getValueType() == ValueType.ARRAY)
-    				getLeavesPath(e, prefix, separator, depth + 1);
+    			if (e.getValueType() == ValueType.ARRAY){
+					getLeavesPath(e, prefix, separator, depth + 1);
+				}
     		}
 
     	}
@@ -255,8 +257,9 @@ public class JsonManager {
 
 		String temp = "";
 		for (int i = 0; i < parts.length; i++) {
-			if (parts[i].trim().length() == 0)
+			if (parts[i].trim().length() == 0){
 				continue;
+			}
 	    	temp = parts[i].substring(parts[i].indexOf("v=") + 2);
 			result.add(temp.trim());
 		}
@@ -270,8 +273,9 @@ public class JsonManager {
 
 		String temp = "";
 		for (int i = 0; i < parts.length; i++) {
-			if (parts[i].trim().length() == 0)
+			if (parts[i].trim().length() == 0){
 				continue;
+			}
 			temp = parts[i].substring(0, parts[i].indexOf("v="));
 			temp = temp.substring(0, temp.length() - 1);
 			result.add(temp.trim());
@@ -287,8 +291,9 @@ public class JsonManager {
 			for (int j = 0; j < srcColumns.get(i).size(); j++)
 			{
 				colName = srcColumns.get(i).get(j).toString();
-				if (columns.indexOf(colName) == -1)
+				if (columns.indexOf(colName) == -1){
 					columns.add(colName);
+				}
 			}
 		}
 		
@@ -304,10 +309,11 @@ public class JsonManager {
 				
 				for (int k = 0; k < columns.size(); k++) {
 					int index = rawNames.indexOf(columns.get(k).toString());
-					if (index == -1)
+					if (index == -1){
 						singleValue = null;
-					else
+					}else{
 						singleValue = rawValues.get(index);
+					}
 					populatedValues.add(singleValue);
 				}
 				
@@ -344,11 +350,12 @@ public class JsonManager {
 				
 				for (int k = 0; k < columns.size(); k++) {
 					int index = rawNames.indexOf(columns.get(k).toString());
-					if (index == -1)
-//						singleValue = null;
+					if (index == -1){
+						//						singleValue = null;
 						singleValue = "";
-					else
+					}else{
 						singleValue = rawValues.get(index);
+					}
 					populatedValues.add(singleValue);
 				}
 				
@@ -389,8 +396,9 @@ public class JsonManager {
 		union(srcColumns, srcValues, columns, values);
 		
 		int[] sameColumnName = new int[columns.size()];
-		for (int i = 0; i < columns.size(); i++) 
+		for (int i = 0; i < columns.size(); i++){
 			sameColumnName[i] = 1;
+		}
 		
 		String name = "";
 		for (int i = 0; i < columns.size(); i++) {

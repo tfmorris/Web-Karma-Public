@@ -94,10 +94,11 @@ public class EditCellCommand extends WorksheetCommand {
 	@Override
 	public String getDescription() {
 		if (isExecuted()) {
-			if(newValueArg.asString().length() > 20)
+			if(newValueArg.asString().length() > 20){
 				return "Set value to " + newValueArg.asString().substring(0, 19) + "...";
-			else
+			}else{
 				return "Set value to " + newValueArg.asString();
+			}
 		} else {
 			return "";
 		}

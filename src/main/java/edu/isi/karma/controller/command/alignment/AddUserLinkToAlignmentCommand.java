@@ -121,8 +121,9 @@ public class AddUserLinkToAlignmentCommand extends Command {
 		List<String> hNodeIdList = new ArrayList<String>();
 		VWorksheet vw = vWorkspace.getViewFactory().getVWorksheet(vWorksheetId);
 		List<HNodePath> columns = vw.getColumns();
-		for(HNodePath path:columns)
+		for(HNodePath path:columns){
 			hNodeIdList.add(path.getLeaf().getId());
+		}
 		
 		SVGAlignmentUpdate_ForceKarmaLayout svgUpdate = new SVGAlignmentUpdate_ForceKarmaLayout(vWorksheetId, alignmentId, alignment, hNodeIdList);
 

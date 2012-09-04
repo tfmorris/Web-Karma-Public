@@ -93,8 +93,9 @@ public class RuleUtil {
 			String line = "";
 			while((line = br.readLine())!= null)
 			{
-				if(line.length() == 0)
+				if(line.length() == 0){
 					continue;
+				}
 				line = "%"+line+"@";
 				System.out.println(""+line);
 				line = RuleUtil.applyRule(rules, line);
@@ -332,8 +333,9 @@ public class RuleUtil {
 			while((xline=xbr.readLine())!=null)
 			{
 				List<String> xrow = new ArrayList<String>();
-				if(xline.compareTo("")==0)
+				if(xline.compareTo("")==0){
 					break;
+				}
 				String s = RuleUtil.applyRuleS(rule, xline);
 		        System.out.println(s);
 		        xrow.add(xline);
@@ -431,12 +433,13 @@ public class RuleUtil {
 			int lhod = 8;
 			int uhod = 50;
 			int deadend = 0;
-			if(l.size()*0.5>lhod &&l.size()*0.5<uhod)
+			if(l.size()*0.5>lhod &&l.size()*0.5<uhod){
 				deadend = (int) (l.size()*0.5);
-			else if(l.size()*0.5<lhod)
+			}else if(l.size()*0.5<lhod){
 				deadend = lhod;
-			else
+			}else{
 				deadend = uhod;
+			}
 			for(int c=0; c<deadend;c++)
 			{
 				int index = MarkovDP.sampleByScore(l,sr);
@@ -752,8 +755,9 @@ public class RuleUtil {
 				GrammarParseTree gt = new GrammarParseTree(type);
 				gt.setExample(seq.get(j));//set the before and after for this edit component
 				isvalid = gt.initalSubtemplete(oper,global_temp);
-				if(!isvalid)
+				if(!isvalid){
 					break;
+				}
 				tmptrees.add(gt);
 				//gt.diagPrint();
 			}
@@ -839,8 +843,9 @@ public class RuleUtil {
 				corrNum = 0;
 				for(List<GrammarParseTree> ts:trees)
 				{
-					if(ts.size()>=7)
+					if(ts.size()>=7){
 						continue;
+					}
 					cnt = 0;
 					while(cnt < b*10)
 					{

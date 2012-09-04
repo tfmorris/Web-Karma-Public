@@ -62,8 +62,9 @@ public class HistoryJsonUtil {
 		if(obj != null) {
 			obj.put(ClientJsonKeys.value.name(), value);
 			return true;
-		} else
+		}else{
 			return false;
+		}
 	}
 
 //	private double getDoubleValue(String arg, JSONArray json) throws JSONException {

@@ -29,20 +29,24 @@ public class LinkedApiServiceHandler extends HttpServlet {
 		String resource = request.getParameter("resource");
 		
 		ResourceType resourceType = ResourceType.Service;
-		if (resource != null && resource.trim().toString().equalsIgnoreCase("input"))
+		if (resource != null && resource.trim().toString().equalsIgnoreCase("input")){
 			resourceType = ResourceType.Input;
-		if (resource != null && resource.trim().toString().equalsIgnoreCase("output"))
+		}
+		if (resource != null && resource.trim().toString().equalsIgnoreCase("output")){
 			resourceType = ResourceType.Output;
+		}
 
 		if (format == null || (!format.equalsIgnoreCase(SerializationLang.N3) && 
 				!format.equalsIgnoreCase(SerializationLang.N_TRIPLE) &&
 				!format.equalsIgnoreCase(SerializationLang.XML_ABBREV) &&
-				!format.equalsIgnoreCase(SerializationLang.SPARQL) ))
+				!format.equalsIgnoreCase(SerializationLang.SPARQL) )){
 			format = SerializationLang.XML;
+		}
 
 		if (resourceType == ResourceType.Service && 
-				format.equalsIgnoreCase(SerializationLang.SPARQL))
+				format.equalsIgnoreCase(SerializationLang.SPARQL)){
 			format = SerializationLang.XML;
+		}
 		
 		format = format.toUpperCase();
 		
@@ -65,17 +69,19 @@ public class LinkedApiServiceHandler extends HttpServlet {
 		logger.info("Content-Type: " + request.getContentType());
 		
 		String inputLang = "";
-		if (request.getContentType().startsWith(MimeType.APPLICATION_RDF_XML))
+		if (request.getContentType().startsWith(MimeType.APPLICATION_RDF_XML)){
 			inputLang = SerializationLang.XML;
-		if (request.getContentType().startsWith(MimeType.TEXT_XML))
+		}
+		if (request.getContentType().startsWith(MimeType.TEXT_XML)){
 			inputLang = SerializationLang.XML;
-		else if (request.getContentType().startsWith(MimeType.APPLICATION_XML))
+		}else if (request.getContentType().startsWith(MimeType.APPLICATION_XML)){
 			inputLang = SerializationLang.XML;
-		else if (request.getContentType().startsWith(MimeType.APPLICATION_RDF_N3))
+		}else if (request.getContentType().startsWith(MimeType.APPLICATION_RDF_N3)){
 			inputLang = SerializationLang.N3;
-		if (request.getContentType().startsWith(MimeType.APPLICATION_FORM_URLENCODED))
+		}
+		if (request.getContentType().startsWith(MimeType.APPLICATION_FORM_URLENCODED)){
 			;
-		else {
+		}else {
 			response.setContentType(MimeType.TEXT_PLAIN);
 			response.getWriter().write("The content type is neither rdf+xml nor rdf+n3");
 			return;
@@ -83,8 +89,9 @@ public class LinkedApiServiceHandler extends HttpServlet {
 		
 		if (format == null || (!format.equalsIgnoreCase(SerializationLang.N3) && 
 				!format.equalsIgnoreCase(SerializationLang.N_TRIPLE) &&
-				!format.equalsIgnoreCase(SerializationLang.XML_ABBREV) ))
+				!format.equalsIgnoreCase(SerializationLang.XML_ABBREV) )){
 			format = SerializationLang.XML;
+		}
 
 		format = format.toUpperCase();
 		

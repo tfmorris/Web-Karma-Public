@@ -281,10 +281,12 @@ public class GrammarParseTree {
 	public void buildTree(String name, GrammarTreeNode par)
 	{
 		//using the rule to generate a possible parse tree comply with the examples
-		if(name==null)
+		if(name==null){
 			return;
-		if(name.length()==0)
+		}
+		if(name.length()==0){
 			return;
+		}
 		ArrayList<ArrayList<String>> rules = this.nonterminals.get(name);
 		//System.out.println(this.nonterminals);		
 		if(rules == null||rules.size()==0)
@@ -525,22 +527,30 @@ public class GrammarParseTree {
 				subtemples.put("dtokenspec", vg);
 			}
 		}
-		if(sequen.get(0).size()==0)
+		if(sequen.get(0).size()==0){
 			trimgrammar("etokenspec");
-		if(sequen.get(1).size()==0)
+		}
+		if(sequen.get(1).size()==0){
 			trimgrammar("stokenspec");
-		if(sequen.get(2).size()==0)
+		}
+		if(sequen.get(2).size()==0){
 			trimgrammar("tokenspec");
-		if(sequen.get(3).size()==0)
+		}
+		if(sequen.get(3).size()==0){
 			trimgrammar("qnum");
-		if(sequen.get(4).size()==0)
+		}
+		if(sequen.get(4).size()==0){
 			trimgrammar("snum");
-		if(sequen.get(5).size()==0)
+		}
+		if(sequen.get(5).size()==0){
 			trimgrammar("tnum");
-		if(sequen.get(6).size()==0)
+		}
+		if(sequen.get(6).size()==0){
 			trimgrammar("dnum");
-		if(sequen.get(7).size()==0)
+		}
+		if(sequen.get(7).size()==0){
 			trimgrammar("dtokenspec");
+		}
 		
 		Set<String> keys = this.nonterminals.keySet();
 		Iterator<String> iter = keys.iterator();

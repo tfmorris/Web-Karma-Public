@@ -44,10 +44,11 @@ public class ServletContextParameterMap {
 	}
 
 	public static String getParameterValue(ContextParameter param) {
-		if (valuesMap.containsKey(param))
+		if (valuesMap.containsKey(param)){
 			return valuesMap.get(param);
-		else
+		}else{
 			logger.error("Parameter value does not exist!");
+		}
 
 		return "";
 	}

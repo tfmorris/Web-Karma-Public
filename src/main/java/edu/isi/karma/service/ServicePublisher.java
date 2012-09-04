@@ -110,8 +110,9 @@ public class ServicePublisher {
 		_service = service;
 
 		Service existingService = ServiceLoader.getServiceByAddress(_service.getAddress());
-		if (existingService != null) 
+		if (existingService != null){
 			ServiceLoader.deleteServiceByUri(existingService.getUri());
+		}
 		
 		Model model = generateModel(_service);
 		
@@ -151,21 +152,24 @@ public class ServicePublisher {
 		Literal service_address = model.createTypedLiteral(_service.getAddress(), uri_template);
 		my_service.addProperty(rdf_type, service_resource);
 		my_service.addProperty(has_address, service_address);
-		if (_service.getName().length() > 0)
+		if (_service.getName().length() > 0){
 			my_service.addProperty(has_name, _service.getName());
+		}
 		
-		if (_service.getMethod().length() > 0)
+		if (_service.getMethod().length() > 0){
 			my_service.addProperty(has_method, _service.getMethod());
+		}
 		if (_service.getAddress().length() > 0) {
 			Literal operation_address_literal = model.createTypedLiteral(_service.getAddress(), uri_template);
 			my_service.addLiteral(has_address, operation_address_literal);
 		}
 		
-		if (_service.getVariables() != null)
-		for (int i = 0; i < _service.getVariables().size(); i++) {
-			Resource my_variable = model.createResource(baseNS + _service.getVariables().get(i).toString());
-			my_variable.addProperty(rdf_type, variavle_resource);
-			my_service.addProperty(has_variable, my_variable);
+		if (_service.getVariables() != null){
+			for (int i = 0; i < _service.getVariables().size(); i++) {
+				Resource my_variable = model.createResource(baseNS + _service.getVariables().get(i).toString());
+				my_variable.addProperty(rdf_type, variavle_resource);
+				my_service.addProperty(has_variable, my_variable);
+			}
 		}
 		
 		//for source description
@@ -175,10 +179,14 @@ public class ServicePublisher {
 		my_service.addProperty(hasSourceDesc, sourceDescription);
 			
 		Resource my_input = addInput(model, true);
-		if (my_input != null) my_service.addProperty(has_input, my_input);
+		if (my_input != null){
+			my_service.addProperty(has_input, my_input);
+		}
 
 		Resource my_output = addOutput(model, true);
-		if (my_output != null) my_service.addProperty(has_output, my_output);
+		if (my_output != null){
+			my_service.addProperty(has_output, my_output);
+		}
 
 	}
 	
@@ -207,15 +215,17 @@ public class ServicePublisher {
 				Attribute att = _service.getInputAttributes().get(i);
 				Resource my_attribute = model.createResource(baseNS + att.getId());
 				
-				if (includeAttributeDetails)
+				if (includeAttributeDetails){
 					addAttributeDetails(model, my_attribute, att);
+				}
 				
-				if (att.getRequirement() == AttributeRequirement.NONE)
+				if (att.getRequirement() == AttributeRequirement.NONE){
 					my_input.addProperty(has_attribute, my_attribute);
-				else if (att.getRequirement() == AttributeRequirement.MANDATORY)
+				}else if (att.getRequirement() == AttributeRequirement.MANDATORY){
 					my_input.addProperty(has_mandatory_attribute, my_attribute);
-				else if (att.getRequirement() == AttributeRequirement.OPTIONAL)
+				}else if (att.getRequirement() == AttributeRequirement.OPTIONAL){
 					my_input.addProperty(has_optional_attribute, my_attribute);
+				}
 
 			}
 
@@ -249,15 +259,17 @@ public class ServicePublisher {
 				Attribute att = _service.getOutputAttributes().get(i);
 				Resource my_attribute = model.createResource(baseNS + att.getId());
 				
-				if (includeAttributeDetails)
+				if (includeAttributeDetails){
 					addAttributeDetails(model, my_attribute, att);
+				}
 
-				if (att.getRequirement() == AttributeRequirement.NONE)
+				if (att.getRequirement() == AttributeRequirement.NONE){
 					my_output.addProperty(has_attribute, my_attribute);
-				else if (att.getRequirement() == AttributeRequirement.MANDATORY)
+				}else if (att.getRequirement() == AttributeRequirement.MANDATORY){
 					my_output.addProperty(has_mandatory_attribute, my_attribute);
-				else if (att.getRequirement() == AttributeRequirement.OPTIONAL)
+				}else if (att.getRequirement() == AttributeRequirement.OPTIONAL){
 					my_output.addProperty(has_optional_attribute, my_attribute);
+				}
 
 			}
 			addModelPart(model, my_output, _service.getOutputModel());
@@ -319,8 +331,9 @@ public class ServicePublisher {
 					Resource r = model.createResource();
 					r.addProperty(rdf_type, class_atom_resource);
 					
-					if (classAtom.getClassPredicate().getPrefix() != null && classAtom.getClassPredicate().getNs() != null)
+					if (classAtom.getClassPredicate().getPrefix() != null && classAtom.getClassPredicate().getNs() != null){
 						model.setNsPrefix(classAtom.getClassPredicate().getPrefix(), classAtom.getClassPredicate().getNs());
+					}
 					Resource className = model.createResource(classAtom.getClassPredicate().getUriString());
 					r.addProperty(class_predicate, className);
 					
@@ -335,8 +348,9 @@ public class ServicePublisher {
 					Resource r = model.createResource();
 					r.addProperty(rdf_type, individual_property_atom_resource);
 					
-					if (propertyAtom.getPropertyPredicate().getPrefix() != null && propertyAtom.getPropertyPredicate().getNs() != null)
+					if (propertyAtom.getPropertyPredicate().getPrefix() != null && propertyAtom.getPropertyPredicate().getNs() != null){
 						model.setNsPrefix(propertyAtom.getPropertyPredicate().getPrefix(), propertyAtom.getPropertyPredicate().getNs());
+					}
 					Resource propertyName = model.createResource(propertyAtom.getPropertyPredicate().getUriString());
 					r.addProperty(property_predicate, propertyName);
 					

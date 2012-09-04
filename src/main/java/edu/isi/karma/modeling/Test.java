@@ -252,8 +252,9 @@ public class Test {
 		System.out.println(map.size());
 		for (String s : map.keySet()) {
 			System.out.println(s);
-			for (String ss : map.get(s)) 
+			for (String ss : map.get(s)){
 				System.out.println("\t" + ss);
+			}
 		}
 	}
 	
@@ -292,8 +293,9 @@ public class Test {
 		DirectedWeightedMultigraph<Vertex, LabeledWeightedEdge> steinerTree = alignment5.getSteinerTree();
 //		GraphUtil.printGraph(steinerTree);
 		for (Vertex v : steinerTree.vertexSet()) {
-			if (v.getSemanticType() != null)
+			if (v.getSemanticType() != null){
 				System.out.println(v.getSemanticType().getHNodeId());
+			}
 		}
 //		GraphUtil.printGraphSimple(alignment.getSteinerTree());
 //		System.out.println(alignment.GetTreeRoot().getID());
@@ -327,8 +329,14 @@ public class Test {
 	
 	public static void main(String[] args) {
 		boolean test1 = true, test2 = false, test3 = false;
-		if (test1) testOntologyImport();
-		if (test2) testAlignment();
-		if (test3) getGeoNamesNeighbourhoodTree();
+		if (test1){
+			testOntologyImport();
+		}
+		if (test2){
+			testAlignment();
+		}
+		if (test3){
+			getGeoNamesNeighbourhoodTree();
+		}
 	}
 }

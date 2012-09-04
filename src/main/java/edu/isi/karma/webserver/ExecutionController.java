@@ -230,8 +230,9 @@ public class ExecutionController {
 					e.printStackTrace();
 					return null;
 				} 
-			} else
+			}else{
 				return cf.createCommand(request, vWorkspace);
+			}
 		} else {
 			logger.error("Command " + request.getParameter("command")
 					+ " not found!");

@@ -88,14 +88,17 @@ public class Alignment {
 	public static boolean isAdjacent(int a,int b, List<Integer> sortedmks)
 	{
 		if(a==b)
+		 {
 			return true; // <S> <E> token
+		}
 		int index = sortedmks.indexOf(a); 
 		if(a<=b && index<sortedmks.size()-1)
 		{
-			if(sortedmks.get(index+1) == b || a==b)
+			if(sortedmks.get(index+1) == b || a==b){
 				return true;
-			else
-				return false;			
+			}else{
+				return false;
+			}
 		}
 		else if(a>b &&index>=1)
 		{
@@ -262,8 +265,9 @@ public class Alignment {
 	 */
 	public static void transMOVDEL(List<int[]> segments,List<Integer> positon,List<Integer> x,List<EditOper> eo,List<List<Integer>> history,List<TNode> a,List<List<EditOper>> paths)
 	{
-		if(eo.size()>positon.size()-1)//prune, the number of mov should be less than total size -1 
+		if(eo.size()>positon.size()-1){
 			return;
+		}
 		if(history.size()>0)
 		{
 			for(List<Integer> l:history)
@@ -539,8 +543,9 @@ public class Alignment {
 									isrun = true;
 								}
 							}
-							if(!isrun)
+							if(!isrun){
 								dic.get(key).add(aObj);
+							}
 						}
 						else {
 							List<AlignObj> vec = new ArrayList<AlignObj>();
@@ -560,8 +565,9 @@ public class Alignment {
 									isrun = true;
 								}
 							}
-							if(!isrun)
+							if(!isrun){
 								revdic.get(key).add(aObj);
+							}
 						}
 						else {
 							List<AlignObj> vec = new ArrayList<AlignObj>();
@@ -648,15 +654,17 @@ public class Alignment {
 		while(iter.hasNext())
 		{
 			String p = iter.next().trim();
-			if(p.length()==0)
+			if(p.length()==0){
 				continue;
+			}
 			List<int[]> line = new ArrayList<int[]>();
 			String[] mps = p.trim().split("#");
 			for(String str:mps)
 			{
 				String string = str.trim();
-				if(string.length()==0)
+				if(string.length()==0){
 					continue;
+				}
 				String[] t = string.split(",");
 				int[] q = {Integer.parseInt(t[0]),Integer.parseInt(t[1])};
 				line.add(q);
@@ -786,8 +794,9 @@ public class Alignment {
 						int delcnt = 0;
 						for(int m=0;m<editv.size();m++)
 						{
-							if((editv.get(m).oper.compareTo("ins")==0||editv.get(m).oper.compareTo("mov")==0)&& m< i2)
+							if((editv.get(m).oper.compareTo("ins")==0||editv.get(m).oper.compareTo("mov")==0)&& m< i2){
 								delcnt ++;
+							}
 						}
 						editv.get(i2).dest = editv.get(i2).dest-delcnt;
 						editv.get(i2).starPos = editv.get(i1).starPos;
@@ -826,9 +835,9 @@ public class Alignment {
 				{
 					if(((eo.starPos-1==editv.get(ptr-1).starPos&&eo.starPos>=eo.dest)||(eo.starPos+1==editv.get(ptr-1).starPos&&eo.starPos<=eo.dest)) && eo.dest == editv.get(ptr-1).dest)
 					{
-						if(ptr<editv.size()-1)
+						if(ptr<editv.size()-1){
 							continue;
-						else
+						}else
 						{
 							ptr = ptr+1;
 						}
@@ -855,9 +864,9 @@ public class Alignment {
 				{
 					if(eo.dest == editv.get(ptr-1).dest)
 					{
-						if(ptr<editv.size()-1)
+						if(ptr<editv.size()-1){
 							continue;
-						else
+						}else
 						{
 							ptr = ptr+1;
 						}
@@ -883,9 +892,9 @@ public class Alignment {
 				{
 					if(eo.starPos+1==editv.get(ptr-1).starPos)
 					{
-						if(ptr<editv.size()-1)
+						if(ptr<editv.size()-1){
 							continue;
-						else
+						}else
 						{
 							ptr = ptr+1;
 						}
@@ -911,8 +920,9 @@ public class Alignment {
 			newEo.add(editv.get(pre));
 			pre = ptr;
 		}
-		if(pre== editv.size()-1)
+		if(pre== editv.size()-1){
 			newEo.add(editv.get(pre));
+		}
 		return newEo;
 	}
 	//used to generate template candidate tree for sampling

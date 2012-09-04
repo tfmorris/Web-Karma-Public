@@ -112,13 +112,15 @@ public class NonterminalValidator
 				}
 				else
 				{
-					if(target.get(j).text.length()==0)
+					if(target.get(j).text.length()==0){
 						setoken = true;
+					}
 					rule += "\""+target.get(j).text+"\"";
 				}
 			}
-			if(rule.length()!=0&&!setoken)
+			if(rule.length()!=0&&!setoken){
 				rules.add(rule);
+			}
 		}
 		//rules.add("ANYTOK");
 		return rules;
@@ -129,9 +131,9 @@ public class NonterminalValidator
 		if(subtemples.containsKey(index))
 		{
 			return subtemples.get(index);
-		}
-		else
+		}else{
 			return null;
+		}
 		
 	}
 	//translate the string into parse tree and add them into the template store
@@ -183,9 +185,9 @@ public class NonterminalValidator
 	        }
 	        if(root!=null)
 	        {
-		        if(subtemples.containsKey(key))
-		        		return;
-		        else
+		        if(subtemples.containsKey(key)){
+					return;
+				}else
 		        {
 		        		subtemples.put(key,root);
 		        }
@@ -212,8 +214,9 @@ public class NonterminalValidator
 			
 			if(spos+k>=0&&spos+k<ex.size())
 			{
-				if(ex.get(spos+k).text.length()>0)
+				if(ex.get(spos+k).text.length()>0){
 					rules.add("\""+ex.get(spos+k).text+"\"");
+				}
 				rules.add(""+ex.get(spos+k).getType()+"");
 			}
 		}
@@ -236,8 +239,9 @@ public class NonterminalValidator
 			
 			if(dpos+k>=0&&dpos+k<ex.size())
 			{
-				if(ex.get(dpos+k).text.length()>0)
+				if(ex.get(dpos+k).text.length()>0){
 					rules.add("\""+ex.get(dpos+k).text+"\"");
+				}
 				rules.add(""+ex.get(dpos+k).getType()+"");
 			}
 		}
@@ -296,8 +300,9 @@ public class NonterminalValidator
 			
 			if(epos+k>=0&&epos+k<ex.size())
 			{
-				if(ex.get(epos+k).text.length()>0)
+				if(ex.get(epos+k).text.length()>0){
 					rules.add("\""+ex.get(epos+k).text+"\"");
+				}
 				rules.add(""+ex.get(epos+k).getType()+"");
 			}
 		}
@@ -489,11 +494,13 @@ public class NonterminalValidator
 		//find three positions
 		int pos1 = rule.indexOf("from");
 		int pos2 = rule.indexOf("from", pos1+1);
-		if(pos2 == -1)
+		if(pos2 == -1){
 			pos2 = rule.length();
+		}
 		int pos3 = rule.indexOf("from",pos2+1);
-		if(pos3 == -1)
+		if(pos3 == -1){
 			pos3 = rule.length();
+		}
 		// for token
 		int p;
 		while(rules.size()>0)

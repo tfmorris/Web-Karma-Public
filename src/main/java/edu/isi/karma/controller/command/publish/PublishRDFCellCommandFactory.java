@@ -47,8 +47,9 @@ public class PublishRDFCellCommandFactory extends CommandFactory {
 		if(prefObject!=null){
 			rdfPrefix = prefObject.optString("rdfPrefix");
 		}
-		if(rdfPrefix==null || rdfPrefix.trim().isEmpty())
-			rdfPrefix = "http://localhost/source/"; 
+		if(rdfPrefix==null || rdfPrefix.trim().isEmpty()){
+			rdfPrefix = "http://localhost/source/";
+		} 
 		String nodeId = request.getParameter(Arguments.nodeId.name());
 		return new PublishRDFCellCommand(getNewId(vWorkspace), vWorksheetId, nodeId,
 				rdfPrefix);

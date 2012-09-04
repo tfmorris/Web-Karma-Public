@@ -69,8 +69,9 @@ public class DataPropertyHierarchyUpdate extends AbstractUpdate {
 			while (propsIter.hasNext()) {
 				DatatypeProperty prop = propsIter.next();
 				
-				if (propertiesAdded.contains(prop.getURI()))
+				if (propertiesAdded.contains(prop.getURI())){
 					continue;
+				}
 				try {
 					if ((prop.listSuperProperties().toList().size() != 0)) {
 						// Check if all the super properties are object properties
@@ -82,8 +83,9 @@ public class DataPropertyHierarchyUpdate extends AbstractUpdate {
 								break;
 							}
 						}
-						if(!hasObjectPropertiesAsAllSuperProperties)
+						if(!hasObjectPropertiesAsAllSuperProperties){
 							continue;
+						}
 					}
 				} catch (ConversionException e) {
 					logger.debug(e.getMessage());
@@ -97,10 +99,11 @@ public class DataPropertyHierarchyUpdate extends AbstractUpdate {
 				}
 
 				String pr = prefixMap.get(prop.getNameSpace());
-				if(pr != null && !pr.equals(""))
+				if(pr != null && !pr.equals("")){
 					classObject.put(JsonKeys.data.name(), pr + ":" + prop.getLocalName());
-				else
+				}else{
 					classObject.put(JsonKeys.data.name(), prop.getLocalName());
+				}
 
 				propertiesAdded.add(prop.getURI());
 
@@ -139,10 +142,11 @@ public class DataPropertyHierarchyUpdate extends AbstractUpdate {
 			JSONObject classObject = new JSONObject();
 			
 			String pr = prefixMap.get(prop.getNameSpace());
-			if(pr != null && !pr.equals(""))
+			if(pr != null && !pr.equals("")){
 				classObject.put(JsonKeys.data.name(), pr + ":" + subProp.getLocalName());
-			else
+			}else{
 				classObject.put(JsonKeys.data.name(), subProp.getLocalName());
+			}
 			
 			JSONObject metadataObject = new JSONObject();
 			metadataObject.put(JsonKeys.URI.name(), subProp.getURI());

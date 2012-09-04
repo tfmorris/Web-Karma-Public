@@ -88,9 +88,11 @@ public class TreePostProcess {
 			}
 		}
 		
-		for (int i = 0; i < vertexList.size(); i++)
-			if (reachableNodesList.get(i).intValue() == maxReachableNodes)
+		for (int i = 0; i < vertexList.size(); i++){
+			if (reachableNodesList.get(i).intValue() == maxReachableNodes){
 				possibleRoots.add(vertexList.get(i));
+			}
+		}
 		
 //		for (Vertex v : dangledVertexList)
 //			this.tree.removeVertex(v);
@@ -100,8 +102,9 @@ public class TreePostProcess {
 	
 	private void selectRoot(List<Vertex> possibleRoots) {
 		
-		if (possibleRoots == null || possibleRoots.size() == 0)
+		if (possibleRoots == null || possibleRoots.size() == 0){
 			return;
+		}
 		
 		VertexComparatorByID vComp = new VertexComparatorByID();
 		Collections.sort(possibleRoots, vComp);

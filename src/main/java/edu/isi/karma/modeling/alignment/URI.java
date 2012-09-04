@@ -72,19 +72,22 @@ public class URI {
 	}
 	
 	public String getLocalName() {
-		if (uriString == null)
+		if (uriString == null){
 			return null;
+		}
 		
 		String name = uriString;
-		if (ns != null)
+		if (ns != null){
 			name = name.replaceFirst(ns, "");
+		}
 		
 		return name;
 	}
 
 	public String getLocalNameWithPrefix() {
-		if (uriString == null)
+		if (uriString == null){
 			return null;
+		}
 		
 		String name = uriString;
 		if (ns != null && prefix != null) {

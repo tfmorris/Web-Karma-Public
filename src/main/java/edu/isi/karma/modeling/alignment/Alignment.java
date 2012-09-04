@@ -54,9 +54,13 @@ public class Alignment {
 	    	int i1 = Integer.valueOf(s1).intValue();
 	    	int i2 = Integer.valueOf(s2).intValue();
 
-	    	if (i1 < i2) return -1;
-	    	else if (i1 > i2) return 1;
-	    	else return 0;
+	    	if (i1 < i2){
+	    		return -1;
+	    	}else if (i1 > i2){
+	    		return 1;
+	    	}else{
+	    		return 0;
+	    	}
 	    }
 	}
 	
@@ -125,8 +129,9 @@ public class Alignment {
 	private void addToLinksForcedByUserList(LabeledWeightedEdge e) {
 		LabeledWeightedEdge[] links = linksForcedByUser.toArray(new LabeledWeightedEdge[0]);
 		for (LabeledWeightedEdge link : links) {
-			if (link.getTarget().getID().equalsIgnoreCase(e.getTarget().getID()))
+			if (link.getTarget().getID().equalsIgnoreCase(e.getTarget().getID())){
 				clearUserLink(link.getID());
+			}
 		}
 		linksForcedByUser.add(e);
 		logger.info("link " + e.getID() + " has been added to user selected links.");
@@ -137,8 +142,9 @@ public class Alignment {
 		for (LabeledWeightedEdge link : links) {
 			for (Vertex v : dangledVertexList) {
 				if (link.getTarget().getID().equalsIgnoreCase(v.getID()) || 
-						link.getSource().getID().equalsIgnoreCase(v.getID()))
+						link.getSource().getID().equalsIgnoreCase(v.getID())){
 					clearUserLink(link.getID());
+				}
 			}
 		}
 	}
@@ -166,8 +172,9 @@ public class Alignment {
 					found = true;
 				}
 			}
-			if (!found)
+			if (!found){
 				logger.info("link with ID " + linkIds.get(j) + " does not exist in graph.");
+			}
 		}
 		align();
 	}
@@ -249,8 +256,9 @@ public class Alignment {
 		for (Vertex v : this.steinerTree.vertexSet()) {
 			if (v.getID().equalsIgnoreCase(nodeId)) {
 				LabeledWeightedEdge[] incomingLinks = this.steinerTree.incomingEdgesOf(v).toArray(new LabeledWeightedEdge[0]);
-				if (incomingLinks != null && incomingLinks.length == 1)
+				if (incomingLinks != null && incomingLinks.length == 1){
 					return incomingLinks[0];
+				}
 			}
 		}
 		return null;
@@ -261,12 +269,14 @@ public class Alignment {
 		List<LabeledWeightedEdge> alternatives = new ArrayList<LabeledWeightedEdge>();
 		LabeledWeightedEdge assignedLink = null;
 		
-		if (!includeAssignedLink)
+		if (!includeAssignedLink){
 			assignedLink = getAssignedLink(nodeId);
+		}
 
 		List<String> displayedNodes = new ArrayList<String>();
-		for (Vertex v : this.steinerTree.vertexSet())
+		for (Vertex v : this.steinerTree.vertexSet()){
 			displayedNodes.add(v.getID());
+		}
 		
 		for (Vertex v : this.graphBuilder.getGraph().vertexSet()) {
 			if (v.getID().equalsIgnoreCase(nodeId)) {
@@ -275,8 +285,9 @@ public class Alignment {
 					
 					for (int i = 0; i < incomingLinks.length; i++) {
 						if (!includeAssignedLink) {
-							if (assignedLink.getID().equalsIgnoreCase(incomingLinks[i].getID()))
+							if (assignedLink.getID().equalsIgnoreCase(incomingLinks[i].getID())){
 								continue;
+							}
 						}
 						
 						// if the node is not in the UI, don't show it to the user
@@ -294,10 +305,12 @@ public class Alignment {
 	
 	private void updateLinksStatus() {
 		// order of adding lists is important: linksPreferredByUI should be first 
-		for (LabeledWeightedEdge e : linksPreferredByUI)
+		for (LabeledWeightedEdge e : linksPreferredByUI){
 			e.setLinkStatus(LinkStatus.PreferredByUI);
-		for (LabeledWeightedEdge e : linksForcedByUser)
+		}
+		for (LabeledWeightedEdge e : linksForcedByUser){
 			e.setLinkStatus(LinkStatus.ForcedByUser);
+		}
 	}
 	
 	private void addUILink(String linkId) {
@@ -317,8 +330,9 @@ public class Alignment {
 	private void addUILinksFromTree() {
 		linksPreferredByUI.clear();
 		
-		if (this.steinerTree == null)
+		if (this.steinerTree == null){
 			return;
+		}
 		
 		for (LabeledWeightedEdge e: this.steinerTree.edgeSet()) {
 			addUILink(e.getID());
@@ -381,8 +395,9 @@ public class Alignment {
 	}
 	
 	public DirectedWeightedMultigraph<Vertex, LabeledWeightedEdge> getSteinerTree() {
-		if (this.steinerTree == null)
+		if (this.steinerTree == null){
 			align();
+		}
 		
 		// GraphUtil.printGraph(this.steinerTree);
 		return this.steinerTree;
@@ -396,8 +411,9 @@ public class Alignment {
 	//THIS IS AN IMPORTANT METHOD. DO NOT REMOVE!!!!! (mariam)
 	public void updateLinksDirections(Vertex root, LabeledWeightedEdge e, DirectedWeightedMultigraph<Vertex, LabeledWeightedEdge> treeClone) {
 
-		if (root == null)
+		if (root == null){
 			return;
+		}
 		Vertex source, target;
 		LabeledWeightedEdge inLink;
 		
@@ -423,8 +439,9 @@ public class Alignment {
 
 		LabeledWeightedEdge[] outgoingLinks = treeClone.outgoingEdgesOf(root).toArray(new LabeledWeightedEdge[0]);
 
-		if (outgoingLinks == null || outgoingLinks.length == 0)
+		if (outgoingLinks == null || outgoingLinks.length == 0){
 			return;
+		}
 		for (int i = 0; i < outgoingLinks.length; i++) {
 			target = outgoingLinks[i].getTarget();
 			updateLinksDirections(target, outgoingLinks[i], treeClone);

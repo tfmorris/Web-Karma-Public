@@ -27,12 +27,12 @@ package edu.isi.mediator.rule;
  *
  */
 public class VarTerm extends Term{
-		
+
 	/**
 	 * Construct an empty VarTerm.
 	 */
 	public VarTerm(){}
-	
+
 	/**
 	 * Constructs a VarTerm with the variable name "var"
 	 * @param var
@@ -54,19 +54,21 @@ public class VarTerm extends Term{
 	/* (non-Javadoc)
 	 * @see edu.isi.mediator.gav.domain.Term#clone()
 	 */
+	@Override
 	public VarTerm clone(){
 		VarTerm t = new VarTerm();
 		t.copy(this);
 		return t;
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see edu.isi.mediator.gav.domain.Term#equals(edu.isi.mediator.gav.domain.Term)
 	 */
+	@Override
 	public boolean equals(Term t){
-	    return t instanceof VarTerm && var.equals(t.var);
+		return t instanceof VarTerm && var.equals(t.var);
 	}
-	
+
 	/**
 	 * @param b
 	 * 		needsBinding value of the associated {@link edu.isi.mediator.gav.source.SourceAttribute}
@@ -76,6 +78,7 @@ public class VarTerm extends Term{
 	/* (non-Javadoc)
 	 * @see edu.isi.mediator.gav.domain.Term#needsBinding(boolean)
 	 */
+	@Override
 	public boolean needsBinding(boolean b){
 		return b;
 	}
@@ -83,10 +86,12 @@ public class VarTerm extends Term{
 	/* (non-Javadoc)
 	 * @see edu.isi.mediator.gav.domain.Term#toString()
 	 */
+	@Override
 	public String toString(){
 		String s = var;
-		if(queryName!=null)
+		if(queryName!=null){
 			s += ":" + queryName;
+		}
 		//s += " " + isAllowedAfterUAC;
 		return s;
 	}

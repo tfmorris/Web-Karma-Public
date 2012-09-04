@@ -193,13 +193,16 @@ public class RegularityFeatureSet implements FeatureSet {
 			cnt += c;
 		}
 		if(cnt==0)
+		 {
 			return Math.log(10);//
+		}
 		double entropy = 0.0;
 		for(int i=0;i<a.length;i++)
 		{
 			double freq = a[i]*1.0/cnt;
-			if(freq==0)
+			if(freq==0){
 				continue;
+			}
 			entropy -= freq*Math.log(freq);
 		}
 		return entropy;
@@ -241,16 +244,18 @@ class CntFeature implements Feature{
 			while (p!=-1)
 			{
 				p = Ruler.search(z, pa, bpos);
-				if(p==-1)
+				if(p==-1){
 					break;
+				}
 				bpos = p+1;
 				cnt++;
 			}
 			while (p1!=-1)
 			{
 				p1 = Ruler.search(z1, pa, bpos1);
-				if(p1==-1)
+				if(p1==-1){
 					break;
+				}
 				bpos1 = p1+1;
 				cnt1++;
 			}

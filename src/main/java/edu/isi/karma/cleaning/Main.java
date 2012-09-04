@@ -63,8 +63,9 @@ public class Main {
 				String line = "";
 				while((line=br.readLine())!=null)
 				{
-					if(line.compareTo("")==0)
+					if(line.compareTo("")==0){
 						break;
+					}
 					
 			        Evaluator eva = new Evaluator();
 			        BufferedReader xbr = new BufferedReader(new FileReader(fpath0));
@@ -132,8 +133,9 @@ public class Main {
 				
 				while((line=br.readLine())!=null)
 				{
-					if(line.compareTo("")==0)
+					if(line.compareTo("")==0){
 						break;
+					}
 					
 			        //CommonTree t  = (CommonTree) parser.rule().getTree();
 			        String[] xline;
@@ -210,8 +212,9 @@ public class Main {
 				
 				while((line=br.readLine())!=null)
 				{
-					if(line.compareTo("")==0)
+					if(line.compareTo("")==0){
 						break;
+					}
 					
 			        //CommonTree t  = (CommonTree) parser.rule().getTree();
 			        String[] xline;
@@ -355,8 +358,9 @@ public class Main {
 			while((xline=xbr.readLine())!=null)
 			{
 				List<String> xrow = new ArrayList<String>();
-				if(xline.compareTo("")==0)
+				if(xline.compareTo("")==0){
 					break;
+				}
 				//xrow.add(xline);
 				CharStream cs =  new ANTLRStringStream(rule);
 				RuleInterpreterLexer lexer = new RuleInterpreterLexer(cs);
@@ -425,8 +429,9 @@ public class Main {
 					row.add("rows");
 					while((line=br.readLine())!=null)
 					{
-						if(line.compareTo("")==0)
+						if(line.compareTo("")==0){
 							break;
+						}
 						row.add(line);
 						CharStream cs =  new ANTLRStringStream(line);
 						RuleInterpreterLexer lexer = new RuleInterpreterLexer(cs);
@@ -663,8 +668,9 @@ public class Main {
 						}
 						int corrNum = 0;
 						String[] wexam = null;
-						if(pls.size()==0)
+						if(pls.size()==0){
 							continue;
+						}
 						for(int i = 0; i<pls.size(); i++)
 						{		
 							String tranresult = "";
@@ -674,8 +680,9 @@ public class Main {
 							List<String> xr = new ArrayList<String>();
 							for(int t = 0; t< rules.length; t++)
 							{
-								if(rules[t].length()!=0)
+								if(rules[t].length()!=0){
 									xr.add(rules[t]);
+								}
 							}
 							isend = true;
 							for(int j = 0; j<entries.size(); j++)
@@ -704,8 +711,9 @@ public class Main {
 							{
 								dic.put(tranresult, 1);
 							}
-							if(isend)
+							if(isend){
 								corrNum++;
+							}
 						}	
 						long ed = System.currentTimeMillis();
 						timespan = (ed -st)*1.0/60000;

@@ -118,8 +118,9 @@ public class HTable extends RepEntity {
 	 */
 	public boolean hasNestedTables(){
 		for(HNode n: getHNodes()){
-			if(n.hasNestedTable())
+			if(n.hasNestedTable()){
 				return true;
+			}
 		}
 		return false;
 	}
@@ -166,10 +167,11 @@ public class HTable extends RepEntity {
 			nodes.put(newNode.getId(), newNode);
 			int index = orderedNodeIds.indexOf(hNodeId);
 			
-			if(index == orderedNodeIds.size()-1)
+			if(index == orderedNodeIds.size()-1){
 				orderedNodeIds.add(newNode.getId());
-			else
+			}else{
 				orderedNodeIds.add(index+1, newNode.getId());
+			}
 			worksheet.addNodeToDataTable(newNode, factory);
 		}
 	}

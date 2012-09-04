@@ -44,8 +44,9 @@ public class Main {
 				List<String> examples = new ArrayList<String>();
 				List<String> oexamples = new ArrayList<String>();
 				System.out.println(flist[i].getName());
-				if(!flist[i].getName().contains(".csv"))
+				if(!flist[i].getName().contains(".csv")){
 					continue;
+				}
 				CSVReader re = new CSVReader(new FileReader(flist[i]), '\t');
 				String[] line = null;
 				re.readNext();//discard the first line

@@ -179,12 +179,19 @@ public class Repository {
 	
 	public String getFileExtension(String lang) {
 		String ext = ".rdf";
-		if (lang.equalsIgnoreCase("RDF/XML")) ext = ".rdf";
-		else if (lang.equalsIgnoreCase("RDF/XML-ABBREV")) ext = ".rdf";
-		else if (lang.equalsIgnoreCase("N-TRIPLE")) ext = ".ntriple";
-		else if (lang.equalsIgnoreCase("TURTLE")) ext = ".turtle";
-		else if (lang.equalsIgnoreCase("TTL")) ext = ".ttl";
-		else if (lang.equalsIgnoreCase("N3")) ext = ".n3";
+		if (lang.equalsIgnoreCase("RDF/XML")){
+			ext = ".rdf";
+		}else if (lang.equalsIgnoreCase("RDF/XML-ABBREV")){
+			ext = ".rdf";
+		}else if (lang.equalsIgnoreCase("N-TRIPLE")){
+			ext = ".ntriple";
+		}else if (lang.equalsIgnoreCase("TURTLE")){
+			ext = ".turtle";
+		}else if (lang.equalsIgnoreCase("TTL")){
+			ext = ".ttl";
+		}else if (lang.equalsIgnoreCase("N3")){
+			ext = ".n3";
+		}
 		return ext;
 	}
 }

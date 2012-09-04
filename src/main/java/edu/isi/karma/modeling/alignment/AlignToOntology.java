@@ -74,13 +74,15 @@ public class AlignToOntology {
 			alignment = getNewAlignment();
 			// Add duplicated links
 			if (duplicatedLinks != null && duplicatedLinks.size() != 0) {
-				for (String linkId : duplicatedLinks)
+				for (String linkId : duplicatedLinks){
 					alignment.duplicateDomainOfLink(linkId);
+				}
 			}
 			// Add user links if any
 			if (userLinks != null && userLinks.size() != 0) {
-				for (LabeledWeightedEdge edge : userLinks)
+				for (LabeledWeightedEdge edge : userLinks){
 					alignment.addUserLink(edge.getID());
+				}
 			}
 		}
 		AlignmentManager.Instance().addAlignmentToMap(alignmentId, alignment);
@@ -90,8 +92,9 @@ public class AlignToOntology {
 		List<String> hNodeIdList = new ArrayList<String>();
 		VWorksheet vw = vWorkspace.getViewFactory().getVWorksheet(vWorksheetId);
 		List<HNodePath> columns = vw.getColumns();
-		for(HNodePath path:columns)
+		for(HNodePath path:columns){
 			hNodeIdList.add(path.getLeaf().getId());
+		}
 
 		SVGAlignmentUpdate_ForceKarmaLayout svgUpdate = new SVGAlignmentUpdate_ForceKarmaLayout(vWorksheetId, alignmentId, alignment, hNodeIdList);
 		/*

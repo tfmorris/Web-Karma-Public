@@ -123,8 +123,9 @@ public class Node extends RepEntity {
 	public void setNestedTable(Table nestedTable) {
 		this.nestedTable = nestedTable;
 		//mariam
-		if(nestedTable != null)
+		if(nestedTable != null){
 			nestedTable.setNestedTableInNode(this);
+		}
 	}
 
 	public boolean hasNestedTable() {

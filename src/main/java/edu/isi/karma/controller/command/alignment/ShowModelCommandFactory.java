@@ -96,8 +96,9 @@ public class ShowModelCommandFactory extends CommandFactory implements JSONInput
 				
 				URI typeName = ontMgr.getURIFromString(fullType);
 				URI domainName = null;
-				if (domain != null && !domain.trim().equals(""))
+				if (domain != null && !domain.trim().equals("")){
 					domainName = ontMgr.getURIFromString(domain);
+				}
 				
 				if(typeName != null) {
 					type = new SemanticType(hNodeId, typeName, domainName, Origin.User, 1.00, isPrimary);

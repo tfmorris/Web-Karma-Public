@@ -186,11 +186,13 @@ public class SourceDescription {
 		this.worksheet=worksheet;
 		
 		//add source prefix
-		if(rdfSourcePrefix==null)
+		if(rdfSourcePrefix==null){
 			rdfSourcePrefix = "http://localhost:8080/";
+		}
 		//add a delimiter if it doesn't exist, otherwise the URIs will not be well formed
-		if(!rdfSourcePrefix.endsWith("/") && !rdfSourcePrefix.endsWith("#"))
+		if(!rdfSourcePrefix.endsWith("/") && !rdfSourcePrefix.endsWith("#")){
 			rdfSourcePrefix += "/";
+		}
 		seenPrefixNamespaceCombination.put("s:"+rdfSourcePrefix,"s");
 		assignedPrefixes.add("s");
 		allNamespaces.add("s:'"+rdfSourcePrefix+"'");
@@ -216,13 +218,16 @@ public class SourceDescription {
 		//generate statements for synonym sem types
 		//do this only at the end, so I make sure that I already have all keys computed
 		String stmt = generateSynonymStatements();
-		if(stmt!=null)
+		if(stmt!=null){
 			s.append(stmt);
+		}
 		
 		String rule =  "SourceDescription(";
 		int i=0;
 		for(String attr:ruleAttributes){
-			if(i++>0) rule +=",";
+			if(i++>0){
+				rule +=",";
+			}
 			rule += addBacktick(attr);
 		}
 		rule += ") -> \n" + s.toString();
@@ -253,7 +258,9 @@ public class SourceDescription {
 		//System.out.println("Generate SD for node:" + v.getUri() + " type:" + v.getNodeType());
 		if(v.getNodeType()==NodeType.Class){
 			String stmt = generateClassStatement(v);
-			if(s.length()!=0) s.append(" ^ ");
+			if(s.length()!=0){
+				s.append(" ^ ");
+			}
 			s.append(stmt);
 			Set<LabeledWeightedEdge> edges = steinerTree.outgoingEdgesOf(v);
 			for(LabeledWeightedEdge e:edges){
@@ -430,14 +437,17 @@ public class SourceDescription {
 				List<SemanticType> semT = synonyms.getSynonyms();
 				for(SemanticType st: semT){
 					String stmt = generateSynonymStatement(child,st);
-					if(stmt!=null)
+					if(stmt!=null){
 						s += "\n ^ " + stmt;
+					}
 				}
 			}
 		}
-		if(s.trim().isEmpty())
+		if(s.trim().isEmpty()){
 			return null;
-		else return s;
+		}else{
+			return s;
+		}
 	}
 
 
@@ -537,8 +547,9 @@ public class SourceDescription {
 	 * @return
 	 */
 	private String getPropertyWithPrefix(OntResource prop){
-		if(prop==null)
+		if(prop==null){
 			return null;
+		}
 		String namespace = prop.getNameSpace();
 		String prefix = model.getNsURIPrefix(namespace);
 		String propWithPrefix = getPrefix(prefix, namespace) + ":" + prop.getLocalName();
@@ -610,7 +621,9 @@ public class SourceDescription {
 				//I have more than 1 key, so I have to construct a concat statement that will be the key
 				key = "";
 				for(int i=0; i<keys.size();i++){
-					if(i>0) key+=",";
+					if(i>0){
+						key+=",";
+					}
 					key += addBacktick(keys.get(i));
 				}
 				isCompoundKey=true;
@@ -626,8 +639,9 @@ public class SourceDescription {
 			ruleAttributes.add(key);
 		}
 		//I have to do it here because I don't want backticks for the gensyms
-		if(!isGensym && !isCompoundKey)
+		if(!isGensym && !isCompoundKey){
 			key = addBacktick(key);
+		}
 		
 		classNameToId.put(v.getUriString(), v.getID());
 		uriMap.put(v.getID(), key);
@@ -693,17 +707,20 @@ public class SourceDescription {
 				allNamespaces.add(prefix+":'"+namespace+"'");
 				return prefix;
 			}
+		}else{
+			return givenPrefix;
 		}
-		else return givenPrefix;
 
 	}
 
 	private String addBacktick(String s){
 		//this method has to be enhanced to add backtick if we have columns with
 		//"strange" chars
-		if(!useColumnNames)
+		if(!useColumnNames){
 			return MediatorUtil.addBacktick(s);
-		else return s;
+		}else{
+			return s;
+		}
 	}
 	
 }

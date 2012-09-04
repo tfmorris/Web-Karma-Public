@@ -147,8 +147,9 @@ public class TNode{
 		{
 			return true;
 		}
-		if(this.type == t.type)
+		if(this.type == t.type){
 			return true;
+		}
 		return false;
 	}
 }

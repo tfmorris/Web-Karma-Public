@@ -38,8 +38,9 @@ public class Element {
 	}
 	public String getLocalName(int depth) {
 		String result = "";
-		if (valueType == ValueType.SINGLE)
+		if (valueType == ValueType.SINGLE){
 			result += "d=" + depth + ",k=" + getKey() + ",v=" + ((SingleValue)getValue()).getValueString();
+		}
 		return result;
 	}
 	public String getFullPath() {
@@ -50,8 +51,9 @@ public class Element {
 	}
 	public String getKey() {
 		// to remove @ in front of keys in process of converting xml to json
-		if (key.startsWith("@"))
+		if (key.startsWith("@")){
 			key = key.substring(1);
+		}
 		return key.trim();
 	}
 	public void setKey(String key) {
@@ -72,8 +74,9 @@ public class Element {
 	
     public void print(Element root, int depth) {
     	String tabs = "";
-    	for (int i = 0; i < depth; i++)
-    		tabs += "\t";
+    	for (int i = 0; i < depth; i++){
+			tabs += "\t";
+		}
     	System.out.println(tabs + "name:" + root.key);
     	System.out.print(tabs + "value:");
 
@@ -82,36 +85,44 @@ public class Element {
     		System.out.println();
     	} else {
     		System.out.println();
-    		for (int i = 0; i < ((ArrayValue)root.value).getElements().size(); i++)
-    			print(((ArrayValue)root.value).getElements().get(i), depth + 1);
+    		for (int i = 0; i < ((ArrayValue)root.value).getElements().size(); i++){
+				print(((ArrayValue)root.value).getElements().get(i), depth + 1);
+			}
     	}
     }
 
     public void printFullPaths(Element root, List<String> result) {
-    	if (root.getFullPath().length() > 0) 
-    		result.add(root.getFullPath());
+    	if (root.getFullPath().length() > 0){
+			result.add(root.getFullPath());
+		}
     	if (root.valueType == ValueType.SINGLE) {
     	} else {
-    		for (int i = 0; i < ((ArrayValue)root.value).getElements().size(); i++)
-    			printFullPaths(((ArrayValue)root.value).getElements().get(i), result);
+    		for (int i = 0; i < ((ArrayValue)root.value).getElements().size(); i++){
+				printFullPaths(((ArrayValue)root.value).getElements().get(i), result);
+			}
     	}
     }
     
     public void moveUpOneValueElements(Element root) {
     	if (root.valueType == ValueType.SINGLE) {
     		while (true) {
-	    		if (root.getParent() == null || ((ArrayValue)root.getParent().getValue()).getElements().size() != 1) 
-	    			break;
+	    		if (root.getParent() == null || ((ArrayValue)root.getParent().getValue()).getElements().size() != 1){
+					break;
+				}
 				root.getParent().setValue(root.getValue());
-				if (root.getParent().getKey().equalsIgnoreCase("ROOT"))
+				if (root.getParent().getKey().equalsIgnoreCase("ROOT")){
 					root.getParent().setKey(root.getKey());
+				}
 				root.getParent().setValueType(ValueType.SINGLE);
 				root = root.getParent();
     		}
-    	} else for (int i = 0; i < ((ArrayValue)root.value).getElements().size(); i++) { 
-    			moveUpOneValueElements(((ArrayValue)root.value).getElements().get(i));
-        		if (root.valueType == ValueType.SINGLE)
-        			return;
-    	}
+    	}else{
+			for (int i = 0; i < ((ArrayValue)root.value).getElements().size(); i++) { 
+					moveUpOneValueElements(((ArrayValue)root.value).getElements().get(i));
+					if (root.valueType == ValueType.SINGLE){
+						return;
+					}
+			}
+		}
     }
 }

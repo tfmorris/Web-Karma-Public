@@ -58,44 +58,48 @@ public class GraphPreProcess {
 		LabeledWeightedEdge e;
 		LinkStatus status;
 		
-		if (selectedLinks != null) 
-		for (int i = 0; i < selectedLinks.size(); i++) {
-			
-			e = (LabeledWeightedEdge)selectedLinks.get(i);
-			status = e.getLinkStatus();
-			
-			if (status == LinkStatus.PreferredByUI) {
-				gPrime.setEdgeWeight(e, GraphBuilder.DEFAULT_WEIGHT - GraphBuilder.MIN_WEIGHT);
-				
-			} else if (status == LinkStatus.ForcedByUser) {
+		if (selectedLinks != null){
+			for (int i = 0; i < selectedLinks.size(); i++) {
 				
 				e = (LabeledWeightedEdge)selectedLinks.get(i);
+				status = e.getLinkStatus();
 				
-				Vertex source = selectedLinks.get(i).getSource();
-				Vertex target = selectedLinks.get(i).getTarget();
-				
-				if (!steinerNodes.contains(source))
-					steinerNodes.add(source);
-	
-				if (!steinerNodes.contains(target))
-					steinerNodes.add(target);
-				
-				// removing all links to target
-				LabeledWeightedEdge[] incomingLinks = gPrime.incomingEdgesOf(target).toArray(new LabeledWeightedEdge[0]); 
-				for (LabeledWeightedEdge inLink: incomingLinks) {
-					gPrime.removeAllEdges( inLink.getSource(), inLink.getTarget() );
-				}
-	
-				// adding the user selected link
-				gPrime.addEdge(source, target, e);
-				
-				// if it is a subclass link, change the weight to epsilon
-				//if (e.getType() == LinkType.HasSubClass)
-				gPrime.setEdgeWeight(e, GraphBuilder.MIN_WEIGHT);
-				
-				if (target.getNodeType() == NodeType.DataProperty)
-					target.setDomainVertexId(source.getID());
-			}			
+				if (status == LinkStatus.PreferredByUI) {
+					gPrime.setEdgeWeight(e, GraphBuilder.DEFAULT_WEIGHT - GraphBuilder.MIN_WEIGHT);
+					
+				} else if (status == LinkStatus.ForcedByUser) {
+					
+					e = (LabeledWeightedEdge)selectedLinks.get(i);
+					
+					Vertex source = selectedLinks.get(i).getSource();
+					Vertex target = selectedLinks.get(i).getTarget();
+					
+					if (!steinerNodes.contains(source)){
+						steinerNodes.add(source);
+					}
+
+					if (!steinerNodes.contains(target)){
+						steinerNodes.add(target);
+					}
+					
+					// removing all links to target
+					LabeledWeightedEdge[] incomingLinks = gPrime.incomingEdgesOf(target).toArray(new LabeledWeightedEdge[0]); 
+					for (LabeledWeightedEdge inLink: incomingLinks) {
+						gPrime.removeAllEdges( inLink.getSource(), inLink.getTarget() );
+					}
+
+					// adding the user selected link
+					gPrime.addEdge(source, target, e);
+					
+					// if it is a subclass link, change the weight to epsilon
+					//if (e.getType() == LinkType.HasSubClass)
+					gPrime.setEdgeWeight(e, GraphBuilder.MIN_WEIGHT);
+					
+					if (target.getNodeType() == NodeType.DataProperty){
+						target.setDomainVertexId(source.getID());
+					}
+				}			
+			}
 		}
 		
 		// adding the domains of data property nodes to steiner nodes collection
@@ -103,23 +107,27 @@ public class GraphPreProcess {
 		// different instances of the same class. We only keep the one that comes from its domain instance.
 		for (Vertex v: gPrime.vertexSet()) {
 			
-			if (v.getNodeType() != NodeType.DataProperty)
+			if (v.getNodeType() != NodeType.DataProperty){
 				continue;
+			}
 			
 			String domainVertexId = v.getDomainVertexId();
-			if (domainVertexId == null)
+			if (domainVertexId == null){
 				continue;
+			}
 
 			LabeledWeightedEdge[] incomingLinks = gPrime.incomingEdgesOf(v).toArray(new LabeledWeightedEdge[0]);
 			if (incomingLinks != null && incomingLinks.length != 0) {
 				
 					for (int i = 0; i < incomingLinks.length; i++) {
 						if (!incomingLinks[i].getSource().getID().equalsIgnoreCase(domainVertexId)) {
-							if (incomingLinks.length > 1)   // only for data property nodes who have links from multiple instances of the same class
-								gPrime.removeEdge(incomingLinks[i]); 
+							if (incomingLinks.length > 1){
+								gPrime.removeEdge(incomingLinks[i]);
+							} 
 						}
-						else if (!steinerNodes.contains(incomingLinks[i].getSource()))
+						else if (!steinerNodes.contains(incomingLinks[i].getSource())){
 							steinerNodes.add(incomingLinks[i].getSource());
+						}
 				}
 			}
 		}
