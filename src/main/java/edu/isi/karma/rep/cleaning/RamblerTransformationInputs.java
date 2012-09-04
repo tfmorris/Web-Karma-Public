@@ -36,7 +36,7 @@ public class RamblerTransformationInputs implements TransformationInputs {
 	private Collection<TransformationExample> examples;
 	private ValueCollection inputValues;
 	private Transformation preferedTransformation;
-	private List<EditOper> preEditOpers;
+//	private List<EditOper> preEditOpers;
 	public RamblerTransformationInputs(Collection<TransformationExample> examples,ValueCollection inputValues)
 	{
 		this.examples = examples;
@@ -50,11 +50,12 @@ public class RamblerTransformationInputs implements TransformationInputs {
 			TransformationExample example = iter.next();
 			ruler.setNewInput(example.getBefore());
 			List<TNode> xNodes = ruler.vec;
-			for (EditOper eo : preEditOpers) {
-				if (eo.oper.compareTo("ins") == 0) {
-					NonterminalValidator.applyins(eo, xNodes);
-				}
-			}
+			// BUG: this list is always null
+//			for (EditOper eo : preEditOpers) {
+//				if (eo.oper.compareTo("ins") == 0) {
+//					NonterminalValidator.applyins(eo, xNodes);
+//				}
+//			}
 			example.setBefore(RuleUtil.tokens2str(xNodes));
 		}
 		// preprocess values

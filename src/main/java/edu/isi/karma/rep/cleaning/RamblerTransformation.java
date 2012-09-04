@@ -56,18 +56,17 @@ public class RamblerTransformation implements Transformation {
 		// TODO Auto-generated method stub
 		return this.signature;
 	}
+	
+	@Override
 	public int hashCode()
 	{
 		return this.signature.hashCode();
 	}
+	@Override
 	public boolean equals(Object other) 
 	{
-		RamblerTransformation e = (RamblerTransformation)other;
-		if(e.signature.compareTo(this.signature)==0)
-		{
-			return true;
-		}
-		return false;
+	    return other != null && other instanceof RamblerTransformation 
+	            && this.signature.equals(((RamblerTransformation)other).signature);
 	}
 
 }

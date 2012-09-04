@@ -55,20 +55,21 @@ public class Repository {
 	private static Repository _InternalInstance = null;
 	public static Repository Instance()
 	{
-		if (_InternalInstance == null)
-		{
-			_InternalInstance = new Repository();
+        if (_InternalInstance == null)
+        {
+            Repository instance = new Repository();
 
-			File serviceRepository = new File(_InternalInstance.SERVICE_REPOSITORY_DIR);
-			if (!serviceRepository.exists())
-				serviceRepository.mkdir();
-			
-			File sourceRepository = new File(_InternalInstance.SOURCE_REPOSITORY_DIR);
-			if (!sourceRepository.exists())
-				sourceRepository.mkdir();
-			
-			_InternalInstance.createRepository();
-		}
+            File serviceRepository = new File(instance.SERVICE_REPOSITORY_DIR);
+            if (!serviceRepository.exists())
+                serviceRepository.mkdir();
+
+            File sourceRepository = new File(instance.SOURCE_REPOSITORY_DIR);
+            if (!sourceRepository.exists())
+                sourceRepository.mkdir();
+
+            instance.createRepository();
+            _InternalInstance = instance;
+        }
 		return _InternalInstance;
 	}
 	
