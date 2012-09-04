@@ -46,7 +46,7 @@ public class DuplicateDomainOfLinkCommand extends Command {
 	private final String edgeId;
 	private final String alignmentId;
 	
-	private static Logger logger = LoggerFactory.getLogger(DuplicateDomainOfLinkCommand.class);
+	private static final Logger logger = LoggerFactory.getLogger(DuplicateDomainOfLinkCommand.class);
 
 	protected DuplicateDomainOfLinkCommand(String id, String edgeId,
 			String alignmentId, String vWorksheetId) {

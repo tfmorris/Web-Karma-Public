@@ -39,7 +39,7 @@ import edu.isi.karma.view.VWorkspace;
 public class ImportJSONFileCommand extends Command {
 	private File jsonFile;
 	
-	private static Logger logger = LoggerFactory.getLogger(ImportJSONFileCommand.class);
+	private static final Logger logger = LoggerFactory.getLogger(ImportJSONFileCommand.class);
 
 	public ImportJSONFileCommand(String id, File file) {
 		super(id);

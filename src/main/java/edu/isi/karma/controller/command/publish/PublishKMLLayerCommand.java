@@ -40,7 +40,7 @@ public class PublishKMLLayerCommand extends Command {
 		updateType, fileName, localFileName, transferSuccessful
 	}
 
-	private static Logger logger = LoggerFactory
+	private static final Logger logger = LoggerFactory
 			.getLogger(PublishKMLLayerCommand.class);
 
 	protected PublishKMLLayerCommand(String id, String vWorksheetId,

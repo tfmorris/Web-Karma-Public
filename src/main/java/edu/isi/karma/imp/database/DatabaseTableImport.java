@@ -48,7 +48,7 @@ public class DatabaseTableImport {
 	private final RepFactory factory;
 	private final Worksheet worksheet;
 	
-	//private static Logger logger = LoggerFactory.getLogger(DatabaseTableImport.class);
+	//private static final Logger logger = LoggerFactory.getLogger(DatabaseTableImport.class);
 
 	public DatabaseTableImport(DBType dbType, String hostname, int portnumber,
 			String username, String password, String dBorSIDName,

@@ -42,7 +42,7 @@ public class ImportExcelFileCommand extends Command {
 	private final File excelFile;
 
 	// Logger object
-	private static Logger logger = LoggerFactory
+	private static final Logger logger = LoggerFactory
 			.getLogger(ImportExcelFileCommand.class.getSimpleName());
 
 	protected ImportExcelFileCommand(String id, File excelFile,

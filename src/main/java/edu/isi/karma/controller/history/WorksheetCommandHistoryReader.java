@@ -33,7 +33,7 @@ public class WorksheetCommandHistoryReader {
 	private final String vWorksheetId;
 	private final VWorkspace vWorkspace;
 	
-	private static Logger logger = LoggerFactory.getLogger(WorksheetCommandHistoryReader.class);
+	private static final Logger logger = LoggerFactory.getLogger(WorksheetCommandHistoryReader.class);
 	
 	public WorksheetCommandHistoryReader(String vWorksheetId, VWorkspace vWorkspace) {
 		super();

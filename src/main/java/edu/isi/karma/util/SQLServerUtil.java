@@ -30,7 +30,7 @@ import java.util.Collections;
 
 public class SQLServerUtil extends AbstractJDBCUtil {
 
-	//private static Logger logger = LoggerFactory
+	//private static final Logger logger = LoggerFactory
 	//.getLogger(SQLServerUtil.class);
 
 	static final String DRIVER = 

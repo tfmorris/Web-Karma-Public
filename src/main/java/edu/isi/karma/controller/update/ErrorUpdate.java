@@ -41,7 +41,7 @@ public class ErrorUpdate extends AbstractUpdate {
 		KarmaError
 	}
 	
-	private static Logger logger = LoggerFactory.getLogger(ErrorUpdate.class);
+	private static final Logger logger = LoggerFactory.getLogger(ErrorUpdate.class);
 	
 	public ErrorUpdate(String errorMessage) {
 		super();

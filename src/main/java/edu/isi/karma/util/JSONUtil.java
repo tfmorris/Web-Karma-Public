@@ -36,7 +36,7 @@ import org.slf4j.LoggerFactory;
 
 public class JSONUtil {
 
-	private static Logger logger = LoggerFactory.getLogger(JSONUtil.class);
+	private static final Logger logger = LoggerFactory.getLogger(JSONUtil.class);
 
 	public static String enclose(String x, String delimiter) {
 		return delimiter + x + delimiter;

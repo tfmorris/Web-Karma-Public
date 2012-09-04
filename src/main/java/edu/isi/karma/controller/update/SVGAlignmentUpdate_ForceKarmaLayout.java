@@ -30,7 +30,7 @@ public class SVGAlignmentUpdate_ForceKarmaLayout extends AbstractUpdate {
 	private final Vertex root;
 	private final List<String> hNodeIdList;
 	
-	private static Logger logger = LoggerFactory
+	private static final Logger logger = LoggerFactory
 			.getLogger(SVGAlignmentUpdate_ForceKarmaLayout.class);
 
 	private enum JsonKeys {

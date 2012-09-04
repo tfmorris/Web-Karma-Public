@@ -502,7 +502,7 @@ public class VHTreeNode {
 			assignInnerStrokesAndBorders();
 			assignTopBorderStrokes();
 		} else {
-			throw new Error("Should be called on the tree root.");
+			throw new RuntimeException("Should be called on the tree root.");
 		}
 	}
 

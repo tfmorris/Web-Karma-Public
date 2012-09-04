@@ -32,7 +32,7 @@ import edu.isi.karma.webserver.ServletContextParameterMap.ContextParameter;
 public class ServerStart extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	// private static Logger logger = LoggerFactory.getLogger(ServerStart.class);
+	// private static final Logger logger = LoggerFactory.getLogger(ServerStart.class);
 
 	public void init() throws ServletException {
 		// Populate the ServletContextParameterMap data structure

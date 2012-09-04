@@ -45,7 +45,7 @@ public class SemanticTypesUpdate extends AbstractUpdate {
 		HNodeId, FullType, ConfidenceLevel, Origin, FullCRFModel, DisplayLabel, DisplayDomainLabel, Domain, SemanticTypesArray, isPrimary, isPartOfKey, Types
 	}
 
-	private static Logger logger = LoggerFactory
+	private static final Logger logger = LoggerFactory
 			.getLogger(SemanticTypesUpdate.class);
 
 	public SemanticTypesUpdate(Worksheet worksheet, String vWorksheetId) {

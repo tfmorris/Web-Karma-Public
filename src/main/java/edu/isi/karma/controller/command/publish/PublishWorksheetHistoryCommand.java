@@ -23,7 +23,7 @@ public class PublishWorksheetHistoryCommand extends Command {
 		updateType, fileUrl, vWorksheetId
 	}
 	
-	private static Logger logger = LoggerFactory
+	private static final Logger logger = LoggerFactory
 			.getLogger(PublishWorksheetHistoryCommand.class);
 
 	protected PublishWorksheetHistoryCommand(String id, String vWorksheetId) {

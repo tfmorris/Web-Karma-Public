@@ -48,7 +48,7 @@ public class ShowModelCommand extends WorksheetCommand {
 	private final String vWorksheetId;
 	private String worksheetName;
 
-	private static Logger logger = LoggerFactory
+	private static final Logger logger = LoggerFactory
 			.getLogger(ShowModelCommand.class);
 
 	protected ShowModelCommand(String id, String worksheetId,

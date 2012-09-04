@@ -41,7 +41,7 @@ public class InfoUpdate extends AbstractUpdate {
 		KarmaInfo
 	}
 	
-	private static Logger logger = LoggerFactory.getLogger(InfoUpdate.class);
+	private static final Logger logger = LoggerFactory.getLogger(InfoUpdate.class);
 	
 	public InfoUpdate(String infoMessage) {
 		super();

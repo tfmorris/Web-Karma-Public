@@ -45,7 +45,7 @@ import edu.isi.karma.view.VWorksheet;
 import edu.isi.karma.view.VWorkspace;
 
 public class ImportServiceCommand extends Command {
-	private static Logger logger = LoggerFactory
+	private static final Logger logger = LoggerFactory
 	.getLogger(ImportServiceCommand.class);
 
 	private String ServiceUrl;

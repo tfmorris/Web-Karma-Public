@@ -64,7 +64,7 @@ public class PopulateCommand extends WorksheetCommand{
 	private Worksheet worksheetBeforeInvocation = null;
 
 	// Logger object
-	private static Logger logger = LoggerFactory
+	private static final Logger logger = LoggerFactory
 			.getLogger(PopulateCommand.class.getSimpleName());
 
 	public PopulateCommand(String id, String worksheetId, String vWorksheetId) {

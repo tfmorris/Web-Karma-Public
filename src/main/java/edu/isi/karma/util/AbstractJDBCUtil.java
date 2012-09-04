@@ -33,7 +33,7 @@ import org.slf4j.LoggerFactory;
 
 public abstract class AbstractJDBCUtil {
 	
-	private static Logger logger = LoggerFactory
+	private static final Logger logger = LoggerFactory
 	.getLogger(AbstractJDBCUtil.class);
 
 	public enum DBType {

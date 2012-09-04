@@ -54,7 +54,7 @@ import edu.isi.karma.webserver.ServletContextParameterMap.ContextParameter;
  */
 public class SemanticTypeUtil {
 
-	private static Logger logger = LoggerFactory
+	private static final Logger logger = LoggerFactory
 			.getLogger(SemanticTypeUtil.class);
 
 	private final static int TRAINING_EXAMPLE_MAX_COUNT = Integer

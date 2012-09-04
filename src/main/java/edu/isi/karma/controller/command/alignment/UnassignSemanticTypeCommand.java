@@ -51,7 +51,7 @@ public class UnassignSemanticTypeCommand extends Command {
 	private String columnName;
 	private SemanticType oldSemanticType;
 
-	private static Logger logger = LoggerFactory
+	private static final Logger logger = LoggerFactory
 			.getLogger(UnassignSemanticTypeCommand.class);
 
 	public UnassignSemanticTypeCommand(String id, String hNodeId,

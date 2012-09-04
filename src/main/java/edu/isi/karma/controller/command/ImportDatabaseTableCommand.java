@@ -60,7 +60,7 @@ public class ImportDatabaseTableCommand extends CommandWithPreview {
 	
 	private InteractionType requestedInteractionType;
 	
-	// private static Logger logger = LoggerFactory.getLogger(ImportDatabaseTableCommand.class);
+	// private static final Logger logger = LoggerFactory.getLogger(ImportDatabaseTableCommand.class);
 	
 	protected enum InteractionType {
 		generateTableList, importTable, getPreferencesValues, previewTable

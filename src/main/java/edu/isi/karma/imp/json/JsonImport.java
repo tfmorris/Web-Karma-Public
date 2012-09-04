@@ -46,7 +46,7 @@ import edu.isi.karma.util.JSONUtil;
  */
 public class JsonImport {
 
-	private static Logger logger = LoggerFactory.getLogger(JsonImport.class);
+	private static final Logger logger = LoggerFactory.getLogger(JsonImport.class);
 
 	private final Object json;
 	private final RepFactory factory;
@@ -80,7 +80,7 @@ public class JsonImport {
 		}
 
 		else {
-			throw new Error("Can only import objects or arrays.");
+			throw new RuntimeException("Can only import objects or arrays.");
 		}
 
 		writeJsonFile(json);
@@ -136,7 +136,7 @@ public class JsonImport {
 		}
 
 		else {
-			throw new Error("Cannot handle " + key + ": " + value + " yet.");
+			throw new RuntimeException("Cannot handle " + key + ": " + value + " yet.");
 		}
 	}
 

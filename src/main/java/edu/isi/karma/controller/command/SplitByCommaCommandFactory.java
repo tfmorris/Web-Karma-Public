@@ -41,7 +41,7 @@ public class SplitByCommaCommandFactory extends CommandFactory implements
 		vWorksheetId, hNodeId, delimiter, checkHistory
 	}
 	
-	private static Logger logger = LoggerFactory.getLogger(SplitByCommaCommandFactory.class);
+	private static final Logger logger = LoggerFactory.getLogger(SplitByCommaCommandFactory.class);
 
 	@Override
 	public Command createCommand(HttpServletRequest request,

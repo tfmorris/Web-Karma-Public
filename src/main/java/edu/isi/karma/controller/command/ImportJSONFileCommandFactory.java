@@ -32,7 +32,7 @@ import edu.isi.karma.view.VWorkspace;
 
 public class ImportJSONFileCommandFactory extends CommandFactory {
 	
-	static Logger logger = LoggerFactory.getLogger(ImportJSONFileCommandFactory.class);
+	private static final Logger logger = LoggerFactory.getLogger(ImportJSONFileCommandFactory.class);
 	
 	@Override
 	public Command createCommand(HttpServletRequest request,

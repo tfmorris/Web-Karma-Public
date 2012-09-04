@@ -33,7 +33,7 @@ import edu.isi.karma.view.VWorkspace;
 
 public class NewDatabaseCommandUpdate extends AbstractUpdate{
 	private Command command;
-	private static Logger logger = LoggerFactory.getLogger(NewDatabaseCommandUpdate.class);
+	private static final Logger logger = LoggerFactory.getLogger(NewDatabaseCommandUpdate.class);
 	
 	public enum JsonKeys {
 		commandId

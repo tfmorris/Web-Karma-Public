@@ -57,7 +57,7 @@ public class ResetModelCommand extends Command {
 	private String crfModelFilePath;
 	private String oldHistoryFileContent;
 	
-	private static Logger logger = LoggerFactory
+	private static final Logger logger = LoggerFactory
 			.getLogger(ResetModelCommand.class);
 
 	public ResetModelCommand(String id, String vWorksheetId) {

@@ -46,7 +46,7 @@ import edu.isi.karma.util.JSONUtil;
 
 public class SampleDataFactory {
 
-	private static Logger logger = LoggerFactory
+	private static final Logger logger = LoggerFactory
 			.getLogger(SampleDataFactory.class);
 
 	public static Worksheet createSample1(Workspace workspace) {

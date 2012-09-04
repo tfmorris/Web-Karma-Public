@@ -30,7 +30,7 @@ import java.util.Collections;
 
 public class MySQLUtil extends AbstractJDBCUtil {
 
-	//private static Logger logger = LoggerFactory
+	//private static final Logger logger = LoggerFactory
 	//.getLogger(MySQLUtil.class);
 
 	static final String DRIVER = 

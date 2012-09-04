@@ -12,7 +12,7 @@ import edu.isi.karma.rep.hierarchicalheadings.Coordinate.Position;
 public class ColumnCoordinateSet {
 	final private TreeSet<Coordinate> coordinates = new TreeSet<Coordinate>();
 	
-	private static Logger logger = LoggerFactory.getLogger(ColumnCoordinateSet.class);
+	private static final Logger logger = LoggerFactory.getLogger(ColumnCoordinateSet.class);
 
 	public ColumnCoordinateSet(HHTree hHtree, ColspanMap cspanmap) {
 		HashMap<HHTNode, Span> spanMap = cspanmap.getSpanMap();

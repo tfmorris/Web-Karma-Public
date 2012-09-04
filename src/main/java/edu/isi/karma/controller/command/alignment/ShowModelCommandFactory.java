@@ -45,7 +45,7 @@ import edu.isi.karma.webserver.KarmaException;
 
 public class ShowModelCommandFactory extends CommandFactory implements JSONInputCommandFactory {
 	
-	private static Logger logger = LoggerFactory.getLogger(ShowModelCommandFactory.class);
+	private static final Logger logger = LoggerFactory.getLogger(ShowModelCommandFactory.class);
 	
 	private enum Arguments {
 		vWorksheetId, checkHistory

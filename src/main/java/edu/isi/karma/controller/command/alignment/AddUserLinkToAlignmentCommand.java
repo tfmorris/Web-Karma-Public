@@ -47,7 +47,7 @@ public class AddUserLinkToAlignmentCommand extends Command {
 	private final String alignmentId;
 
 	// private String edgeLabel;
-	private static Logger logger = LoggerFactory.getLogger(AddUserLinkToAlignmentCommand.class);
+	private static final Logger logger = LoggerFactory.getLogger(AddUserLinkToAlignmentCommand.class);
 
 	public AddUserLinkToAlignmentCommand(String id, String edgeId,
 			String alignmentId, String vWorksheetId) {

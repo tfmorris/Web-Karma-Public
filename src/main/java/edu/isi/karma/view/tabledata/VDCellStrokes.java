@@ -72,7 +72,7 @@ public class VDCellStrokes {
 
 		@Override
 		public void remove() {
-			throw new Error("Cannot remove!");
+			throw new RuntimeException("Cannot remove!");
 		}
 
 	}

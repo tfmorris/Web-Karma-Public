@@ -34,7 +34,7 @@ import edu.isi.karma.view.VWorkspace;
 
 public class TagsUpdate extends AbstractUpdate {
 
-	private static Logger logger = LoggerFactory.getLogger(TagsUpdate.class);
+	private static final Logger logger = LoggerFactory.getLogger(TagsUpdate.class);
 
 	private enum JsonKeys {
 		Tags, Label, Color, Nodes

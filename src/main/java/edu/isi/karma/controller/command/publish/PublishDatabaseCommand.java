@@ -69,7 +69,7 @@ public class PublishDatabaseCommand extends Command {
 		updateType, vWorksheetId, numRowsNotInserted
 	}
 
-	private static Logger logger = LoggerFactory
+	private static final Logger logger = LoggerFactory
 			.getLogger(PublishDatabaseCommand.class);
 
 	public enum PreferencesKeys {

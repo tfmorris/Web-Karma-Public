@@ -28,7 +28,7 @@ import org.slf4j.LoggerFactory;
 public class ServletContextParameterMap {
 	private static HashMap<ContextParameter, String> valuesMap = new HashMap<ContextParameter, String>();
 
-	private static Logger logger = LoggerFactory
+	private static final Logger logger = LoggerFactory
 			.getLogger(ServletContextParameterMap.class);
 
 	public enum ContextParameter {

@@ -104,7 +104,7 @@ public class RandomGUID extends Object {
     private static Random myRand;
     private static SecureRandom mySecureRand;
     
-    private static Logger logger = Logger.getLogger(RandomGUID.class);
+    private static final Logger logger = Logger.getLogger(RandomGUID.class);
 
     private static String s_id;
 

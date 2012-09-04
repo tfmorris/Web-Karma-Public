@@ -15,7 +15,7 @@ public class ApplyWorksheetHistoryCommand extends Command {
 	private final File historyFile;
 	private final String vWorksheetId;
 	
-	private static Logger logger = LoggerFactory.getLogger(ApplyWorksheetHistoryCommand.class);
+	private static final Logger logger = LoggerFactory.getLogger(ApplyWorksheetHistoryCommand.class);
 	
 	protected ApplyWorksheetHistoryCommand(String id, File uploadedFile, String vWorksheetId) {
 		super(id);

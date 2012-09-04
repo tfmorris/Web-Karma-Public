@@ -42,7 +42,7 @@ public class AlignToOntology {
 	private VWorkspace vWorkspace;
 	private Alignment alignment;
 	
-//	private static Logger logger = LoggerFactory.getLogger(AlignToOntology.class);
+//	private static final Logger logger = LoggerFactory.getLogger(AlignToOntology.class);
 	
 	public AlignToOntology(Worksheet worksheet, VWorkspace vWorkspace,
 			String vWorksheetId) {

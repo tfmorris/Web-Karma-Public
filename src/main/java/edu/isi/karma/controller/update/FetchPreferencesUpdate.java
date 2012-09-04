@@ -34,7 +34,7 @@ public class FetchPreferencesUpdate extends AbstractUpdate {
 	VWorkspace vWorkspace;
 	String commandName;
 
-	private static Logger logger = LoggerFactory.getLogger(FetchPreferencesUpdate.class);
+	private static final Logger logger = LoggerFactory.getLogger(FetchPreferencesUpdate.class);
 	
 	public FetchPreferencesUpdate(VWorkspace vWorkspace, String commandName) {
 		this.vWorkspace = vWorkspace;

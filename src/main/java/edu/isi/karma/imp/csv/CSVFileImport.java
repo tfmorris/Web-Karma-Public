@@ -51,7 +51,7 @@ public class CSVFileImport {
 	private final RepFactory factory;
 	private final Worksheet worksheet;
 
-	private static Logger logger = LoggerFactory.getLogger(CSVFileImport.class);
+	private static final Logger logger = LoggerFactory.getLogger(CSVFileImport.class);
 
 	public CSVFileImport(int headerRowIndex, int dataStartRowIndex,
 			char delimiter, char quoteCharacter, File csvFile,

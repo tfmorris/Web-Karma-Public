@@ -68,7 +68,7 @@ public class PublishRDFCommand extends Command {
 		updateType, fileUrl, vWorksheetId
 	}
 
-	private static Logger logger = LoggerFactory
+	private static final Logger logger = LoggerFactory
 			.getLogger(PublishRDFCommand.class);
 
 	public enum PreferencesKeys {

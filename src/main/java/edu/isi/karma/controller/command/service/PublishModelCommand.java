@@ -58,7 +58,7 @@ public class PublishModelCommand extends Command{
 	private final String vWorksheetId;
 
 	// Logger object
-	private static Logger logger = LoggerFactory
+	private static final Logger logger = LoggerFactory
 			.getLogger(PublishModelCommand.class.getSimpleName());
 
 	public PublishModelCommand(String id, String vWorksheetId) {

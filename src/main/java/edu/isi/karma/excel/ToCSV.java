@@ -166,7 +166,7 @@ public class ToCSV {
 	private static final String CSV_FILE_EXTENSION = ".csv";
 	private static final String DEFAULT_SEPARATOR = ",";
 
-	private static Logger logger = LoggerFactory.getLogger(ToCSV.class);
+	private static final Logger logger = LoggerFactory.getLogger(ToCSV.class);
 
 	/**
 	 * Identifies that the CSV file should obey Excel's formatting conventions

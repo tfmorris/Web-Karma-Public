@@ -42,7 +42,7 @@ import edu.isi.karma.view.VWorkspace;
 public class ImportXMLFileCommand extends Command {
 	private File xmlFile;
 
-	private static Logger logger = LoggerFactory.getLogger(ImportXMLFileCommand.class);
+	private static final Logger logger = LoggerFactory.getLogger(ImportXMLFileCommand.class);
 	
 	protected ImportXMLFileCommand(String id, File uploadedFile) {
 		super(id);

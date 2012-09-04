@@ -70,7 +70,7 @@ import edu.isi.karma.view.tabledata.VDTriangle.TriangleLocation;
  */
 public class VDTableCells {
 
-	Logger logger = LoggerFactory.getLogger(VDTableCells.class);
+	private static final Logger logger = LoggerFactory.getLogger(VDTableCells.class);
 
 	private final VDCell[][] cells;
 	private final int numRows;

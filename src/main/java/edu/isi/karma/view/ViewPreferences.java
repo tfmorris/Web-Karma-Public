@@ -57,7 +57,7 @@ public class ViewPreferences {
 	
 	private JSONObject json;
 	
-	private static Logger logger = LoggerFactory.getLogger(ViewPreferences.class.getSimpleName());
+	private static final Logger logger = LoggerFactory.getLogger(ViewPreferences.class.getSimpleName());
 	
 	public enum ViewPreference {
 		maxCharactersInHeader, maxCharactersInCell, maxRowsToShowInNestedTables, defaultRowsToShowInTopTables;

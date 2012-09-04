@@ -42,7 +42,7 @@ public class GetDomainsForDataPropertyCommand extends Command {
 
 	final String dataPropertyURI;
 
-	private static Logger logger = LoggerFactory
+	private static final Logger logger = LoggerFactory
 			.getLogger(GetDomainsForDataPropertyCommand.class.getSimpleName());
 
 	public enum JsonKeys {

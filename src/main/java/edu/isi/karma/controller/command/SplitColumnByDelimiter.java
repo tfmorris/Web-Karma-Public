@@ -31,7 +31,7 @@ public class SplitColumnByDelimiter {
 	private final Workspace workspace;
 	private String splitValueHNodeID;
 
-	private final Logger logger = LoggerFactory.getLogger(this.getClass());
+	private static final Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	public SplitColumnByDelimiter(String hNodeId, Worksheet worksheet,
 			String delimiter, Workspace workspace) {

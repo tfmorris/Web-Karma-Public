@@ -58,7 +58,7 @@ public class CSVImportPreviewUpdate extends AbstractUpdate {
 
 	private String commandId;
 
-	private static Logger logger = LoggerFactory
+	private static final Logger logger = LoggerFactory
 			.getLogger(CSVImportPreviewUpdate.class.getSimpleName());
 
 	public enum JsonKeys {

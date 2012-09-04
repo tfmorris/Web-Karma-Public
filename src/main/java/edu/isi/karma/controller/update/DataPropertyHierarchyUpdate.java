@@ -44,7 +44,7 @@ public class DataPropertyHierarchyUpdate extends AbstractUpdate {
 
 	private OntModel model;
 
-	private static Logger logger = LoggerFactory
+	private static final Logger logger = LoggerFactory
 			.getLogger(DatabaseTablesListUpdate.class.getSimpleName());
 
 	public enum JsonKeys {

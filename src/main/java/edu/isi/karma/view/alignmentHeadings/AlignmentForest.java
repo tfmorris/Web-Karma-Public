@@ -42,7 +42,7 @@ public class AlignmentForest implements TForest {
 	private List<TNode> roots = new ArrayList<TNode>();
 	private Map<TNode, HNode> TNodeToHNodeMap = new HashMap<TNode, HNode>();
 
-	private static Logger logger = LoggerFactory
+	private static final Logger logger = LoggerFactory
 			.getLogger(AlignmentForest.class.getName());
 
 	@Override

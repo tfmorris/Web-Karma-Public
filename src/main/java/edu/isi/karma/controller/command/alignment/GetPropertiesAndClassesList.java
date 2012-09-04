@@ -22,7 +22,7 @@ import edu.isi.karma.view.VWorkspace;
 
 public class GetPropertiesAndClassesList extends Command {
 
-	private static Logger logger = LoggerFactory
+	private static final Logger logger = LoggerFactory
 			.getLogger(GetPropertiesAndClassesList.class.getSimpleName());
 
 	private enum JsonKeys {

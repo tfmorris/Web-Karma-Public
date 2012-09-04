@@ -22,7 +22,7 @@ public class CleaningResultUpdate extends AbstractUpdate {
 		worksheetId, hNodeId, result
 	}
 
-	private static Logger logger = LoggerFactory
+	private static final Logger logger = LoggerFactory
 			.getLogger(CleaningResultUpdate.class);
 
 	public CleaningResultUpdate(String hNodeId, List<String> js,HashMap<String,List<String>> jstp) {

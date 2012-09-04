@@ -41,7 +41,7 @@ public class GetDataPropertiesForClassCommand extends Command {
 
 	final private String classURI;
 
-	private static Logger logger = LoggerFactory
+	private static final Logger logger = LoggerFactory
 			.getLogger(GetDataPropertiesForClassCommand.class.getSimpleName());
 
 	public enum JsonKeys {

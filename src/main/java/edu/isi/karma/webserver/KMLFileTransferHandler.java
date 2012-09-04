@@ -41,7 +41,7 @@ public class KMLFileTransferHandler extends HttpServlet {
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	static Logger logger = LoggerFactory.getLogger(KMLFileTransferHandler.class);
+	private static final Logger logger = LoggerFactory.getLogger(KMLFileTransferHandler.class);
 
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException {

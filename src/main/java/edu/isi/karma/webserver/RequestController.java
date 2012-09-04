@@ -39,7 +39,7 @@ public class RequestController extends HttpServlet{
 
 	private static final long serialVersionUID = 1L;
 	
-	private static Logger logger = LoggerFactory.getLogger(RequestController.class);
+	private static final Logger logger = LoggerFactory.getLogger(RequestController.class);
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String workspaceId = request.getParameter("workspaceId");

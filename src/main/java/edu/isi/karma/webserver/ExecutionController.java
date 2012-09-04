@@ -120,7 +120,7 @@ import edu.isi.karma.view.VWorkspace;
  */
 public class ExecutionController {
 
-	private static Logger logger = LoggerFactory
+	private static final Logger logger = LoggerFactory
 			.getLogger(ExecutionController.class);
 
 	private final HashMap<String, CommandFactory> commandFactoryMap = new HashMap<String, CommandFactory>();

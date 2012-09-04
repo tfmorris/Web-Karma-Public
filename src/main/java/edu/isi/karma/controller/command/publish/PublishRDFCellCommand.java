@@ -53,7 +53,7 @@ public class PublishRDFCellCommand extends Command {
 		updateType, cellRdf, vWorksheetId
 	}
 
-	private static Logger logger = LoggerFactory
+	private static final Logger logger = LoggerFactory
 			.getLogger(PublishRDFCellCommand.class);
 
 	protected PublishRDFCellCommand(String id, String vWorksheetId,
