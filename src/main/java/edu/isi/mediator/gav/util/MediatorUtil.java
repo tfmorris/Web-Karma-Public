@@ -119,6 +119,7 @@ public class MediatorUtil {
 				domainStr += line + "\n";
 				line = raf.readLine();
 			}
+			raf.close();
 		}
 		catch (Exception exp)
 		{

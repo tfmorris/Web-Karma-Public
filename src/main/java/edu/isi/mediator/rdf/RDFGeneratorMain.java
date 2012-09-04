@@ -97,8 +97,10 @@ public class RDFGeneratorMain {
 					if (line.startsWith("#") || line.trim().isEmpty())
 						continue;
 					int ind = line.indexOf("=");
-					if(ind<=0)
+					if(ind<=0) {
+						buff.close();
 						throw new MediatorException("Settings should be of form: PropertyName=PropertyValue " + line);
+					}
 					String name = line.substring(0,ind).trim();
 					String val = line.substring(ind+1).trim();
 
@@ -126,6 +128,7 @@ public class RDFGeneratorMain {
 						else
 							outputFile=val;
 					}
+					buff.close();
 				}
 			} catch (IOException e2) {
 				logger.fatal("Exception occured:" + e2);

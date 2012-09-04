@@ -170,6 +170,7 @@ public class Main {
 				        		isrit = false;
 				        } 
 					}
+					br.close();
 					xbr.close();
 					if(hm.containsKey(s))
 	        			{
@@ -244,6 +245,7 @@ public class Main {
 				        		xrow.add("<font color='#FF0000'>"+r.toString()+"</font>");
 				        } 
 					}
+					xbr.close();
 					// hm is the data to rules
 					if(hm.containsKey(s))
 	        			{
@@ -256,6 +258,8 @@ public class Main {
 	        				hm.put(s,vr); 
 	        			}
 				}
+				br.close();
+
 				//output the hash table
 				// output all the data sets
 				String[] a = new String[hm.keySet().size()];
@@ -369,6 +373,7 @@ public class Main {
 			    //xrow.add(r.toString());
 				rv.addRow(xrow);
 			}
+			xbr.close();
 			rv.print(f.getAbsolutePath()+"_res.csv");
 		}
 		catch(Exception ex)
@@ -394,6 +399,7 @@ public class Main {
 					{
 						bw.write(eles[1]+"\n");
 					}
+					cr.close();
 					bw.close();
 				}
 			}
@@ -429,6 +435,8 @@ public class Main {
 				        //CommonTree t  = (CommonTree) parser.rule().getTree();
 				        ps.add((CommonTree)parser.rule().getTree());
 					}
+					br.close();
+					
 					//rv.addRow(row);
 			        //System.out.println("hello");
 			        // apply the rule
@@ -468,6 +476,7 @@ public class Main {
 					    }
 						//rv.addRow(xrow);
 					}
+					xbr.close();
 				//rv.print("xx.csv");
 				//rv.publishHTML("/Users/bowu/Research/dataclean/data/ResVisual.htm");
 				System.out.println("Right Rules: "+(ps.size()-hs.size())+"   Total Rules: "+ps.size());
@@ -488,9 +497,11 @@ public class Main {
 			String file = "/Users/bowu/Research/dataclean/data/cluster1.csv";
 			CSVReader cr = new CSVReader(new FileReader(new File(gtruth)),'\t');
 			List<String[]> lines = cr.readAll();
+			cr.close();
 			lines.remove(0);
 			CSVReader cr1 = new CSVReader(new FileReader(new File(file)),'\t');
 			String[] ds = cr1.readNext();
+			cr1.close();
 			ResultViewer rv = new ResultViewer();
 			for(int p=0;p<ds.length;p++)
 			{
@@ -520,6 +531,7 @@ public class Main {
 		{
 			CSVReader cr = new CSVReader(new FileReader(new File(gtruth)),'\t');
 			List<String[]> lines = cr.readAll();
+			cr.close();
 			//lines.remove(0);
 			ResultViewer rv = new ResultViewer();
 			String[] res = xs.split("\n");
@@ -568,7 +580,7 @@ public class Main {
 					this.applyRule(rule, fe.getAbsolutePath());
 				}
 			}
-			
+			br.close();			
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
@@ -590,6 +602,8 @@ public class Main {
 				cw.writeNext(l);
 			}
 			cw.close();
+			br2.close();
+			br1.close();
 		}
 		catch(Exception ex)
 		{
@@ -630,6 +644,7 @@ public class Main {
 						entries.add(pair);
 						corrResult += pair[1]+"\n";
 					}
+					cr.close();
 					HashMap<Integer,Boolean> indicators = new HashMap<Integer,Boolean>();
 					examples.add(entries.get(0));
 					boolean isend = false;

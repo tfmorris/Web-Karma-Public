@@ -193,6 +193,7 @@ public class CSVFileImport {
 			if(scanner.hasNext())
 				scanner.nextLine();
 		}
+		scanner.close();
 		return headersList;
 	}
 }

@@ -98,6 +98,7 @@ public class SplitColumnByDelimiter {
 						delimiterChar);
 				try {
 					String[] rowValues = reader.readNext();
+					reader.close();
 					if (rowValues == null || rowValues.length == 0)
 						continue;
 

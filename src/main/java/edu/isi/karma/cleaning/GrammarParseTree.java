@@ -628,6 +628,7 @@ public class GrammarParseTree {
 				List<TNode> p = r1.vec;
 				List<TNode> q = r2.vec;
 			}
+			cr.close();
 		}
 		catch(Exception ex)
 		{
