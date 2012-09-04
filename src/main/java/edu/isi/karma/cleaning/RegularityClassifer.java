@@ -66,8 +66,8 @@ public class RegularityClassifer {
 		Instances instances = new Instances(fileReader) ;
 		instances.setClassIndex(instances.numAttributes() -1) ;
 		Prnt.prn(instances.numAttributes()) ;
-		for(int i=0;i<instances.size();i++) {			
-			Instance instance = instances.get(i) ;
+		for(int i=0;i<instances.numInstances();i++) {
+			Instance instance = instances.instance(i) ;
 			double[] dist = cf.distributionForInstance(instance) ;
 			//System.out.println(cf.classifyInstance(instance));
 			for(double d : dist) {
@@ -87,8 +87,8 @@ public class RegularityClassifer {
 		Prnt.prn(instances.numAttributes()) ;
 //		double confidence = -1;
 		List<Double> posConfid = new ArrayList<Double>();
-		for(int i=0;i<instances.size();i++) {			
-			Instance instance = instances.get(i) ;
+		for(int i=0;i<instances.numInstances();i++) {
+			Instance instance = instances.instance(i) ;
 //			double label = instance.value(instances.numAttributes()-1);
 			double[] dist = cf.distributionForInstance(instance) ;
 			posConfid.add(dist[1]);//keep history of all the confidence
@@ -106,8 +106,8 @@ public class RegularityClassifer {
 		Prnt.prn(instances.numAttributes()) ;
 		double confidence = -1;
 		List<Double> posConfid = new ArrayList<Double>();
-		for(int i=0;i<instances.size();i++) {			
-			Instance instance = instances.get(i) ;
+		for(int i=0;i<instances.numInstances();i++) {
+			Instance instance = instances.instance(i) ;
 			double label = instance.value(instances.numAttributes()-1);
 			double[] dist = cf.distributionForInstance(instance) ;
 			posConfid.add(dist[1]);//keep history of all the confidence
@@ -127,7 +127,7 @@ public class RegularityClassifer {
 					//do nothing
 				}
 			}
-		}	
+		}
 		fileReader.close() ;
 		//Prnt.prn(cf) ;
 		//no correct transformation result
@@ -142,7 +142,7 @@ public class RegularityClassifer {
 			double d = posConfid.get(i);
 			if(d>=confidence)
 			{
-				if(instances.get(i).value(instances.numAttributes()-1)!=3)
+				if(instances.instance(i).value(instances.numAttributes()-1)!=3)
 				{
 					rank ++;
 					UtilTools.index = i;
