@@ -615,242 +615,243 @@ public class Main {
 			System.out.println(""+ex.toString());
 		}
 	}
-	public void exper_2(String dirpath)
-	{
-		File nf = new File(dirpath);
-		File[] allfiles = nf.listFiles();
-		//statistics
-		List<String> names = new ArrayList<String>();
-		List<Integer> exampleCnt = new ArrayList<Integer>();
-		List<Double> timeleng = new ArrayList<Double>();
-		List<Integer> cRuleNum = new ArrayList<Integer>();
-		List<List<String>> ranks = new ArrayList<List<String>>();
-		List<List<Integer>> consisRules = new ArrayList<List<Integer>>();
-		List<String> cRules = new ArrayList<String>();
-		//list all the csv file under the dir
-		for(File f:allfiles)
-		{
-			String cx = "";
-			
-			List<String[]> examples = new ArrayList<String[]>();
-			List<String[]> entries = new ArrayList<String[]>();	
-			List<String> rank = new ArrayList<String>();
-			List<Integer> consRule = new ArrayList<Integer>();
-			try
-			{
-				if(f.getName().indexOf(".csv")==(f.getName().length()-4))
-				{					
-					CSVReader cr = new CSVReader(new FileReader(f),'\t');
-					String[] pair;
-					String corrResult = "";
-					while ((pair=cr.readNext())!=null)
-					{
-						pair[0] = "<_START>"+pair[0]+"<_END>";
-						entries.add(pair);
-						corrResult += pair[1]+"\n";
-					}
-					cr.close();
-					HashMap<Integer,Boolean> indicators = new HashMap<Integer,Boolean>();
-					examples.add(entries.get(0));
-					boolean isend = false;
-					double timespan = 0.0;
-					int Ranktermin = -1;
-					while(Ranktermin == -1) // repeat as no correct answer appears.
-					{
-						cx = "";
-						HashMap<String,Integer> dic = new HashMap<String,Integer>();
-						long st = System.currentTimeMillis();
-						List<String> pls = RuleUtil.genRule(examples);
-						System.out.println("Consistent Rules :"+pls.size());
-						for(int k = 0; k<examples.size();k++)
-						{
-							System.out.println(examples.get(k)[0]+"    "+examples.get(k)[1]);
-						}
-						int corrNum = 0;
-						String[] wexam = null;
-						if(pls.size()==0){
-							continue;
-						}
-						for(int i = 0; i<pls.size(); i++)
-						{		
-							String tranresult = "";
-							cx +="\n\n"+pls.get(i);
-							String[] rules = pls.get(i).split("<RULESEP>");
-							//System.out.println(""+s1);
-							List<String> xr = new ArrayList<String>();
-							for(int t = 0; t< rules.length; t++)
-							{
-								if(rules[t].length()!=0){
-									xr.add(rules[t]);
-								}
-							}
-							isend = true;
-							for(int j = 0; j<entries.size(); j++)
-							{
-								String s = RuleUtil.applyRule(xr, entries.get(j)[0]);
-								if(s== null||s.length()==0)
-								{
-									isend = false;
-									wexam = entries.get(j);
-									s = entries.get(j)[0];
-									//break;
-								}
-								if(s.compareTo(entries.get(j)[1])!=0)
-								{
-									isend = false;
-									wexam = entries.get(j);
-									//break;
-								}
-								tranresult += s+"\n";								
-							}
-							if(dic.containsKey(tranresult))
-							{
-								dic.put(tranresult, dic.get(tranresult)+1);
-							}
-							else
-							{
-								dic.put(tranresult, 1);
-							}
-							if(isend){
-								corrNum++;
-							}
-						}	
-						long ed = System.currentTimeMillis();
-						timespan = (ed -st)*1.0/60000;
-						
-						String trainPath = "./grammar/features.arff";
-						int trnk = UtilTools.rank(dic, corrResult, trainPath);
-						rank.add(trnk+"/"+dic.keySet().size());
-						Ranktermin = trnk;
-						if(!indicators.containsKey(examples.size()))
-						{
-							if(!recdic.containsKey(f.getName()))
-							{
-								HashMap<String,List<Double>> tmp = new HashMap<String,List<Double>>();
-								if(tmp.containsKey(""+examples.size()))
-								{
-									List<Double> x = tmp.get(""+examples.size());
-									x.set(0, x.get(0)+RuleUtil.sgsnum);
-									x.set(1, x.get(1)+pls.size());
-									x.set(2, x.get(2)+corrNum);
-									if(trnk<=3 && trnk>=0)
-									{
-										x.set(3, x.get(3)+1);
-										x.set(4, x.get(4)+dic.keySet().size());
-									}
-									x.set(5,x.get(5)+1);
-								}
-								else
-								{
-									List<Double> x = new ArrayList<Double>();
-									x.add(1.0*RuleUtil.sgsnum);
-									x.add(1.0*pls.size());
-									x.add(1.0*corrNum);
-									if(trnk<=3 && trnk>=0)
-									{	
-										x.add(1.0);
-										x.add(1.0*dic.keySet().size());
-									}
-									else
-									{
-										x.add(0.0);
-										x.add(0.0);
-									}
-									x.add(1.0);
-									tmp.put(""+examples.size(), x);
-								}
-								recdic.put(f.getName(), tmp);
-							}
-							else
-							{
-								HashMap<String,List<Double>> tmp = recdic.get(f.getName());
-								if(tmp.containsKey(""+examples.size()))
-								{
-									List<Double> x = tmp.get(""+examples.size());
-									x.set(0, x.get(0)+RuleUtil.sgsnum);
-									x.set(1, x.get(1)+pls.size());
-									x.set(2, x.get(2)+corrNum);
-									if(trnk<=3 && trnk>=0)
-									{
-										x.set(3, x.get(3)+1);
-										x.set(4, x.get(4)+dic.keySet().size());
-									}
-									x.set(5,x.get(5)+1);
-								}
-								else
-								{
-									List<Double> x = new ArrayList<Double>();
-									x.add(1.0*RuleUtil.sgsnum);
-									x.add(1.0*pls.size());
-									x.add(1.0*corrNum);
-									if(trnk<=3 && trnk>=0)
-									{	
-										x.add(1.0);
-										x.add(1.0*dic.keySet().size());
-									}
-									else
-									{
-										x.add(0.0);
-										x.add(0.0);
-									}
-									
-									x.add(1.0);
-									tmp.put(""+examples.size(), x);
-								}
-							}
-						}
-						indicators.put(examples.size(), true); 
-						String[] choice = UtilTools.results.get(UtilTools.index).split("\n");
-						for(int n = 0; n<choice.length;n++)
-						{
-							if(choice[n].compareTo(entries.get(n)[1])!=0)
-							{
-								wexam = entries.get(n);
-								break;
-							}
-						}
-						if(wexam!=null)
-						{
-							//if(examples.size()<=3)
-							//{
-								examples.add(wexam);
-							//}
-						}
-						names.add(f.getName());
-						exampleCnt.add(examples.size());
-						timeleng.add(timespan);
-						cRules.add(cx);
-						ranks.add(rank);
-						consisRules.add(consRule);
-					}							
-				}
-			}
-			catch(Exception ex)
-			{
-				System.out.println(""+ex.toString());
-			}
-		}
-//		Random r = new Random();
-		try
-		{
-			BufferedWriter bw = new BufferedWriter(new FileWriter(new File("/Users/bowu/mysoft/xx/logx.txt")));
-			for(int x = 0; x<names.size();x++)
-			{
-				bw.write(names.get(x)+":"+exampleCnt.get(x)+","+timeleng.get(x));
-				bw.write("\n");
-				System.out.println(names.get(x)+":"+exampleCnt.get(x)+","+timeleng.get(x));
-				bw.write("\n");
-//				System.out.println(consisRules.get(x));
-			}
-			bw.flush();
-			bw.close();
-		}
-		catch(Exception ex)
-		{
-			System.out.println(""+ex.toString());
-		}
-		
-	}
+//	public void exper_2(String dirpath)
+//	{
+//		File nf = new File(dirpath);
+//		File[] allfiles = nf.listFiles();
+//		//statistics
+//		List<String> names = new ArrayList<String>();
+//		List<Integer> exampleCnt = new ArrayList<Integer>();
+//		List<Double> timeleng = new ArrayList<Double>();
+//		List<Integer> cRuleNum = new ArrayList<Integer>();
+//		List<List<String>> ranks = new ArrayList<List<String>>();
+//		List<List<Integer>> consisRules = new ArrayList<List<Integer>>();
+//		List<String> cRules = new ArrayList<String>();
+//		//list all the csv file under the dir
+//		for(File f:allfiles)
+//		{
+//			String cx = "";
+//			
+//			List<String[]> examples = new ArrayList<String[]>();
+//			List<String[]> entries = new ArrayList<String[]>();	
+//			List<String> rank = new ArrayList<String>();
+//			List<Integer> consRule = new ArrayList<Integer>();
+//			try
+//			{
+//				if(f.getName().indexOf(".csv")==(f.getName().length()-4))
+//				{					
+//					CSVReader cr = new CSVReader(new FileReader(f),'\t');
+//					String[] pair;
+//					String corrResult = "";
+//					while ((pair=cr.readNext())!=null)
+//					{
+//						pair[0] = "<_START>"+pair[0]+"<_END>";
+//						entries.add(pair);
+//						corrResult += pair[1]+"\n";
+//					}
+//					cr.close();
+//					HashMap<Integer,Boolean> indicators = new HashMap<Integer,Boolean>();
+//					examples.add(entries.get(0));
+//					boolean isend = false;
+//					double timespan = 0.0;
+//					int Ranktermin = -1;
+//					while(Ranktermin == -1) // repeat as no correct answer appears.
+//					{
+//						cx = "";
+//						HashMap<String,Integer> dic = new HashMap<String,Integer>();
+//						long st = System.currentTimeMillis();
+//						List<String> pls = RuleUtil.genRule(examples);
+//						System.out.println("Consistent Rules :"+pls.size());
+//						for(int k = 0; k<examples.size();k++)
+//						{
+//							System.out.println(examples.get(k)[0]+"    "+examples.get(k)[1]);
+//						}
+//						int corrNum = 0;
+//						String[] wexam = null;
+//						if(pls.size()==0){
+//							continue;
+//						}
+//						for(int i = 0; i<pls.size(); i++)
+//						{		
+//							String tranresult = "";
+//							cx +="\n\n"+pls.get(i);
+//							String[] rules = pls.get(i).split("<RULESEP>");
+//							//System.out.println(""+s1);
+//							List<String> xr = new ArrayList<String>();
+//							for(int t = 0; t< rules.length; t++)
+//							{
+//								if(rules[t].length()!=0){
+//									xr.add(rules[t]);
+//								}
+//							}
+//							isend = true;
+//							for(int j = 0; j<entries.size(); j++)
+//							{
+//								String s = RuleUtil.applyRule(xr, entries.get(j)[0]);
+//								if(s== null||s.length()==0)
+//								{
+//									isend = false;
+//									wexam = entries.get(j);
+//									s = entries.get(j)[0];
+//									//break;
+//								}
+//								if(s.compareTo(entries.get(j)[1])!=0)
+//								{
+//									isend = false;
+//									wexam = entries.get(j);
+//									//break;
+//								}
+//								tranresult += s+"\n";								
+//							}
+//							if(dic.containsKey(tranresult))
+//							{
+//								dic.put(tranresult, dic.get(tranresult)+1);
+//							}
+//							else
+//							{
+//								dic.put(tranresult, 1);
+//							}
+//							if(isend){
+//								corrNum++;
+//							}
+//						}	
+//						long ed = System.currentTimeMillis();
+//						timespan = (ed -st)*1.0/60000;
+//						
+//						String trainPath = "./grammar/features.arff";
+//						// TODO: Weka dependency
+////						int trnk = UtilTools.rank(dic, corrResult, trainPath);
+//						rank.add(trnk+"/"+dic.keySet().size());
+//						Ranktermin = trnk;
+//						if(!indicators.containsKey(examples.size()))
+//						{
+//							if(!recdic.containsKey(f.getName()))
+//							{
+//								HashMap<String,List<Double>> tmp = new HashMap<String,List<Double>>();
+//								if(tmp.containsKey(""+examples.size()))
+//								{
+//									List<Double> x = tmp.get(""+examples.size());
+//									x.set(0, x.get(0)+RuleUtil.sgsnum);
+//									x.set(1, x.get(1)+pls.size());
+//									x.set(2, x.get(2)+corrNum);
+//									if(trnk<=3 && trnk>=0)
+//									{
+//										x.set(3, x.get(3)+1);
+//										x.set(4, x.get(4)+dic.keySet().size());
+//									}
+//									x.set(5,x.get(5)+1);
+//								}
+//								else
+//								{
+//									List<Double> x = new ArrayList<Double>();
+//									x.add(1.0*RuleUtil.sgsnum);
+//									x.add(1.0*pls.size());
+//									x.add(1.0*corrNum);
+//									if(trnk<=3 && trnk>=0)
+//									{	
+//										x.add(1.0);
+//										x.add(1.0*dic.keySet().size());
+//									}
+//									else
+//									{
+//										x.add(0.0);
+//										x.add(0.0);
+//									}
+//									x.add(1.0);
+//									tmp.put(""+examples.size(), x);
+//								}
+//								recdic.put(f.getName(), tmp);
+//							}
+//							else
+//							{
+//								HashMap<String,List<Double>> tmp = recdic.get(f.getName());
+//								if(tmp.containsKey(""+examples.size()))
+//								{
+//									List<Double> x = tmp.get(""+examples.size());
+//									x.set(0, x.get(0)+RuleUtil.sgsnum);
+//									x.set(1, x.get(1)+pls.size());
+//									x.set(2, x.get(2)+corrNum);
+//									if(trnk<=3 && trnk>=0)
+//									{
+//										x.set(3, x.get(3)+1);
+//										x.set(4, x.get(4)+dic.keySet().size());
+//									}
+//									x.set(5,x.get(5)+1);
+//								}
+//								else
+//								{
+//									List<Double> x = new ArrayList<Double>();
+//									x.add(1.0*RuleUtil.sgsnum);
+//									x.add(1.0*pls.size());
+//									x.add(1.0*corrNum);
+//									if(trnk<=3 && trnk>=0)
+//									{	
+//										x.add(1.0);
+//										x.add(1.0*dic.keySet().size());
+//									}
+//									else
+//									{
+//										x.add(0.0);
+//										x.add(0.0);
+//									}
+//									
+//									x.add(1.0);
+//									tmp.put(""+examples.size(), x);
+//								}
+//							}
+//						}
+//						indicators.put(examples.size(), true); 
+//						String[] choice = UtilTools.results.get(UtilTools.index).split("\n");
+//						for(int n = 0; n<choice.length;n++)
+//						{
+//							if(choice[n].compareTo(entries.get(n)[1])!=0)
+//							{
+//								wexam = entries.get(n);
+//								break;
+//							}
+//						}
+//						if(wexam!=null)
+//						{
+//							//if(examples.size()<=3)
+//							//{
+//								examples.add(wexam);
+//							//}
+//						}
+//						names.add(f.getName());
+//						exampleCnt.add(examples.size());
+//						timeleng.add(timespan);
+//						cRules.add(cx);
+//						ranks.add(rank);
+//						consisRules.add(consRule);
+//					}							
+//				}
+//			}
+//			catch(Exception ex)
+//			{
+//				System.out.println(""+ex.toString());
+//			}
+//		}
+////		Random r = new Random();
+//		try
+//		{
+//			BufferedWriter bw = new BufferedWriter(new FileWriter(new File("/Users/bowu/mysoft/xx/logx.txt")));
+//			for(int x = 0; x<names.size();x++)
+//			{
+//				bw.write(names.get(x)+":"+exampleCnt.get(x)+","+timeleng.get(x));
+//				bw.write("\n");
+//				System.out.println(names.get(x)+":"+exampleCnt.get(x)+","+timeleng.get(x));
+//				bw.write("\n");
+////				System.out.println(consisRules.get(x));
+//			}
+//			bw.flush();
+//			bw.close();
+//		}
+//		catch(Exception ex)
+//		{
+//			System.out.println(""+ex.toString());
+//		}
+//		
+//	}
 	public HashMap<String,HashMap<String,List<Double>>> recdic = new HashMap<String,HashMap<String,List<Double>>>();
 	public void write2CSV()
 	{
@@ -896,7 +897,8 @@ public class Main {
 		for(int x = 0;x <1;x++)
 		{
 			double st = System.currentTimeMillis();
-			m.exper_2("/Users/bowu/Research/testdata/TestSingleFile");
+			// TODO: Weka dependency
+//			m.exper_2("/Users/bowu/Research/testdata/TestSingleFile");
 			double ed = System.currentTimeMillis();
 			xy.add((ed-st)*1.0/60000);
 			

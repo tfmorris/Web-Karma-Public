@@ -20,147 +20,142 @@
  ******************************************************************************/
 package edu.isi.karma.cleaning;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.util.ArrayList;
-import java.util.List;
-
-import weka.classifiers.functions.SimpleLogistic;
-import weka.core.Instance;
-import weka.core.Instances;
-import edu.isi.karma.util.Prnt;
+// Weka is GPL and license incompatible
+//import weka.classifiers.functions.SimpleLogistic;
+//import weka.core.Instance;
+//import weka.core.Instances;
 
 public class RegularityClassifer {
-	SimpleLogistic cf;
-	public RegularityClassifer(String fpath)
-	{
-		try
-		{
-			cf = this.train(fpath);
-		}
-		catch(Exception e)
-		{
-			System.out.println("Building classifier error");
-		}
-	}
-	public SimpleLogistic train(String fpath) throws Exception
-	{
-		BufferedReader fileReader = new BufferedReader(new FileReader(fpath)) ;
-		//BufferedReader fileReader = new BufferedReader(new FileReader("/Users/amangoel/research/data/iris2.txt")) ;
-		
-		Instances instances = new Instances(fileReader) ;
-		instances.setClassIndex(instances.numAttributes() -1) ;
-		
-		Prnt.prn(instances.numAttributes()) ;
-		
-		SimpleLogistic logreg = new SimpleLogistic(10, true, true) ;
-		//SimpleLogistic logreg = new SimpleLogistic() ;
-		logreg.buildClassifier(instances) ;
-		return logreg;
-	}
-	public void Classify(String fpath) throws Exception
-	{
-		BufferedReader fileReader = new BufferedReader(new FileReader(fpath)) ;
-		//BufferedReader fileReader = new BufferedReader(new FileReader("/Users/amangoel/research/data/iris2.txt")) ;
-		
-		Instances instances = new Instances(fileReader) ;
-		instances.setClassIndex(instances.numAttributes() -1) ;
-		Prnt.prn(instances.numAttributes()) ;
-		for(int i=0;i<instances.numInstances();i++) {
-			Instance instance = instances.instance(i) ;
-			double[] dist = cf.distributionForInstance(instance) ;
-			//System.out.println(cf.classifyInstance(instance));
-			for(double d : dist) {
-				System.out.print(d + "  ") ;
-			}
-			System.out.println() ;
-		}
-		fileReader.close() ;
-		Prnt.prn(cf) ;
-	}
-	//return the confidence score for positive class label
-	public List<Double> getScores(String fpath) throws Exception
-	{
-		BufferedReader fileReader = new BufferedReader(new FileReader(fpath));
-		Instances instances = new Instances(fileReader) ;
-		instances.setClassIndex(instances.numAttributes() -1) ;
-		Prnt.prn(instances.numAttributes()) ;
+//	SimpleLogistic cf;
+//	public RegularityClassifer(String fpath)
+//	{
+//		try
+//		{
+//			cf = this.train(fpath);
+//		}
+//		catch(Exception e)
+//		{
+//			System.out.println("Building classifier error");
+//		}
+//	}
+//	public SimpleLogistic train(String fpath) throws Exception
+//	{
+//		BufferedReader fileReader = new BufferedReader(new FileReader(fpath)) ;
+//		//BufferedReader fileReader = new BufferedReader(new FileReader("/Users/amangoel/research/data/iris2.txt")) ;
+//		
+//		Instances instances = new Instances(fileReader) ;
+//		instances.setClassIndex(instances.numAttributes() -1) ;
+//		
+//		Prnt.prn(instances.numAttributes()) ;
+//		
+//		SimpleLogistic logreg = new SimpleLogistic(10, true, true) ;
+//		//SimpleLogistic logreg = new SimpleLogistic() ;
+//		logreg.buildClassifier(instances) ;
+//		return logreg;
+//	}
+//	public void Classify(String fpath) throws Exception
+//	{
+//		BufferedReader fileReader = new BufferedReader(new FileReader(fpath)) ;
+//		//BufferedReader fileReader = new BufferedReader(new FileReader("/Users/amangoel/research/data/iris2.txt")) ;
+//		
+//		Instances instances = new Instances(fileReader) ;
+//		instances.setClassIndex(instances.numAttributes() -1) ;
+//		Prnt.prn(instances.numAttributes()) ;
+//		for(int i=0;i<instances.numInstances();i++) {
+//			Instance instance = instances.instance(i) ;
+//			double[] dist = cf.distributionForInstance(instance) ;
+//			//System.out.println(cf.classifyInstance(instance));
+//			for(double d : dist) {
+//				System.out.print(d + "  ") ;
+//			}
+//			System.out.println() ;
+//		}
+//		fileReader.close() ;
+//		Prnt.prn(cf) ;
+//	}
+//	//return the confidence score for positive class label
+//	public List<Double> getScores(String fpath) throws Exception
+//	{
+//		BufferedReader fileReader = new BufferedReader(new FileReader(fpath));
+//		Instances instances = new Instances(fileReader) ;
+//		instances.setClassIndex(instances.numAttributes() -1) ;
+//		Prnt.prn(instances.numAttributes()) ;
+////		double confidence = -1;
+//		List<Double> posConfid = new ArrayList<Double>();
+//		for(int i=0;i<instances.numInstances();i++) {
+//			Instance instance = instances.instance(i) ;
+////			double label = instance.value(instances.numAttributes()-1);
+//			double[] dist = cf.distributionForInstance(instance) ;
+//			posConfid.add(dist[1]);//keep history of all the confidence
+//		}	
+//		fileReader.close() ;
+//		return posConfid;
+//	}
+//	
+//	public int getRank(String fpath) throws Exception
+//	{
+//		int rank = 0;
+//		BufferedReader fileReader = new BufferedReader(new FileReader(fpath));
+//		Instances instances = new Instances(fileReader) ;
+//		instances.setClassIndex(instances.numAttributes() -1) ;
+//		Prnt.prn(instances.numAttributes()) ;
 //		double confidence = -1;
-		List<Double> posConfid = new ArrayList<Double>();
-		for(int i=0;i<instances.numInstances();i++) {
-			Instance instance = instances.instance(i) ;
+//		List<Double> posConfid = new ArrayList<Double>();
+//		for(int i=0;i<instances.numInstances();i++) {
+//			Instance instance = instances.instance(i) ;
 //			double label = instance.value(instances.numAttributes()-1);
-			double[] dist = cf.distributionForInstance(instance) ;
-			posConfid.add(dist[1]);//keep history of all the confidence
-		}	
-		fileReader.close() ;
-		return posConfid;
-	}
-	
-	public int getRank(String fpath) throws Exception
-	{
-		int rank = 0;
-		BufferedReader fileReader = new BufferedReader(new FileReader(fpath));
-		Instances instances = new Instances(fileReader) ;
-		instances.setClassIndex(instances.numAttributes() -1) ;
-		Prnt.prn(instances.numAttributes()) ;
-		double confidence = -1;
-		List<Double> posConfid = new ArrayList<Double>();
-		for(int i=0;i<instances.numInstances();i++) {
-			Instance instance = instances.instance(i) ;
-			double label = instance.value(instances.numAttributes()-1);
-			double[] dist = cf.distributionForInstance(instance) ;
-			posConfid.add(dist[1]);//keep history of all the confidence
-			//System.out.println(cf.classifyInstance(instance));
-			if(label == 3)
-			{
-				//classified correctly
-				if(dist[1]>dist[0])
-				{
-					if(dist[1]>confidence)
-					{
-						confidence = dist[1]; // find the maximal confidence
-					}
-				}
-				else// classified incorrectly
-				{
-					//do nothing
-				}
-			}
-		}
-		fileReader.close() ;
-		//Prnt.prn(cf) ;
-		//no correct transformation result
-		if(confidence == -1)
-		{
-			return -1;
-		}
-		//find the rank of confidence
-//		int tiecnt = 0;
-		for(int i=0;i<posConfid.size();i++)
-		{
-			double d = posConfid.get(i);
-			if(d>=confidence)
-			{
-				if(instances.instance(i).value(instances.numAttributes()-1)!=3)
-				{
-					rank ++;
-					UtilTools.index = i;
-				}
-			}
-		}
-		return rank;
-	}
-	public static void main(String[] args)
-	{
-		try
-		{
-			RegularityClassifer rc = new RegularityClassifer("/Users/bowu/Research/features.arff");
-			rc.Classify("./tmp.arff");
-		}
-		catch(Exception ex)
-		{
-			System.out.println(""+ex.toString());
-		}
-	}
+//			double[] dist = cf.distributionForInstance(instance) ;
+//			posConfid.add(dist[1]);//keep history of all the confidence
+//			//System.out.println(cf.classifyInstance(instance));
+//			if(label == 3)
+//			{
+//				//classified correctly
+//				if(dist[1]>dist[0])
+//				{
+//					if(dist[1]>confidence)
+//					{
+//						confidence = dist[1]; // find the maximal confidence
+//					}
+//				}
+//				else// classified incorrectly
+//				{
+//					//do nothing
+//				}
+//			}
+//		}
+//		fileReader.close() ;
+//		//Prnt.prn(cf) ;
+//		//no correct transformation result
+//		if(confidence == -1)
+//		{
+//			return -1;
+//		}
+//		//find the rank of confidence
+////		int tiecnt = 0;
+//		for(int i=0;i<posConfid.size();i++)
+//		{
+//			double d = posConfid.get(i);
+//			if(d>=confidence)
+//			{
+//				if(instances.instance(i).value(instances.numAttributes()-1)!=3)
+//				{
+//					rank ++;
+//					UtilTools.index = i;
+//				}
+//			}
+//		}
+//		return rank;
+//	}
+//	public static void main(String[] args)
+//	{
+//		try
+//		{
+//			RegularityClassifer rc = new RegularityClassifer("/Users/bowu/Research/features.arff");
+//			rc.Classify("./tmp.arff");
+//		}
+//		catch(Exception ex)
+//		{
+//			System.out.println(""+ex.toString());
+//		}
+//	}
 }
