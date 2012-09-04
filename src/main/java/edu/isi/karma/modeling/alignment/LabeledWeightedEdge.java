@@ -115,17 +115,14 @@ public class LabeledWeightedEdge extends DefaultWeightedEdge {
 		return (Vertex)super.getTarget();
 	}
 	
-	public double getWeight() {
-		return super.getWeight();
-	}
-	
+	@Override
     public boolean equals(Object obj){
-        if(obj == null || obj.getClass() != this.getClass()){
-            return false;
-        }
-        if( ((LabeledWeightedEdge)obj).getID() == this.getID()){
-            return true;
-        }
-        return false;
+        return obj != null && obj.getClass() != this.getClass()
+            &&  ((LabeledWeightedEdge)obj).getID().equals(this.getID());
     }
+	
+	@Override
+	public int hashCode() {
+	    return this.getID().hashCode();
+	}
 }

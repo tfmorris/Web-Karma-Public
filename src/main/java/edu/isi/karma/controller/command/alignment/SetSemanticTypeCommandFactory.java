@@ -81,9 +81,9 @@ public class SetSemanticTypeCommandFactory extends CommandFactory implements JSO
 					return null;
 				}
 				URI domainName = null;
-				if (type.getString(ClientJsonKeys.Domain.name()) != "")
+				if (type.getString(ClientJsonKeys.Domain.name()).equals("")) {
 					domainName = ontMgr.getURIFromString(type.getString(ClientJsonKeys.Domain.name()));
-
+				}
 				if (type.getBoolean(ClientJsonKeys.isPrimary.name())) {
 					primaryType = new SemanticType(hNodeId, typeName,domainName, SemanticType.Origin.User, 1.0,isPartOfKey);
 				} else { // Synonym semantic type
@@ -129,9 +129,9 @@ public class SetSemanticTypeCommandFactory extends CommandFactory implements JSO
 					return null;
 				}
 				URI domainName = null;
-				if (type.getString(SemanticTypesUpdate.JsonKeys.Domain.name()) != "")
+				if (type.getString(SemanticTypesUpdate.JsonKeys.Domain.name()).equals("")) {
 					domainName = ontMgr.getURIFromString(type.getString(SemanticTypesUpdate.JsonKeys.Domain.name()));
-
+				}
 				if (type.getBoolean(ClientJsonKeys.isPrimary.name())) {
 					primaryType = new SemanticType(hNodeId, typeName,domainName, SemanticType.Origin.User, 1.0,isPartOfKey);
 				} else { // Synonym semantic type

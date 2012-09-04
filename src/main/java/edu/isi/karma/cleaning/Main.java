@@ -262,7 +262,7 @@ public class Main {
 
 				//output the hash table
 				// output all the data sets
-				String[] a = new String[hm.keySet().size()];
+//				String[] a = new String[hm.keySet().size()];
 				int cnt = 0;
 				//ResultViewer rx = new ResultViewer();
 				boolean isfirstRun = true;
@@ -597,7 +597,7 @@ public class Main {
 			String line2 = "";
 			while(((line1=br1.readLine())!=null)&&((line2=br2.readLine())!=null))
 			{
-				line2.replaceAll("", "\"");
+//				line2.replaceAll("", "\""); // BUG: This line doesn't actually do anything
 				String[] l = {line1,line2};
 				cw.writeNext(l);
 			}

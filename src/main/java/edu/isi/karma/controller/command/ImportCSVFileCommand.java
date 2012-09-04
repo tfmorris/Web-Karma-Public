@@ -63,7 +63,7 @@ public class ImportCSVFileCommand extends CommandWithPreview {
 	}
 
 	// Logger object
-	private static Logger logger = LoggerFactory
+	private static final Logger logger = LoggerFactory
 			.getLogger(ImportCSVFileCommand.class.getSimpleName());
 
 	public void setHeaderRowIndex(int headerRowIndex) {
@@ -157,19 +157,19 @@ public class ImportCSVFileCommand extends CommandWithPreview {
 	public UpdateContainer handleUserActions(HttpServletRequest request) {
 		/** Set the parameters **/
 		// Set the delimiter
-		if (request.getParameter("delimiter").equals("comma"))
+		if (request.getParameter("delimiter").equals("comma")) {
 			setDelimiter(',');
-		else if (request.getParameter("delimiter").equals("tab"))
+		} else if (request.getParameter("delimiter").equals("tab")) {
 			setDelimiter('\t');
-		else if (request.getParameter("delimiter").equals("space"))
+		} else if (request.getParameter("delimiter").equals("space")) {
 			setDelimiter(' ');
-		else {
+		} else {
 			// TODO What to do with manual text delimiter
 		}
 
 		// Set the Header row index
 		String headerIndex = request.getParameter("CSVHeaderLineIndex");
-		if (headerIndex != "") {
+		if (!headerIndex.isEmpty()) {
 			try {
 				int index = Integer.parseInt(headerIndex);
 				setHeaderRowIndex(index);
@@ -183,7 +183,7 @@ public class ImportCSVFileCommand extends CommandWithPreview {
 
 		// Set the data start row index
 		String dataIndex = request.getParameter("startRowIndex");
-		if (dataIndex != "") {
+		if (!dataIndex.isEmpty()) {
 			try {
 				int index = Integer.parseInt(dataIndex);
 				setDataStartRowIndex(index);
