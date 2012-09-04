@@ -66,6 +66,7 @@ public class PostRequestManager extends LinkedApiRequestManager {
 			logger.error("Exception in creating the jena model from the input data.");
 			return false;
 		}
+		// BUG: There's no way for the value of this field to change.
 		if (this.inputJenaModel == null) {
 			logger.error("Could not create a jena model from the input data.");
 			return false;
