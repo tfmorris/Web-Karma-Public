@@ -142,8 +142,8 @@ public class CSVFileImport {
 				// TODO Our model does not allow a value to be added to a row
 				// without its associated HNode. In CSVs, there could be case
 				// where values in rows are greater than number of column names.
-				logger.error(String.format("More data elements (%d) detected in row #%d than number of headers (%d)",
-								rowValues.length, rowNum, hNodeIdList.size()));
+				logger.error(String.format("More data elements (%d) in row #%d than number of headers (%d) - %s",
+								rowValues.length, rowNum, hNodeIdList.size(), line));
 			}
 			for(int i = 0; i < Math.min(rowValues.length, hNodeIdList.size()); i++){
 				row.setValue(hNodeIdList.get(i), rowValues[i]);
