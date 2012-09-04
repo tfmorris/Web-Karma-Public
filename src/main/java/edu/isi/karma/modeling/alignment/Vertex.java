@@ -97,13 +97,15 @@ public class Vertex {
 		this.domainVertexId = domainVertexId;
 	}
 
+	@Override
 	public boolean equals(Object obj){
-        if(obj == null || obj.getClass() != this.getClass()){
-            return false;
-        }
-        if( ((Vertex)obj).getID() == this.getID()){
-            return true;
-        }
-        return false;
+        return (obj != null 
+        		&& obj.getClass() == Vertex.class
+        		&& ((Vertex)obj).getID().equals(this.getID()));
     }
+
+	@Override
+	public int hashCode() {
+		return this.getID().hashCode();
+	}
 }
