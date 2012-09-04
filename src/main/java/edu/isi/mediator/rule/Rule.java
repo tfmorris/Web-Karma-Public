@@ -29,7 +29,7 @@ import java.util.ArrayList;
  * @author mariam
  *
  */
-abstract public class Rule{
+abstract public class Rule implements Cloneable {
 	
 	//GAV_RULES: consequent <- antecedent (one predicate in consequent)
 	//LAV_RULES: antecedent -> consequent (one predicate in antecedent)
