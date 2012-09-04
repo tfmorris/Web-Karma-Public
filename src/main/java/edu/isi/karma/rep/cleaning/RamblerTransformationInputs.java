@@ -24,8 +24,6 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
-import edu.isi.karma.cleaning.EditOper;
-import edu.isi.karma.cleaning.NonterminalValidator;
 import edu.isi.karma.cleaning.RuleUtil;
 import edu.isi.karma.cleaning.Ruler;
 import edu.isi.karma.cleaning.TNode;
