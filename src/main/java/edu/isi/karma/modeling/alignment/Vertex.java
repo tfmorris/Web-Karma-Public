@@ -99,10 +99,8 @@ public class Vertex {
 
 	@Override
 	public boolean equals(Object obj){
-        return (obj != null 
-        		&& obj.getClass() == Vertex.class
-        		&& ((Vertex)obj).getID().equals(this.getID()));
-    }
+		return (obj instanceof Vertex && ((Vertex)obj).getID().equals(this.getID()));
+	}
 
 	@Override
 	public int hashCode() {

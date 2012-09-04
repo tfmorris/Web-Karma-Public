@@ -120,13 +120,13 @@ public class LabeledWeightedEdge extends DefaultWeightedEdge {
 	}
 	
 	@Override
-    public boolean equals(Object obj){
-        return obj != null && obj.getClass() != this.getClass()
-            &&  ((LabeledWeightedEdge)obj).getID().equals(this.getID());
-    }
-	
+	public boolean equals(Object obj){
+		return obj instanceof LabeledWeightedEdge
+				&&  ((LabeledWeightedEdge)obj).getID().equals(this.getID());
+	}
+
 	@Override
 	public int hashCode() {
-	    return this.getID().hashCode();
+		return this.getID().hashCode();
 	}
 }

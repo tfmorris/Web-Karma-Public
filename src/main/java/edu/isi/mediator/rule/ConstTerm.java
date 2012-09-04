@@ -32,17 +32,17 @@ import edu.isi.mediator.gav.util.MediatorConstants;
  *
  */
 public class ConstTerm extends Term{
-	
+
 	/**
 	 * the constant
 	 */
 	private String val;
-	
+
 	/**
 	 * Constructs an empty ConstTerm.
 	 */
 	public ConstTerm(){}
-	
+
 	/**
 	 * Constructs a ConstTerm with the value "val"
 	 * @param val
@@ -82,6 +82,7 @@ public class ConstTerm extends Term{
 	/* (non-Javadoc)
 	 * @see java.lang.Object#clone()
 	 */
+	@Override
 	public ConstTerm clone(){
 		ConstTerm t = new ConstTerm();
 		t.copy(this);
@@ -93,6 +94,7 @@ public class ConstTerm extends Term{
 	 * @see edu.isi.mediator.gav.domain.Term#getFreeVar()
 	 * return null
 	 */
+	@Override
 	public String getFreeVar(){
 		return null;
 	}
@@ -101,17 +103,19 @@ public class ConstTerm extends Term{
 	 * @see edu.isi.mediator.gav.domain.Term#getTermValue()
 	 * return val
 	 */
+	@Override
 	public String getTermValue(){
 		return val;
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see edu.isi.mediator.gav.domain.Term#getVal()
 	 */
+	@Override
 	public String getVal(){
 		return val;
 	}
-	
+
 	/**
 	 * Sets the constant vale;
 	 * @param v
@@ -121,21 +125,22 @@ public class ConstTerm extends Term{
 		//System.out.println("Set Value " + v);
 		val=normalizeVal(v);
 	}	
-		
+
 	/* (non-Javadoc)
 	 * @see edu.isi.mediator.gav.domain.Term#equals(edu.isi.mediator.gav.domain.Term)
 	 */
+	@Override
 	public boolean equals(Term t){
 		//System.out.println("Equal term : " + this + " and " + t);
-	    return t instanceof ConstTerm && ((t.var == null && this.var == null) || this.var.equals(t.var));
+		return t instanceof ConstTerm && ((t.var == null && this.var == null) || this.var.equals(t.var));
 	}
-	
+
 	private String unquote(String s) {
-	       if(s.startsWith("\"") || s.startsWith("'")) {
-	            return s.substring(1, s.length()-1);
-	       } else {
-	           return s;
-	       }
+		if(s.startsWith("\"") || s.startsWith("'")) {
+			return s.substring(1, s.length()-1);
+		} else {
+			return s;
+		}
 	}
 	/**
 	 * Checks equality of VALUE.
@@ -145,16 +150,17 @@ public class ConstTerm extends Term{
 	 * 		false otherwise
 	 */
 	public boolean equalsValue(ConstTerm t){
-		
-	    return t != null 
-	            && ((t.val == null && this.val == null) 
-	                    || unquote(t.val).equals(unquote(this.val)));
+
+		return t != null 
+				&& ((t.val == null && this.val == null) 
+						|| unquote(t.val).equals(unquote(this.val)));
 	}
 
 	/* (non-Javadoc)
 	 * @see edu.isi.mediator.gav.domain.Term#needsBinding(boolean)
 	 * Always returns false; A ConstTerm is already bound.
 	 */
+	@Override
 	public boolean needsBinding(boolean b){
 		return false;
 	}
@@ -162,6 +168,7 @@ public class ConstTerm extends Term{
 	/* (non-Javadoc)
 	 * @see edu.isi.mediator.gav.domain.Term#unify(edu.isi.mediator.gav.domain.Binding)
 	 */
+	@Override
 	public Term unify(Binding binding){
 		return this;
 	}
@@ -169,17 +176,20 @@ public class ConstTerm extends Term{
 	/* (non-Javadoc)
 	 * @see edu.isi.mediator.gav.domain.Term#getSqlVal(boolean)
 	 */
+	@Override
 	public String getSqlVal(boolean isNumber) throws MediatorException{
-		if(isNumber)
+		if(isNumber){
 			return getNumberVal();
-		else
+		}else{
 			return getStringVal();
+		}
 	}
-	
+
 	//I don't know what it is, so I return t as is
 	/* (non-Javadoc)
 	 * @see edu.isi.mediator.gav.domain.Term#getSqlValNoType()
 	 */
+	@Override
 	public String getSqlValNoType() throws MediatorException{
 		String newV = val;
 		if(newV.equals(MediatorConstants.NULL_VALUE)){
@@ -187,16 +197,17 @@ public class ConstTerm extends Term{
 		}
 		if(newV.startsWith("\"") || newV.startsWith("'")){
 			newV = val.substring(1, val.length()-1);
-			if(newV.equals(MediatorConstants.NULL_VALUE))
+			if(newV.equals(MediatorConstants.NULL_VALUE)){
 				return MediatorConstants.NULL_VALUE;
-			else
+			}else{
 				return "'" + newV + "'";
+			}
 		}
 		else{
 			return newV;
 		}
 	}
-	
+
 	/**
 	 * Returns the value as a number.
 	 * @return
@@ -219,7 +230,7 @@ public class ConstTerm extends Term{
 			else if(newV.startsWith("'")){
 				throw new MediatorException(newV + " should be a Number! Do not enclose it between \"'\"");
 			}
-			*/
+			 */
 			//make sure that newV is a number
 			if(newV.equals(MediatorConstants.NULL_VALUE)){
 				return MediatorConstants.NULL_VALUE;
@@ -232,7 +243,7 @@ public class ConstTerm extends Term{
 		}catch(Exception e){
 			throw new MediatorException(e.getMessage());
 		}
-		
+
 		return newV;
 	}
 
@@ -245,23 +256,24 @@ public class ConstTerm extends Term{
 	public String getStringVal() throws MediatorException{
 		//if val should be a string it has to start with " or '
 		//if it doesn't it's not a string
-		
+
 		String newV = val;
 		if(newV.equals(MediatorConstants.NULL_VALUE)){
 			return MediatorConstants.NULL_VALUE;
 		}
 		if(newV.startsWith("\"") || newV.startsWith("'")){
 			newV = val.substring(1, val.length()-1);
-			if(newV.equals(MediatorConstants.NULL_VALUE))
+			if(newV.equals(MediatorConstants.NULL_VALUE)){
 				return MediatorConstants.NULL_VALUE;
-			else
+			}else{
 				return "'" + newV + "'";
+			}
 		}
 		else{
 			throw new MediatorException(newV + " should be a String! Enclose it between \"'\"");
 		}
 	}
-		
+
 	/**
 	 * Returns NULL for an input of null (always uppercase)
 	 * @param val
@@ -276,19 +288,22 @@ public class ConstTerm extends Term{
 		} else if(val.toUpperCase().equals(MediatorConstants.NULL_VALUE)) {
 			return MediatorConstants.NULL_VALUE;
 		} else {
-		    return val;
+			return val;
 		}
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see edu.isi.mediator.gav.domain.Term#toString()
 	 */
+	@Override
 	public String toString(){
 		String s = val;
-		if(var!=null)
+		if(var!=null){
 			s = var + ":" + s;
-		if(queryName!=null)
+		}
+		if(queryName!=null){
 			s += ":" + queryName;
+		}
 		return s;
 	}
 

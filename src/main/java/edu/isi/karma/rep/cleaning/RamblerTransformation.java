@@ -65,8 +65,8 @@ public class RamblerTransformation implements Transformation {
 	@Override
 	public boolean equals(Object other) 
 	{
-	    return other != null && other instanceof RamblerTransformation 
-	            && this.signature.equals(((RamblerTransformation)other).signature);
+		return other != null && other instanceof RamblerTransformation 
+				&& this.signature.equals(((RamblerTransformation)other).signature);
 	}
 
 }
