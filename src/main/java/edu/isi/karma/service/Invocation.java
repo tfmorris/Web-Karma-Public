@@ -210,13 +210,12 @@ public class Invocation {
 		for (int j = this.request.getAttributes().size() - 1; j >= 0; j--) {
 			
 			Attribute p = this.request.getAttributes().get(j);
-			if (p != null && p.getName() != null && p.getName().toString().trim().length() == 0)
-				continue;
-				
+			if (p != null && p.getName() != null && p.getName().toString().trim().length() > 0) {
 				jointInputAndOutput.getHeaders().add(0, p);
 				inputValues.add(0, p.getValue());
 				for (int k = 0; k < this.response.getTable().getValues().size(); k++)
 					this.response.getTable().getValues().get(k).add(0, p.getValue());
+			}
 		}
 		
 		// there is no output
