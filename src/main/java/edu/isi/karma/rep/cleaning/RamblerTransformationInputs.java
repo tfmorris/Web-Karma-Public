@@ -65,12 +65,12 @@ public class RamblerTransformationInputs implements TransformationInputs {
 			String valueString = inputValues.getValue(s);
 			ruler.setNewInput(valueString);
 			List<TNode> vTNodes = ruler.vec;
-			for(EditOper eo:preEditOpers)
-			{
-				if (eo.oper.compareTo("ins") == 0) {
-					NonterminalValidator.applyins(eo, vTNodes);
-				}
-			}
+//			for(EditOper eo:preEditOpers)
+//			{
+//				if (eo.oper.compareTo("ins") == 0) {
+//					NonterminalValidator.applyins(eo, vTNodes);
+//				}
+//			}
 			inputValues.setValue(s, RuleUtil.tokens2str(vTNodes));
 		}
 	}
