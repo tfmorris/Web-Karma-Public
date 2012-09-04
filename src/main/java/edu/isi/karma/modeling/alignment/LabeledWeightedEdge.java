@@ -115,6 +115,10 @@ public class LabeledWeightedEdge extends DefaultWeightedEdge {
 		return (Vertex)super.getTarget();
 	}
 	
+	public double getWeight() {
+		return super.getWeight();
+	}
+	
 	@Override
     public boolean equals(Object obj){
         return obj != null && obj.getClass() != this.getClass()
