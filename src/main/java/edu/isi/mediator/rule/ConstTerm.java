@@ -136,7 +136,7 @@ public class ConstTerm extends Term{
 	}
 
 	private String unquote(String s) {
-		if(s.startsWith("\"") || s.startsWith("'")) {
+		if(s != null && (s.startsWith("\"") || s.startsWith("'"))) {
 			return s.substring(1, s.length()-1);
 		} else {
 			return s;
