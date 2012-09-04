@@ -89,21 +89,14 @@ public class CSVFileImport {
 		// Populate the worksheet model
 		String line = null;
 		while ((line = br.readLine()) != null) {
-			// Check for the header row
-			if (rowCount + 1 == headerRowIndex) {
-				hNodeIdList = addHeaders(worksheet, factory, line);
-				rowCount++;
-				continue;
-			}
-
-			// Populate the model with data rows
-			if (rowCount + 1 >= dataStartRowIndex) {
-				addRow(worksheet, factory, line, hNodeIdList, dataTable);
-				rowCount++;
-				continue;
-			}
-
 			rowCount++;
+			// Check for the header row
+			if (rowCount == headerRowIndex) {
+				hNodeIdList = addHeaders(worksheet, factory, line);
+			} else if (rowCount >= dataStartRowIndex) {
+			// Populate the model with data rows
+				addRow(worksheet, factory, line, hNodeIdList, dataTable, rowCount);
+			}
 		}
 		br.close();
 		return worksheet;
@@ -137,25 +130,23 @@ public class CSVFileImport {
 	}
 
 	private void addRow(Worksheet worksheet, RepFactory fac, String line,
-			ArrayList<String> hNodeIdList, Table dataTable) throws IOException {
+			ArrayList<String> hNodeIdList, Table dataTable, int rowNum) throws IOException {
+		// TODO: Why a new reader per line?  Super inefficient - tfm
 		CSVReader reader = new CSVReader(new StringReader(line), delimiter,
 				quoteCharacter, escapeCharacter);
 		String[] rowValues = null;
 		rowValues = reader.readNext();
-		if (rowValues == null || rowValues.length == 0) {
-			reader.close();
-			return;
-		}
-			
-		Row row = dataTable.addRow(fac);
-		for (int i = 0; i < rowValues.length; i++) {
-			if (i < hNodeIdList.size()){
-				row.setValue(hNodeIdList.get(i), rowValues[i]);
-			}else {
+		if(rowValues != null && rowValues.length > 0){
+			Row row = dataTable.addRow(fac);
+			if(rowValues.length > hNodeIdList.size()){
 				// TODO Our model does not allow a value to be added to a row
 				// without its associated HNode. In CSVs, there could be case
 				// where values in rows are greater than number of column names.
-				logger.error("More data elements detected in the row than number of headers!");
+				logger.error(String.format("More data elements (%d) detected in row #%d than number of headers (%d)",
+								rowValues.length, rowNum, hNodeIdList.size()));
+			}
+			for(int i = 0; i < Math.min(rowValues.length, hNodeIdList.size()); i++){
+				row.setValue(hNodeIdList.get(i), rowValues[i]);
 			}
 		}
 		reader.close();
@@ -179,13 +170,13 @@ public class CSVFileImport {
 				String[] rowValues = null;
 				try {
 					rowValues = reader.readNext();
+					for (int i = 0; i < rowValues.length; i++) {
+						HNode hNode = headers.addHNode("Column_" + (i + 1),
+								worksheet, fac);
+						headersList.add(hNode.getId());
+					}
 				} catch (IOException e) {
-					logger.error("Error reading Line:" + line, e);
-				}
-				for (int i = 0; i < rowValues.length; i++) {
-					HNode hNode = headers.addHNode("Column_" + (i + 1),
-							worksheet, fac);
-					headersList.add(hNode.getId());
+					logger.error("Error reading line #" + rowCount, e);
 				}
 				reader.close();
 				break;
