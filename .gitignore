@@ -1,0 +1,16 @@
+# Derived files (exclude all of target/... ?)
+target/classes
+target/generated-sources
+
+# Files that get created when we run from the source directory
+src/main/webapp/USerUploadedFiles
+src/main/webapp/USerPrefs
+src/main/webapp/publish
+src/main/webapp/CRF_Models
+lastJsonImport.json
+
+# Local tool settings & reports
+.pmd
+.classycle
+reports/cpd-report.txt
+
