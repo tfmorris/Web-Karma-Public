@@ -2,10 +2,10 @@ TODO
 - remove hard coded file system paths
 - clean up naming conventions
 - fixup clone() methods
-- don't keep ANTLR generated files in source control (*Lexer, *Parser, etc)
-- switch all uses of Vector to List/ArrayList
+- switch all uses of synchronized Vector to List/ArrayList for performance
 - protect all single line if/for blocks with braces
 
 TODOs Done
 - remove unused Jgrapht JAR (already being fetched from Maven repo)
 - remove unused (and GPL'd Weka JAR)
+- don't keep ANTLR generated files in source control (*Lexer, *Parser, etc)
