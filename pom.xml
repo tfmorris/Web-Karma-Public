@@ -47,11 +47,6 @@
 	<artifactId>jackcess</artifactId>
 	<version>1.2.10</version>
 </dependency>
-<dependency>
-	<groupId>org.apache.hadoop</groupId>
-	<artifactId>hadoop-core</artifactId>
-	<version>0.20.2</version>
-</dependency>
   <dependency>
   		<groupId>org.geotools</groupId>
   		<artifactId>gt-referencing</artifactId>
@@ -178,11 +173,6 @@
     	<artifactId>antlr</artifactId>
     	<version>3.2</version>
     </dependency>
-        <dependency>
-        	<groupId>com.healthmarketscience.jackcess</groupId>
-        	<artifactId>jackcess</artifactId>
-        	<version>1.2.4</version>
-        </dependency>
         <dependency>
         	<groupId>org.jdom</groupId>
         	<artifactId>jdom</artifactId>
@@ -409,6 +399,7 @@
       	<plugin>
 	        <groupId>org.apache.maven.plugins</groupId>
 	        <artifactId>maven-compiler-plugin</artifactId>
+	        <version>3.1</version>
 	        <configuration>
 	          <source>1.6</source>
 	          <target>1.6</target>
