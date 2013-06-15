@@ -41,7 +41,7 @@ public class RegexFeatureExtractor {
 		if(field == null)
 			return feature_list ;
 		
-		field.trim() ;
+		field = field.trim() ;
 		if(field.equals(""))
 			return feature_list ;
 		

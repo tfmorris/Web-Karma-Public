@@ -1,5 +1,6 @@
 package edu.isi.karma.cleaning;
 
+import java.util.Collections;
 import java.util.Vector;
 
 import org.python.core.PyObject;
@@ -73,6 +74,6 @@ public class PartitionClassifier {
 	public static void main(String args[])
 	{
 		PartitionClassifier it = new PartitionClassifier();
-		it.create(null);
+		it.create(new Vector<Partition>(0));
 	}
 }

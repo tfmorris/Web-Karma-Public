@@ -137,8 +137,13 @@ public class OntologyMapperTest {
 				}
 			} catch (IOException e2) {
 				logger.fatal("Exception occured:" + e2);
+			} finally {
+				try{
+					buff.close();
+				}catch (IOException e){
+					// ignore
+				}
 			}
-			
 			if(connectStr==null || dbDriver==null || modelName==null){
 				throw new MediatorException("Settings file should contain CONNECT_STR, DB_DRIVER, DB_NAME and MODEL_NAME");
 			}

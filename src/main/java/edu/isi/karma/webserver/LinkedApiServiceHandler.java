@@ -54,7 +54,7 @@ public class LinkedApiServiceHandler extends HttpServlet {
 			if (pathInfo == null || pathInfo.trim().length() == 0)
 				return;
 			
-			if (method == HttpMethods.GET) {
+			if (HttpMethods.GET.equals(method)) {
 				matcher = getInputOrOutputWithFormatPattern.matcher(pathInfo);
 				if (matcher.find()) {
 					logger.debug(getInputOrOutputWithFormatRegex);

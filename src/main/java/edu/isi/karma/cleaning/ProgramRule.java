@@ -53,7 +53,7 @@ public class ProgramRule {
 	}
 	public InterpreterType getWorkerForClass(String category)
 	{
-		if(category != "")
+		if(!"".equals(category))
 		{
 			InterpreterType rule = this.rules.get(category);
 			return rule;

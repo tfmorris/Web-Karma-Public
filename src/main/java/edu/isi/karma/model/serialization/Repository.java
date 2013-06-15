@@ -57,17 +57,18 @@ public class Repository {
 	{
 		if (_InternalInstance == null)
 		{
-			_InternalInstance = new Repository();
+			Repository repo = new Repository();
 
-			File serviceRepository = new File(_InternalInstance.SERVICE_REPOSITORY_DIR);
+			File serviceRepository = new File(repo.SERVICE_REPOSITORY_DIR);
 			if (!serviceRepository.exists())
 				serviceRepository.mkdir();
 			
-			File sourceRepository = new File(_InternalInstance.SOURCE_REPOSITORY_DIR);
+			File sourceRepository = new File(repo.SOURCE_REPOSITORY_DIR);
 			if (!sourceRepository.exists())
 				sourceRepository.mkdir();
 			
-			_InternalInstance.createRepository();
+			repo.createRepository();
+			_InternalInstance = repo; // only save it after fully created
 		}
 		return _InternalInstance;
 	}

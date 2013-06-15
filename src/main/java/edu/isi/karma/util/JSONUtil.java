@@ -215,11 +215,11 @@ public class JSONUtil {
 		} else if (obj1 instanceof String && obj2 instanceof String) {
 			return obj1.toString().equals(obj2.toString());
 		} else if (obj1 instanceof Integer && obj2 instanceof Integer) {
-			return (Integer)obj1 == (Integer)obj2;
+			return ((Integer)obj1).equals(obj2);
 		} else if (obj1 instanceof Double && obj2 instanceof Double) {
-			return (Double)obj1 == (Double)obj2;
+			return ((Double)obj1).equals(obj2);
 		} else if (obj1 instanceof Long && obj2 instanceof Long) {
-			return (Long)obj1 == (Long)obj2;
+			return ((Long)obj1).equals(obj2);
 		} else if (obj1 instanceof Boolean && obj2 instanceof Boolean) {
 			return (Boolean)obj1 == (Boolean)obj2;
 		} else if (obj1 == JSONObject.NULL && obj2 == JSONObject.NULL) {
