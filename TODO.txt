@@ -1,0 +1,12 @@
+TODO
+- remove hard coded file system paths
+- clean up naming conventions
+- fixup clone() methods
+- don't keep ANTLR generated files in source control (*Lexer, *Parser, etc)
+- switch all uses of Vector to List/ArrayList
+- protect all single line if/for blocks with braces
+ - switch to Maven for Jgrapht (already done, but removed obsolete jar)
+- upgrade to weka-stable 3.6.8 and switch to Maven instead of jar
+- removed references to GPL'd Weka
+
+TODOs Done
