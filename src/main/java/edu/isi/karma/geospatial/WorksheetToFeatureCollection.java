@@ -201,20 +201,20 @@ public class WorksheetToFeatureCollection {
 
 	private void Go() {
 		prepareFeatureSchema();
-		if (pointFeatureHNodeId != ""){
+		if (!"".equals(pointFeatureHNodeId)) {
 			populateSimpleFeatures(pointFeatureHNodeId,
 					"", getRows(), pointFeatureList, Point.class);
 		}
-		if (pointFeatureLatHNodeId != "" && pointFeatureLonHNodeId != ""){
+		if (!"".equals(pointFeatureLatHNodeId) && !"".equals(pointFeatureLonHNodeId)) {
 			populateSimpleFeatures(pointFeatureLonHNodeId,
 					pointFeatureLatHNodeId, getRows(), pointFeatureList,
 					Point.class);
 		}
-		if (lineFeatureHNodeId != ""){
+		if (!"".equals(lineFeatureHNodeId)) {
 			populateSimpleFeatures(lineFeatureHNodeId, "",
 					getRows(), lineFeatureList, LineString.class);
 		}
-		if (polygonFeatureHNodeId != ""){
+		if (!"".equals(polygonFeatureHNodeId)) {
 			populateSimpleFeatures(polygonFeatureHNodeId,
 					"", getRows(), polygonFeatureList, Polygon.class);
 		}
@@ -351,10 +351,9 @@ public class WorksheetToFeatureCollection {
 				}
 
 				String srid = "";
-				if (SRIDHNodeId != ""){
+				if (!"".equals(SRIDHNodeId)) {
 					srid = row.getNode(SRIDHNodeId).getValue().asString();
-				}
-				else {
+				} else {
 					srid = "4326"; // default to WGS84
 				}
 
@@ -421,16 +420,16 @@ public class WorksheetToFeatureCollection {
 		dir.mkdir();
 
 		File kml = publishKML(spatialDataFolder, fileName);
-		if (pointFeatureHNodeId != ""
-			|| (pointFeatureLatHNodeId != "" && pointFeatureLonHNodeId != "")){
+		if (!"".equals(pointFeatureHNodeId)
+				|| (!"".equals(pointFeatureLatHNodeId) && !"".equals(pointFeatureLonHNodeId))) {
 			saveShapefile(pointFeatureList, spatialDataFolder, fileName
 					+ "_point");
 		}
-		if (lineFeatureHNodeId != ""){
+		if (!"".equals(lineFeatureHNodeId)) {
 			saveShapefile(lineFeatureList, spatialDataFolder, fileName
 					+ "_line");
 		}
-		if (polygonFeatureHNodeId != ""){
+		if (!"".equals(polygonFeatureHNodeId)) {
 			saveShapefile(polygonFeatureList, spatialDataFolder, fileName
 					+ "_polygon");
 		}
@@ -452,7 +451,9 @@ public class WorksheetToFeatureCollection {
 			throw new RuntimeException("IO problem in fileToString", e);
 		} finally {
 			try {
-				in.close();
+				if (in != null) {
+					in.close();
+				}
 			} catch (IOException e) { /* ignore it */
 			}
 		}
@@ -472,16 +473,16 @@ public class WorksheetToFeatureCollection {
 		dir.mkdir();
 
 		File kml = publishKML(spatialDataFolder, fileName);
-		if (pointFeatureHNodeId != ""
-			|| (pointFeatureLatHNodeId != "" && pointFeatureLonHNodeId != "")){
+		if (!"".equals(pointFeatureHNodeId)
+				|| (!"".equals(pointFeatureLatHNodeId) && !"".equals(pointFeatureLonHNodeId))) {
 			saveShapefile(pointFeatureList, spatialDataFolder, fileName
 					+ "_point");
 		}
-		if (lineFeatureHNodeId != ""){
+		if (!"".equals(lineFeatureHNodeId)) {
 			saveShapefile(lineFeatureList, spatialDataFolder, fileName
 					+ "_line");
 		}
-		if (polygonFeatureHNodeId != ""){
+		if (!"".equals(polygonFeatureHNodeId)) {
 			saveShapefile(polygonFeatureList, spatialDataFolder, fileName
 					+ "_polygon");
 		}
@@ -835,7 +836,7 @@ public class WorksheetToFeatureCollection {
 
 		StringBuilder str = new StringBuilder();
 		for (Property property : simpleFeature.getProperties()) {
-			if (property.getName().toString() != GEOM) {
+			if (!GEOM.equals(property.getName().toString())) {
 				str.append("<b>" + property.getName() + "</b>: ");
 				if (property.getValue() != null){
 					str.append(property.getValue().toString() + " <br />");

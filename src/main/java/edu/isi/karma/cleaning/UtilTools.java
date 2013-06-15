@@ -425,10 +425,8 @@ class ScoreObj {
 
 }
 
-class DoubleCompare implements Comparator {
-	public int compare(Object x1, Object x2) {
-		ScoreObj a1 = (ScoreObj) x1;
-		ScoreObj a2 = (ScoreObj) x2;
+class DoubleCompare implements Comparator<ScoreObj> {
+	public int compare(ScoreObj a1, ScoreObj a2) {
 		if (a1.score > a2.score) {
 			return -1;
 		} else if (a1.score < a2.score) {

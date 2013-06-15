@@ -125,7 +125,9 @@ public class KR2RMLWorksheetRDFGenerator {
 		} finally {
 			outWriter.flush();
 			outWriter.close();
-			bw.close();
+			if (bw != null) {
+				bw.close();
+			}
 		}
 		// An attempt to prevent an occasional error that occurs on Windows platform
 		// The requested operation cannot be performed on a file with a user-mapped section open

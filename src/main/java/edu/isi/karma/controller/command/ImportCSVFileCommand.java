@@ -168,7 +168,7 @@ public class ImportCSVFileCommand extends CommandWithPreview {
 
 		// Set the Header row index
 		String headerIndex = request.getParameter("CSVHeaderLineIndex");
-		if (headerIndex != "") {
+		if (!"".equals(headerIndex)) {
 			try {
 				int index = Integer.parseInt(headerIndex);
 				setHeaderRowIndex(index);
@@ -183,7 +183,7 @@ public class ImportCSVFileCommand extends CommandWithPreview {
 
 		// Set the data start row index
 		String dataIndex = request.getParameter("startRowIndex");
-		if (dataIndex != "") {
+		if (!"".equals(dataIndex)) {
 			try {
 				int index = Integer.parseInt(dataIndex);
 				setDataStartRowIndex(index);
