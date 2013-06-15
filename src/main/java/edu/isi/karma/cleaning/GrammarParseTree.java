@@ -40,8 +40,8 @@ import org.antlr.runtime.tree.CommonTreeNodeStream;
 import au.com.bytecode.opencsv.CSVReader;
 import edu.isi.karma.cleaning.changed_grammar.RuleInterpreterLexer;
 import edu.isi.karma.cleaning.changed_grammar.RuleInterpreterParser;
-import edu.isi.karma.webserver.ServletContextParameterMap;
-import edu.isi.karma.webserver.ServletContextParameterMap.ContextParameter;
+//import edu.isi.karma.webserver.ServletContextParameterMap;
+//import edu.isi.karma.webserver.ServletContextParameterMap.ContextParameter;
 
 public class GrammarParseTree {
 	// the set of node  which are going to be mutated.
@@ -70,6 +70,7 @@ public class GrammarParseTree {
 	{
 		try
 		{
+			// TODO: This is coupling 
 			String dirpathString = ServletContextParameterMap.getParameterValue(ContextParameter.USER_DIRECTORY_PATH);
 			FileInputStream   file   =   new   FileInputStream(dirpathString+"grammar/MOVgrammar.txt"); 
 			byte[]   buf   =   new   byte[file.available()];     

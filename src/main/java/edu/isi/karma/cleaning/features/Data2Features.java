@@ -1,17 +1,8 @@
 package edu.isi.karma.cleaning.features;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
 // TODO: Weka is GPL and license incompatible
 //import weka.core.Instances;
 //import weka.core.converters.ArffSaver;
 //import weka.core.converters.CSVLoader;
-import au.com.bytecode.opencsv.CSVReader;
-import au.com.bytecode.opencsv.CSVWriter;
 public class Data2Features {
 	//convert the csv file to arff file
 	//return the fpath of arff file
