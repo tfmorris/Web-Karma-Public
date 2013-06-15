@@ -1,17 +1,18 @@
 package edu.isi.karma.cleaning;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Random;
-import java.util.Vector;
 
 public class UtilTools {
 	public static int index = 0;
-	public static Vector<String> results = new Vector<String>();
-	public static Vector<Integer> getStringPos(int tokenpos,Vector<TNode> example)
+	public static List<String> results = new ArrayList<String>();
+	public static List<Integer> getStringPos(int tokenpos,List<TNode> example)
 	{
-		Vector<Integer> poss = new Vector<Integer>();
-		if(tokenpos < 0){
+		List<Integer> poss = new ArrayList<Integer>();
+		if(tokenpos < 0) {
 			return poss;
 		}
 		int pos = 0;
@@ -28,9 +29,9 @@ public class UtilTools {
 		poss.add(pos-strleng); // backward position
 		return poss;
 	}
-	public static Vector<GrammarTreeNode> convertSegVector(Vector<Segment> x)
+	public static List<GrammarTreeNode> convertSegList(List<Segment> x)
 	{
-		Vector<GrammarTreeNode> res = new Vector<GrammarTreeNode>();
+		List<GrammarTreeNode> res = new ArrayList<GrammarTreeNode>();
 		for(Segment e:x)
 		{
 			res.add(e);
@@ -58,7 +59,7 @@ public class UtilTools {
 		return r.nextInt(n);
 	}
 
-	public static String print(Vector<TNode> x) {
+	public static String print(List<TNode> x) {
 		String str = "";
 		if(x == null){
 			return "null";
@@ -73,8 +74,9 @@ public class UtilTools {
 		return str;
 	}
 
-	public static boolean samesteplength(Vector<Integer> s) {
-		if (s.size() <= 1){
+
+	public static boolean samesteplength(List<Integer> s) {
+		if (s.size() <= 1) {
 			return false;
 		}
 		if (s.size() == 2) {
@@ -192,8 +194,8 @@ public class UtilTools {
 		}
 		return s;
 	}
-	public static Vector<TNode> subtokenseqs(int a, int b, Vector<TNode> org) {
-		Vector<TNode> xNodes = new Vector<TNode>();
+	public static List<TNode> subtokenseqs(int a, int b, List<TNode> org) {
+		List<TNode> xNodes = new ArrayList<TNode>();
 		if (a < 0 || b >= org.size() || a > b) {
 			return null;
 		} else {
@@ -220,8 +222,8 @@ public class UtilTools {
 			CSVWriter cw = new CSVWriter(new FileWriter(new File(dirpathString
 					+ "grammar/tmp/tmp.csv")), ',');
 			// write header into the csv file
-			Vector<String> tmp = new Vector<String>();
-			Vector<String> tmp1 = new Vector<String>();
+			List<String> tmp = new ArrayList<String>();
+			List<String> tmp1 = new ArrayList<String>();
 			RegularityFeatureSet rfs = new RegularityFeatureSet();
 			Collection<Feature> cols = rfs.computeFeatures(tmp, tmp1);
 			String[] xyz = new String[rfs.fnames.size() + 1];
@@ -231,7 +233,7 @@ public class UtilTools {
 			xyz[xyz.length - 1] = "label";
 			cw.writeNext(xyz);
 			// write the data
-			Vector<String> examples = new Vector<String>();
+			List<String> examples = new ArrayList<String>();
 			if (s != null && s.length() > 0) {
 				String[] z = s.split("\n");
 				for (String elem : z) {
@@ -242,10 +244,10 @@ public class UtilTools {
 			}
 			for (String o : dic) {
 				UtilTools.results.add(o);
-				Vector<String> row = new Vector<String>();
+				List<String> row = new ArrayList<String>();
 				if (s != null && o.compareTo(s) == 0) {
 					RegularityFeatureSet rf = new RegularityFeatureSet();
-					Vector<String> oexamples = new Vector<String>();
+					List<String> oexamples = new ArrayList<String>();
 					String[] y = o.split("\n");
 					for (String elem : y) {
 						if (elem.trim().length() > 0) {
@@ -262,7 +264,7 @@ public class UtilTools {
 					row.add("3"); // change this according to the dataset.
 				} else {
 					RegularityFeatureSet rf = new RegularityFeatureSet();
-					Vector<String> oexamples = new Vector<String>();
+					List<String> oexamples = new ArrayList<String>();
 					String[] y = o.split("\n");
 					for (String elem : y) {
 						if (elem.trim().length() > 0) {
@@ -293,9 +295,9 @@ public class UtilTools {
 
 	}
 
-	public static Vector<Integer> topKindexs(Vector<Double> scores, int k) {
+	public static List<Integer> topKindexs(List<Double> scores, int k) {
 		int cnt = 0;
-		Vector<Integer> res = new Vector<Integer>();
+		List<Integer> res = new ArrayList<Integer>();
 		ScoreObj[] sas = new ScoreObj[scores.size()];
 		for (int i = 0; i < scores.size(); i++) {
 			sas[i] = new ScoreObj(i, scores.get(i));
@@ -309,8 +311,8 @@ public class UtilTools {
 	}
 
 	// unsupervised learning
-	public static Vector<Double> getScores2(String[] res, String cpres) {
-		Vector<Double> vds = new Vector<Double>();
+	public static List<Double> getScores2(String[] res, String cpres) {
+		List<Double> vds = new ArrayList<Double>();
 		// convert the json format to \n seperated format
 		try {
 			String[] csvres = new String[res.length];
@@ -323,7 +325,7 @@ public class UtilTools {
 				}
 				csvres[i] = lines;
 			}
-			Vector<String> examples = new Vector<String>();
+			List<String> examples = new ArrayList<String>();
 			String s = cpres;
 			String[] sy = cpres.split("\n");
 			for(String tp:sy)
@@ -335,7 +337,7 @@ public class UtilTools {
 			for (String o : csvres) {
 				double soc = 0.0;
 				RegularityFeatureSet rf = new RegularityFeatureSet();
-				Vector<String> oexamples = new Vector<String>();
+				List<String> oexamples = new ArrayList<String>();
 				String[] y = o.split("\n");
 				for (String elem : y) {
 					if (elem.trim().length() > 0) {
@@ -376,8 +378,8 @@ public class UtilTools {
 		}
 	}
 
-	public static Vector<Double> getScores(String[] res, String trainPath) {
-		Vector<Double> vds = new Vector<Double>();
+	public static List<Double> getScores(String[] res, String trainPath) {
+		List<Double> vds = new ArrayList<Double>();
 		// convert the json format to \n seperated format
 		try {
 			String[] csvres = new String[res.length];

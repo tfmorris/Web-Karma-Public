@@ -12,7 +12,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Vector;
 
 import org.apache.log4j.Logger;
 import org.json.JSONArray;
@@ -258,7 +257,7 @@ public class ScoreBoardFileUtil {
 	}
 	
 	private List<ScoreBoard> sortResultList(Map<String, ScoreBoard> map) {
-		List<ScoreBoard> list = new Vector<ScoreBoard>();
+		List<ScoreBoard> list = new ArrayList<ScoreBoard>();
 		ScoreBoard rec;
 		
 		for (ScoreBoard s : map.values()) {
@@ -328,14 +327,14 @@ public class ScoreBoardFileUtil {
 	 * @param filename of result file
 	 * @return score board data list with ground truth
 	 */
-	public Vector<ScoreBoard> loadScoreBoardFile(String filename) {
+	public List<ScoreBoard> loadScoreBoardFile(String filename) {
 		File file = new File(Constants.PATH_SCORE_BOARD_FILE + filename);
 		if (!file.exists()){
 			throw new IllegalArgumentException("file " + file.getAbsolutePath() + " not exists.");
 		}
 		
 		RandomAccessFile raf = null;
-		Vector<ScoreBoard> list = new Vector<ScoreBoard>();
+		List<ScoreBoard> list = new ArrayList<ScoreBoard>();
 		
 		try {
 			raf = new RandomAccessFile(file, "r");
@@ -407,7 +406,7 @@ public class ScoreBoardFileUtil {
 	 * @param filename of result file
 	 * @return score board data list without ground truth
 	 */
-	public Vector<ScoreBoard> loadScoreResultFile(String filename) {
+	public List<ScoreBoard> loadScoreResultFile(String filename) {
 		File file = null;
 		if (filename.indexOf(':') > -1 || filename.startsWith("/")) {
 			file = new File(filename);
@@ -419,7 +418,7 @@ public class ScoreBoardFileUtil {
 		}
 		
 		RandomAccessFile raf = null;
-		Vector<ScoreBoard> list = new Vector<ScoreBoard>();
+		List<ScoreBoard> list = new ArrayList<ScoreBoard>();
 		
 		try {
 			raf = new RandomAccessFile(file, "r");
@@ -488,7 +487,7 @@ public class ScoreBoardFileUtil {
 
 	private List<MultiScore> parseRankList(String... strs) {
 		String[] preds = {"http://americanart.si.edu/saam/deathYear", "http://americanart.si.edu/saam/birthYear", "http://americanart.si.edu/saam/fullName"};
-		Vector<MultiScore> list = new Vector<MultiScore> ();
+		List<MultiScore> list = new ArrayList<MultiScore> ();
 		List<Score> scoreList = null;
 		
 		String finalScore, sim, attr;
@@ -496,7 +495,7 @@ public class ScoreBoardFileUtil {
 			if (str.indexOf('{') > -1 && str.indexOf('}') > -1) {
 				MultiScore ms = new MultiScore();
 				
-				scoreList = new Vector<Score>();
+				scoreList = new ArrayList<Score>();
 				finalScore = str.substring(str.indexOf('[')+1, str.indexOf(']'));
 				str = str.substring(str.indexOf(']') + 2);
 				ms.setFinalScore(Double.parseDouble(finalScore));

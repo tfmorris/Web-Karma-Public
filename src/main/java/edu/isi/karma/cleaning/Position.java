@@ -1,29 +1,30 @@
 package edu.isi.karma.cleaning;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.SortedMap;
 import java.util.SortedSet;
 import java.util.TreeMap;
 import java.util.TreeSet;
-import java.util.Vector;
 
 public class Position implements GrammarTreeNode {
-	public Vector<TNode> leftContextNodes = new Vector<TNode>();
-	public Vector<TNode> rightContextNodes = new Vector<TNode>();
-	public Vector<Integer> absPosition = new Vector<Integer>();
-	public Vector<Integer> counters = new Vector<Integer>();
-	public Vector<String> orgStrings = new Vector<String>();
-	public Vector<String> tarStrings = new Vector<String>();
+	public List<TNode> leftContextNodes = new ArrayList<TNode>();
+	public List<TNode> rightContextNodes = new ArrayList<TNode>();
+	public List<Integer> absPosition = new ArrayList<Integer>();
+	public List<Integer> counters = new ArrayList<Integer>();
+	public List<String> orgStrings = new ArrayList<String>();
+	public List<String> tarStrings = new ArrayList<String>();
 	public boolean isinloop = false;
 	public int curState = 0;
 	public static Interpretor itInterpretor = null;
 	public static int fixedlength = 1;
 
-	public Position(Vector<Integer> absPos, Vector<TNode> lcxt,
-			Vector<TNode> rcxt, Vector<String> orgStrings,
-			Vector<String> tarStrings, boolean loop) {
+	public Position(List<Integer> absPos, List<TNode> lcxt,
+			List<TNode> rcxt, List<String> orgStrings,
+			List<String> tarStrings, boolean loop) {
 		this.absPosition = absPos;
 		this.orgStrings.addAll(orgStrings);
 		this.tarStrings.addAll(tarStrings);
@@ -50,7 +51,7 @@ public class Position implements GrammarTreeNode {
 		createTotalOrderVector();
 	}
 
-	public void getString(Vector<TNode> x, int cur, String path, Double value,
+	public void getString(List<TNode> x, int cur, String path, Double value,
 			HashMap<String, Double> smap, boolean isleft) {
 		if(fixedlength == 0)
 		{
@@ -115,10 +116,10 @@ public class Position implements GrammarTreeNode {
 	}
 
 	// option: left or right context
-	public Vector<TNode> mergeCNXT(Vector<TNode> a, Vector<TNode> b,
+	public List<TNode> mergeCNXT(List<TNode> a, List<TNode> b,
 			String option) {
-		Vector<TNode> xNodes = new Vector<TNode>();
-		if (a == null || b == null){
+		List<TNode> xNodes = new ArrayList<TNode>();
+		if (a == null || b == null) {
 			return null;
 		}else {
 			int leng = Math.min(a.size(), b.size());
@@ -176,17 +177,17 @@ public class Position implements GrammarTreeNode {
 		if (this == null || b == null){
 			return null;
 		}
-		Vector<Integer> tmpIntegers = new Vector<Integer>();
+		List<Integer> tmpIntegers = new ArrayList<Integer>();
 		tmpIntegers.addAll(this.absPosition);
 		tmpIntegers.retainAll(b.absPosition);
-		Vector<Integer> tmpIntegers2 = new Vector<Integer>();
+		List<Integer> tmpIntegers2 = new ArrayList<Integer>();
 		tmpIntegers2.addAll(this.counters);
 		tmpIntegers2.retainAll(b.counters);
-		Vector<TNode> tl = b.leftContextNodes;
-		Vector<TNode> tr = b.rightContextNodes;
-		Vector<TNode> g_lcxtNodes = mergeCNXT(this.leftContextNodes, tl,
+		List<TNode> tl = b.leftContextNodes;
+		List<TNode> tr = b.rightContextNodes;
+		List<TNode> g_lcxtNodes = mergeCNXT(this.leftContextNodes, tl,
 				Segment.LEFTPOS);
-		Vector<TNode> g_rcxtNodes = mergeCNXT(this.rightContextNodes, tr,
+		List<TNode> g_rcxtNodes = mergeCNXT(this.rightContextNodes, tr,
 				Segment.RIGHTPOS);
 		// this.leftContextNodes = g_lcxtNodes;
 		// this.rightContextNodes = g_rcxtNodes;
@@ -196,8 +197,8 @@ public class Position implements GrammarTreeNode {
 		}
 		boolean loop = this.isinloop || b.isinloop;
 
-		Vector<String> aStrings = new Vector<String>();
-		Vector<String> bStrings = new Vector<String>();
+		List<String> aStrings = new ArrayList<String>();
+		List<String> bStrings = new ArrayList<String>();
 
 		if (this.orgStrings.size() == 1
 				&& this.orgStrings.size() == b.tarStrings.size()
@@ -282,7 +283,7 @@ public class Position implements GrammarTreeNode {
 		this.curState = 0;
 	}
 
-	public Vector<String> rules = new Vector<String>();
+	public List<String> rules = new ArrayList<String>();
 
 	public String toProgram() {
 		if (curState >= rules.size()){
@@ -397,7 +398,7 @@ public class Position implements GrammarTreeNode {
 			rMap.put("ANY", 1.0);
 		}
 		String reString = "";
-		SortedMap<Double, Vector<String>> sortedMap = new TreeMap<Double, Vector<String>>();
+		SortedMap<Double, List<String>> sortedMap = new TreeMap<Double, List<String>>();
 		String negString = "";
 		for (String a : lMap.keySet()) {
 			for (String b : rMap.keySet()) {
@@ -413,7 +414,7 @@ public class Position implements GrammarTreeNode {
 					sortedMap.get(key).add(reString);
 					sortedMap.get(key).add(negString);
 				} else {
-					Vector<String> svec = new Vector<String>();
+					List<String> svec = new ArrayList<String>();
 					svec.add(reString);
 					svec.add(negString);
 					sortedMap.put(key, svec);
