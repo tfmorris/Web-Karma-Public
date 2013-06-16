@@ -2,6 +2,7 @@ target/
 .DS_Store
 bin
 reports
+log
 src/main/webapp/UserUploadedFiles
 src/main/webapp/UserPrefs
 src/main/webapp/CRF_Models
