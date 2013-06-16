@@ -6,7 +6,6 @@ import java.util.List;
 import org.python.core.PyObject;
 import org.python.util.PythonInterpreter;
 
-import antlr.collections.impl.Vector;
 import edu.isi.karma.cleaning.features.RecordClassifier2;
 import edu.isi.karma.webserver.ServletContextParameterMap;
 import edu.isi.karma.webserver.ServletContextParameterMap.ContextParameter;

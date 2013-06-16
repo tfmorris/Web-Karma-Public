@@ -5,8 +5,8 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Set;
 import java.util.List;
+import java.util.Set;
 
 
 public class Traces implements GrammarTreeNode {
@@ -109,7 +109,6 @@ public class Traces implements GrammarTreeNode {
 			{
 				break; // otherwise takes too much time
 			}
-
 			List<List<GrammarTreeNode>> lLine = this.genLoop(vgt);
 			if (lLine != null){
 				lSeg.addAll(lLine);
@@ -135,6 +134,7 @@ public class Traces implements GrammarTreeNode {
 		if (pos >= tarNodes.size()){
 			return segs;
 		}
+
 		List<TNode> tmp = new ArrayList<TNode>();
 		tmp.add(tarNodes.get(pos));
 		// identify the const string	

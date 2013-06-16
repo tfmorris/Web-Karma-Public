@@ -75,7 +75,7 @@ public class Segment implements GrammarTreeNode {
 			s.add(sx);
 		}
 		this.section = s;
-		this.createTotalOrderVector();
+		this.createTotalOrderList();
 	}*/
 	public List<TNode> getLeftCxt(int c, List<TNode> x)
 	{
